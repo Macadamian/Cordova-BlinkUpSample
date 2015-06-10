@@ -5,8 +5,10 @@ Electric Imp is an Internet of Things platform used from prototyping to producti
 
 # Pre-requisistes
 An Electric Imp Board development kit. For more information on how to obtain a development kit, please visit: https://electricimp.com/docs/gettingstarted/devkits/ 
-Electric Imp developer account. To register for an account, please visit: https://ide.electricimp.com/
-BlinkUp SDK and API Key. For more information on how to obtain a license, please visit: https://electricimp.com/docs/manufacturing/blinkup_faqs/
+
+An Electric Imp developer account. To register for an account, please visit: https://ide.electricimp.com/
+
+A BlinkUp SDK and API Key. For more information on how to obtain a license, please visit: https://electricimp.com/docs/manufacturing/blinkup_faqs/
 
 # Project Structure
 Insert Project Structure Discussion here.
