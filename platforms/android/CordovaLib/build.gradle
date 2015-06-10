@@ -16,8 +16,6 @@
    under the License.
 */
 
-
-
 buildscript {
     repositories {
         mavenCentral()

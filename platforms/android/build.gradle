@@ -19,7 +19,20 @@
 
 // GENERATED FILE! DO NOT EDIT!
 
+if (!file("blinkup_sdk").exists()) {
+    throw new GradleException('The blinkup_sdk folder can not be found in `path/to/project/platforms/android`.')
+}
+
 apply plugin: 'android'
+
+preBuild.doFirst {
+    if (file("blinkup_sdk").exists()) {
+        println("it exists stu!")
+    }
+    else {
+        println("it don't exist stu :(")
+    }
+}
 
 buildscript {
     repositories {
