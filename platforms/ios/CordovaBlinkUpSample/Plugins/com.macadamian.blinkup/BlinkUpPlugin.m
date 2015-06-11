@@ -1,37 +1,43 @@
-#import "BlinkUp.h"
+#import "BlinkUpPlugin.h"
+#import <BlinkUp/BlinkUp.h>
 
-@implementation BlinkUp
+typedef NS_ENUM(NSInteger, BlinkupArguments) {
+    BlinkUpArgumentApiKey = 0,
+    BlinkUpArgumentTimeOut,
+    BlinkUpUsedCachedPlanId,
+};
 
-//------------------------------------------
-// Need to hold on to callbackId to send 2nd
-// message when device polling complete
-//------------------------------------------
-NSString *apiKey;
-NSString *callbackId;
-long timeoutMs;
-bool useCachedPlanId = true;
-BUBasicController *blinkUpController;
+@interface BlinkUpPlugin (Private)
+@property BUBasicController  *blinkUpController;
+
+@property NSString  *apiKey;
+@property NSString *callbackId;
+@property NSNumber *timeoutInMs;
+@property NSNumber *useCachedPlanId;
+@end
+
+@implementation BlinkUpPlugin
 
 /*********************************************************
  * Called by Javascript in Cordova application.
  * `command.arguments` is array, first item is apiKey
  ********************************************************/
-- (void)initiateBlinkUp:(CDVInvokedUrlCommand*)command {
+- (void)invokeBlinkUp:(CDVInvokedUrlCommand*)command {
+
+    self.callbackId = command.callbackId;
     
-    callbackId = command.callbackId;
-    
-    if (command.arguments.count < 3) {
-        NSString *error = @"Error. Invalid argument count in call to initiateBlinkUp(apiKey: String, timeoutMs: Integer, useCachedPlanId: Bool, success: Callback, failure: Callback)";
+    if (command.arguments.count <= BlinkUpUsedCachedPlanId) {
+        NSString *error = @"Error. Invalid argument count in call to invoke blink up(apiKey: String, timeoutMs: Integer, useCachedPlanId: Bool, success: Callback, failure: Callback)";
         CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:error];
         [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
         return;
     }
+
+    self.apiKey = [command.arguments objectAtIndex:BlinkUpArgumentApiKey];
+    self.timeoutInMs = [command.arguments objectAtIndex:BlinkUpArgumentTimeOut];
+    self.useCachedPlanId = [command.arguments objectAtIndex:BlinkUpUsedCachedPlanId];
     
-    apiKey = [command.arguments objectAtIndex:0];
-    timeoutMs = [[command.arguments objectAtIndex:1] longValue];
-    useCachedPlanId = [[command.arguments objectAtIndex:2] boolValue];
-    
-    [self presentBlinkUp];
+    [self navigateToBlinkUpView];
 }
 
 
@@ -39,7 +45,7 @@ BUBasicController *blinkUpController;
  * shows default UI for BlinkUp process. Modify this method
  * if you wish to use a custom UI (refer to API docs)
  ********************************************************/
-- (void) presentBlinkUp {
+- (void) navigateToBlinkUpView {
     
     // load cached planID (if not cached yet, BlinkUp automatically generates a new one)
     NSString *planId = [[NSUserDefaults standardUserDefaults] objectForKey:@"planId"];
@@ -50,19 +56,19 @@ BUBasicController *blinkUpController;
         planId = nil;
     #endif
     
-    if (useCachedPlanId) {
-        blinkUpController = [[BUBasicController alloc] initWithApiKey:apiKey planId:planId];
+    if (self.useCachedPlanId.boolValue) {
+        self.blinkUpController = [[BUBasicController alloc] initWithApiKey:self.apiKey planId:planId];
     }
     else {
-        blinkUpController = [[BUBasicController alloc] initWithApiKey:apiKey];
+        self.blinkUpController = [[BUBasicController alloc] initWithApiKey:self.apiKey];
     }
-    
-    [blinkUpController presentInterfaceAnimated:YES
+
+    [self.blinkUpController presentInterfaceAnimated:YES
         resignActive: ^(BOOL willRespond, BOOL userDidCancel, NSError *error) {
-            [self interfaceResignedActive:willRespond userDidCancel:userDidCancel error:error];
+            [self blinkUpDidComplete:willRespond userDidCancel:userDidCancel error:error];
         }
         devicePollingDidComplete: ^(BUDeviceInfo *deviceInfo, BOOL timedOut, NSError *error) {
-            [self devicePollingComplete:deviceInfo timedOut:timedOut error:error];
+            [self deviceRequestDidCompleteWithDeviceInfo:deviceInfo timedOut:timedOut error:error];
         }
      ];
 }
@@ -73,49 +79,54 @@ BUBasicController *blinkUpController;
  * cancelling, flashing process complete, or on error.
  * Sends status back to Cordova app.
  ********************************************************/
-- (void) interfaceResignedActive:(BOOL)willRespond userDidCancel:(BOOL)userDidCancel error:(NSError*)error {
+- (void) blinkUpDidComplete:(BOOL)willRespond userDidCancel:(BOOL)userDidCancel error:(NSError*)error {
     
     CDVCommandStatus status;
-    NSString *messageStr = @"";
+    NSString *resultMessage;;
     
     if (willRespond) {
         
         // since can't set timeout manually, we just tell devicePoller to stop polling (if timeout not default)
-        if (timeoutMs != 60000) {
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, timeoutMs * NSEC_PER_MSEC),
+        long timeoutInMs = self.timeoutInMs.longValue;
+        if (timeoutInMs != 60000) {
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, timeoutInMs * NSEC_PER_MSEC),
                            dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-                               [blinkUpController.devicePoller stopPolling];
-                               [self devicePollingComplete:nil timedOut:true error:nil];
+                               [self.blinkUpController.devicePoller stopPolling];
+                               [self deviceRequestDidCompleteWithDeviceInfo:nil timedOut:true error:nil];
                            });
         }
-        
+
+        // TODO: I want to isolate this in its own method
         NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
         [dict setValue:@"Gathering device info..." forKey:@"status"];
         [dict setValue:@"true" forKey:@"gatheringDeviceInfo"];
         NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dict options:NSJSONWritingPrettyPrinted error:nil];
-        
-        messageStr = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+
+        // TODO: memory isn't deallocated
+        resultMessage = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
         status = CDVCommandStatus_OK;
     }
     else if (userDidCancel) {
-        messageStr = @"Process cancelled by user.";
+        resultMessage = @"Process cancelled by user.";
         status = CDVCommandStatus_ERROR;
     }
     else if (error != nil) {
-        messageStr = [@"Error. " stringByAppendingString:error.localizedDescription];
+        resultMessage = [@"Error. " stringByAppendingString:error.localizedDescription];
         status = CDVCommandStatus_ERROR;
     }
     else {
-        messageStr = @"Wireless configuration cleared.";
+        resultMessage = @"Wireless configuration cleared.";
         status = CDVCommandStatus_OK;
     }
     
     // send result, and keep callback if gathering device info
-    CDVPluginResult *result = [CDVPluginResult resultWithStatus:status messageAsString:messageStr];
+    CDVPluginResult *result = [CDVPluginResult resultWithStatus:status messageAsString:resultMessage];
+
     if (willRespond) {
         [result setKeepCallbackAsBool:YES];
     }
-    [self.commandDelegate sendPluginResult:result callbackId:callbackId];
+
+    [self.commandDelegate sendPluginResult:result callbackId:self.callbackId];
 }
 
 
@@ -124,23 +135,25 @@ BUBasicController *blinkUpController;
  * Imp server, or when that request timed out.
  * Sends device info and status back to Cordova app.
  ********************************************************/
-- (void) devicePollingComplete:(BUDeviceInfo*)deviceInfo timedOut:(BOOL)timedOut error:(NSError*)error {
+- (void) deviceRequestDidCompleteWithDeviceInfo:(BUDeviceInfo*)deviceInfo timedOut:(BOOL)timedOut error:(NSError*)error {
     
     CDVCommandStatus status;
-    NSString *messageStr = @"";
-    
+    NSString *resultMessage;
+
+    // TODO: move strings to resource file
     if (timedOut) {
-        messageStr = @"Error. Could not gather device info. Process timed out.";
+        resultMessage = @"Error. Could not gather device info. Process timed out.";
         status = CDVCommandStatus_ERROR;
     }
     else if (error != nil) {
-        messageStr = [@"Error. " stringByAppendingString:error.localizedDescription];
+        resultMessage = [@"Error. " stringByAppendingString:error.localizedDescription];
         status = CDVCommandStatus_ERROR;
     }
     else {
         // cache plan ID (see electricimp.com/docs/manufacturing/planids/)
         [[NSUserDefaults standardUserDefaults] setObject:deviceInfo.planId forKey:@"planId"];
-        
+
+        // TODO isolate + create constants
         NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
         [dict setValue:@"Device Connected"             forKey:@"status"];
         [dict setValue:deviceInfo.planId               forKey:@"planId"];
@@ -148,14 +161,14 @@ BUBasicController *blinkUpController;
         [dict setValue:deviceInfo.agentURL.description forKey:@"agentURL"];
         NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dict options:NSJSONWritingPrettyPrinted error:nil];
         
-        messageStr = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+        resultMessage = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
         status = CDVCommandStatus_OK;
     }
     
     // send result, discard callback
-    CDVPluginResult *result = [CDVPluginResult resultWithStatus:status messageAsString:messageStr];
+    CDVPluginResult *result = [CDVPluginResult resultWithStatus:status messageAsString:resultMessage];
     [result setKeepCallbackAsBool:NO];
-    [self.commandDelegate sendPluginResult:result callbackId:callbackId];
+    [self.commandDelegate sendPluginResult:result callbackId:self.callbackId];
 }
 
 @end

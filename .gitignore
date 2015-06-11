@@ -1,3 +1,8 @@
+# Intentionally excluding the BlinkUp SDK from this repository
+*BlinkUp.framework
+*BlinkUp.bundle
+*BlinkUp.embeddedframework
+
 # Xcode
 #
 *.DS_STORE
