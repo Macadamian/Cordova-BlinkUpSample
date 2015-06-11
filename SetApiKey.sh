@@ -6,9 +6,6 @@ fi
 sed -i '.bak' "s/YOUR_API_KEY_HERE/$1/g" www/js/index.js
 rm www/js/index.js.bak
 
-sed -i '.bak' "s/YOUR_API_KEY_HERE/$1/g" platforms/android/build/intermediates/assets/debug/www/js/index.js
-rm platforms/android/build/intermediates/assets/debug/www/js/index.js.bak
-
 sed -i '.bak' "s/YOUR_API_KEY_HERE/$1/g" platforms/android/assets/www/js/index.js
 rm platforms/android/assets/www/js/index.js.bak
 
