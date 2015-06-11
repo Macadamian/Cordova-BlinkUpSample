@@ -55,3 +55,4 @@ proguard/
 
 # -- MISCELLANEOUS -------------------------
 *.DS_STORE
+platforms/android/blinkup_sdk

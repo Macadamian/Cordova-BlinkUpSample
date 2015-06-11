@@ -30,8 +30,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 /*****************************************************
- * When the BlinkUp process completes, it executes the
- * BlinkUpCompleteIntent set in BlinkUp.java, starting
+ * When the BlinkUpPlugin process completes, it executes the
+ * BlinkUpCompleteIntent set in BlinkUpPlugin.java, starting
  * this activity, which requests the setup info from
  * the Electric Imp server, dismisses itself, and
  * sends the info back to the callback when received.
@@ -49,19 +49,19 @@ public class BlinkUpCompleteActivity extends Activity {
         try {
             resultJSON.put("status", "Gathering device info...");
             resultJSON.put("gatheringDeviceInfo", "true");
-        } catch (JSONException e) {
-            Log.e("BlinkUp","JSON Exception: " + e.toString());
-        }
 
-        PluginResult pluginResult = new PluginResult(PluginResult.Status.OK, resultJSON.toString());
-        pluginResult.setKeepCallback(true);
-        Globals.callbackContext.sendPluginResult(pluginResult);
+            PluginResult pluginResult = new PluginResult(PluginResult.Status.OK, resultJSON.toString());
+            pluginResult.setKeepCallback(true);
+            Globals.callbackContext.sendPluginResult(pluginResult);
+        } catch (JSONException e) {
+            Log.e("BlinkUpPlugin","JSON Exception: " + e.toString());
+        }
 
         this.finish();
     }
 
     private void getDeviceInfo() {
-        final BlinkupController.TokenStatusCallback callback = new BlinkupController.TokenStatusCallback() {
+        final BlinkupController.TokenStatusCallback tokenStatusCallback= new BlinkupController.TokenStatusCallback() {
 
             //---------------------------------
             // give connection info to Cordova
@@ -72,8 +72,8 @@ public class BlinkUpCompleteActivity extends Activity {
                     String agentURL = json.getString("agent_url");
 
                     JSONObject resultJSON = new JSONObject();
-                    resultJSON.put("status","Device Connected");
-                    resultJSON.put("gatheringDeviceInfo","false");
+                    resultJSON.put("status", "Device Connected");
+                    resultJSON.put("gatheringDeviceInfo", "false");
                     resultJSON.put("planId", json.getString("plan_id"));
                     resultJSON.put("deviceId", deviceId);
                     resultJSON.put("agentURL", agentURL);
@@ -89,7 +89,7 @@ public class BlinkUpCompleteActivity extends Activity {
                     Globals.callbackContext.sendPluginResult(pluginResult);
                 }
                 catch (JSONException e) {
-                    Log.e("BlinkUp", e.getMessage());
+                    Log.e("BlinkUpPlugin", e.getMessage());
                 }
             }
 
@@ -111,6 +111,6 @@ public class BlinkUpCompleteActivity extends Activity {
         };
 
         // request the device info from the server
-        Globals.blinkUpController.getTokenStatus(callback, Globals.timeoutMs);
+        Globals.blinkUpController.getTokenStatus(tokenStatusCallback, Globals.timeoutMs);
     }
 }
