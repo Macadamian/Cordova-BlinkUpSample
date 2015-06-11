@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin xmlns="http://www.phonegap.com/ns/plugins/1.0"
+        id="com.macadamian.blinkup"
+        version="0.1">
+    
+    <name>BlinkUp</name>
+    <description>
+        This plugin allows you to integrate the native BlinkUp process for setting up an Electric Imp device directly into your Cordova project.
+        
+        The Plan ID, Device ID, Agent URL, and status of the operation are all passed back to the Cordova application.
+    </description>
+    
+    <info>
+        Please see ReadMe.md for information on installation and usage.
+    </info>
+    
+    <license>NEED_LICENSE_HERE</license>
+
+    <engines>
+        <engine name="cordova" version=">=3.4.0"/>
+    </engines>
+
+    <asset src="www/blinkup.js" target="js/blinkup.js"/>
+
+    <js-module src="www/blinkup.js" name="blinkup">
+        <clobbers target="blinkup" />
+    </js-module>
+
+    <!--========== Android ==========-->
+    <platform name="android">
+        <config-file target="res/xml/config.xml" parent="/*">
+            <feature name="BlinkUp">
+                <param name="android-package" value="com.macadamian.blinkup.BlinkUp" />
+            </feature>
+        </config-file>
+
+        <config-file target="AndroidManifest.xml" parent="/manifest">
+            <uses-permission android:name="android.permission.WAKE_LOCK" />
+        </config-file>
+
+        <config-file target="AndroidManifest.xml" parent="/manifest/application">
+            <activity android:name="com.macadamian.blinkup.ClearCompleteActivity" />
+            <activity android:name="com.macadamian.blinkup.BlinkUpCompleteActivity" />
+            <activity android:name="com.electricimp.blinkup.WifiSelectActivity" android:label="BlinkUp" />
+            <activity android:name="com.electricimp.blinkup.BlinkupGLActivity" android:label="BlinkUp" />
+            <activity android:name="com.electricimp.blinkup.WifiActivity" android:label="BlinkUp" />
+            <activity android:name="com.electricimp.blinkup.WPSActivity" android:label="BlinkUp" />
+            <activity android:name="com.electricimp.blinkup.ClearWifiActivity" android:label="BlinkUp" />
+            <activity android:name="com.electricimp.blinkup.InterstitialActivity" android:label="BlinkUp" />
+        </config-file>
+
+        <framework src="src/android/build-extras.gradle" custom="true" type="gradleReference" />
+
+        <source-file src="src/android/BlinkUp.java" target-dir="src/com/macadamian/blinkup/" />
+        <source-file src="src/android/BlinkUpCompleteActivity.java" target-dir="src/com/macadamian/blinkup" />
+        <source-file src="src/android/ClearCompleteActivity.java" target-dir="src/com/macadamian/blinkup" />
+        <source-file src="src/android/Globals.java" target-dir="src/com/macadamian/blinkup" />
+    </platform>
+
+    <!--========== iOS ==========-->
+    <platform name="ios">
+        <config-file target="config.xml" parent="/*">
+            <feature name="BlinkUp">
+                <param name="ios-package" value="BlinkUp" />
+            </feature>
+        </config-file>
+
+        <framework src="Security.framework"/>
+        <framework src="OpenGLES.framework"/>
+        <framework src="QuartzCore.framework"/>
+        <framework src="SystemConfiguration.framework"/>
+
+        <header-file src="src/ios/BlinkUp.h" />
+        <source-file src="src/ios/BlinkUp.m" />
+    </platform>
+    
+</plugin>

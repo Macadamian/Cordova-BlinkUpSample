@@ -1,0 +1,4 @@
+// GENERATED FILE - DO NOT EDIT
+include ":"
+include ":blinkup_sdk"
+include ":CordovaLib"
