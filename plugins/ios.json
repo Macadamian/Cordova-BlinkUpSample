@@ -47,10 +47,10 @@
     },
     "installed_plugins": {
         "cordova-plugin-whitelist": {
-            "PACKAGE_NAME": "com.macadamian.cordovaBlinkUpExample"
+            "PACKAGE_NAME": "com.macadamian.cordovaBlinkUpSample"
         },
         "com.macadamian.blinkup": {
-            "PACKAGE_NAME": "com.macadamian.cordovaBlinkUpExample"
+            "PACKAGE_NAME": "com.macadamian.cordovaBlinkUpSample"
         }
     },
     "dependent_plugins": {}
