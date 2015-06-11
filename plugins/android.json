@@ -9,11 +9,11 @@
                 "parents": {
                     "/*": [
                         {
-                            "xml": "<feature name=\"Whitelist\"><param name=\"android-package\" value=\"org.apache.cordova.whitelist.WhitelistPlugin\" /><param name=\"onload\" value=\"true\" /></feature>",
+                            "xml": "<feature name=\"BlinkUp\"><param name=\"android-package\" value=\"com.macadamian.blinkup.BlinkUp\" /></feature>",
                             "count": 1
                         },
                         {
-                            "xml": "<feature name=\"BlinkUp\"><param name=\"android-package\" value=\"com.macadamian.blinkup.BlinkUp\" /></feature>",
+                            "xml": "<feature name=\"Whitelist\"><param name=\"android-package\" value=\"org.apache.cordova.whitelist.WhitelistPlugin\" /><param name=\"onload\" value=\"true\" /></feature>",
                             "count": 1
                         }
                     ]
@@ -66,11 +66,11 @@
         }
     },
     "installed_plugins": {
-        "cordova-plugin-whitelist": {
-            "PACKAGE_NAME": "com.macadamian.cordovaBlinkUpExample"
-        },
         "com.macadamian.blinkup": {
-            "PACKAGE_NAME": "com.macadamian.cordovaBlinkUpExample"
+            "PACKAGE_NAME": "com.macadamian.cordovaBlinkUpSample"
+        },
+        "cordova-plugin-whitelist": {
+            "PACKAGE_NAME": "com.macadamian.cordovaBlinkUpSample"
         }
     },
     "dependent_plugins": {}

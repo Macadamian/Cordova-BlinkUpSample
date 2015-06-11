@@ -18,21 +18,11 @@
 */
 
 // GENERATED FILE! DO NOT EDIT!
-
 if (!file("blinkup_sdk").exists()) {
-    throw new GradleException('The blinkup_sdk folder can not be found in `path/to/project/platforms/android`.')
+    throw new GradleException('The blinkup_sdk folder can not be found in `CordovaBlinkUpSample/platforms/android`.')
 }
 
 apply plugin: 'android'
-
-preBuild.doFirst {
-    if (file("blinkup_sdk").exists()) {
-        println("it exists stu!")
-    }
-    else {
-        println("it don't exist stu :(")
-    }
-}
 
 buildscript {
     repositories {
@@ -109,7 +99,7 @@ ext {
 }
 
 // PLUGIN GRADLE EXTENSIONS START
-apply from: "com.macadamian.blinkup/cordovaBlinkUpExample-build-extras.gradle"
+apply from: "com.macadamian.blinkup/cordovaBlinkUpSample-build-extras.gradle"
 // PLUGIN GRADLE EXTENSIONS END
 
 def hasBuildExtras = file('build-extras.gradle').exists()

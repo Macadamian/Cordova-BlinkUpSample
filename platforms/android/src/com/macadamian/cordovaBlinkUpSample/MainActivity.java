@@ -17,12 +17,11 @@
        under the License.
  */
 
-package com.macadamian.cordovaBlinkUpExample;
+package com.macadamian.cordovaBlinkUpSample;
 
 import android.os.Bundle;
 import org.apache.cordova.*;
-import android.content.Intent;
-import com.macadamian.blinkup.Globals;
+
 public class MainActivity extends CordovaActivity
 {
     @Override
@@ -31,11 +30,5 @@ public class MainActivity extends CordovaActivity
         super.onCreate(savedInstanceState);
         // Set by <content src="index.html" /> in config.xml
         loadUrl(launchUrl);
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
-        super.onActivityResult(requestCode, resultCode, intent);
-        Globals.blinkUpController.handleActivityResult(this, requestCode, resultCode, intent);
     }
 }
