@@ -1,0 +1,14 @@
+2015-06-11 09:18:52.794 CordovaBlinkUpExample[86033:834083] DiskCookieStorage changing policy from 2 to 0, cookie file: file:///Users/sdouglas/Library/Developer/CoreSimulator/Devices/2B5A9709-DD60-41B6-A971-D4D91FCD8889/data/Containers/Data/Application/7F635ECF-AAD3-4196-A92C-FE5556121A8F/Library/Cookies/Cookies.binarycookies
+2015-06-11 09:18:52.904 CordovaBlinkUpExample[86033:834083] Apache Cordova native platform version 3.8.0 is starting.
+2015-06-11 09:18:52.905 CordovaBlinkUpExample[86033:834083] Multi-tasking -> Device: YES, App: YES
+2015-06-11 09:18:52.906 CordovaBlinkUpExample[86033:834083] Unlimited access to network resources
+2015-06-11 09:18:52.909 CordovaBlinkUpExample[86033:834083] 
+
+Started backup to iCloud! Please be careful.
+Your application might be rejected by Apple if you store too much data.
+For more information please read "iOS Data Storage Guidelines" at:
+https://developer.apple.com/icloud/documentation/data-storage/
+To disable web storage backup to iCloud, set the BackupWebStorage preference to "local" in the Cordova config.xml file
+
+2015-06-11 09:18:53.038 CordovaBlinkUpExample[86033:834083] Resetting plugins due to page load.
+2015-06-11 09:18:53.602 CordovaBlinkUpExample[86033:834083] Finished load of: file:///Users/sdouglas/Library/Developer/CoreSimulator/Devices/2B5A9709-DD60-41B6-A971-D4D91FCD8889/data/Containers/Bundle/Application/08C43B4B-EFDF-4D34-BEAF-492BE4F0A16A/CordovaBlinkUpExample.app/www/index.html
