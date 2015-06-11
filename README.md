@@ -12,7 +12,7 @@ A BlinkUp SDK and API Key. For more information on how to obtain a license, plea
 
 # Installation
 **Both Platforms**<br>
-Replace `"YOUR_API_KEY_HERE"` at the top of `www/index.js` and `platforms/ios/www/index.js` with your BlinkUp API key.
+Run the `SetApiKey.sh` script with your BlinkUp API key as an argument. E.g: `./SetApiKey.sh this_is_my_api_key`.
 
 **iOS**<br>
 Open `platforms/ios/CordovaBlinkUp.xcodeproj` in Xcode and select File > Add Files. Choose the `BlinkUp.framework` file included in the BlinkUp SDK and make sure "Copy items if needed" is selected. Do the same for `BlinkUp.bundle`, found in `BlinkUp.framework/resources/versions/A`. 
