@@ -1,6 +1,15 @@
+# -- MISCELLANEOUS -------------------------
+*.DS_STORE
+
+# Intentionally excluding the BlinkUp SDK from this repository
+*BlinkUp.framework
+*BlinkUp.bundle
+*BlinkUp.embeddedframework
+*/blinkup_sdk
+
 # -- OBJECTIVE-C -----------------------
 # https://github.com/github/gitignore/blob/master/Objective-C.gitignore
-## Build generated
+
 build/
 DerivedData
 
@@ -53,8 +62,3 @@ proguard/
 # Log Files
 *.log
 
-# -- MISCELLANEOUS -------------------------
-*.DS_STORE
-platforms/android/blinkup_sdk
-platforms/ios/BlinkUp.framework
-platforms/ios/BlinkUp.framework/BlinkUp

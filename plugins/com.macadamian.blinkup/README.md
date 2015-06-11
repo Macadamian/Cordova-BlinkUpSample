@@ -93,6 +93,6 @@ blinkup.invokeBlinkUp("YOUR_API_KEY_HERE", timeoutMs, useCachedPlanId, success, 
 
 Testing the Plugin
 -----------
-If you are testing devices for development, you can override the planID with your own developer planID to see the Imps in the Electric Imp IDE. For iOS you'll find it in `BlinkUpPlugin.m` -> `presentBlinkUp()`. On Android, it's at `BlinkUpPlugin.java` -> `presentBlinkUp()`.<br>
+If you are testing devices for development, you can override the planID with your own developer planID to see the Imps in the Electric Imp IDE. For iOS you'll find it in `[BlinkUpPlugin invokeBlinkUp]`. On Android, it's at `BlinkUpPlugin.presentBlinkUp()`.<br>
 
 IMPORTANT NOTE: if a developer planId makes it into production, the consumer's device will not configure. Please read http://electricimp.com/docs/manufacturing/planids/ for more info.
