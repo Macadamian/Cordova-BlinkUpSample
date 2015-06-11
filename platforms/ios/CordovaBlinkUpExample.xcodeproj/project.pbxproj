@@ -43,8 +43,6 @@
 		7E7966E61810823500FA85AD /* icon-small.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E7966DC1810823500FA85AD /* icon-small.png */; };
 		7E7966E71810823500FA85AD /* icon-small@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E7966DD1810823500FA85AD /* icon-small@2x.png */; };
 		A19D4F921BB94E31A2D4DEA9 /* BlinkUp.m in Sources */ = {isa = PBXBuildFile; fileRef = 48DB6CE633584231B9ED4D1D /* BlinkUp.m */; };
-		A60222481B28C4C600F3ABA0 /* BlinkUp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A60222471B28C4C600F3ABA0 /* BlinkUp.framework */; };
-		A602224A1B28C4D100F3ABA0 /* BlinkUp.bundle in Resources */ = {isa = PBXBuildFile; fileRef = A60222491B28C4D100F3ABA0 /* BlinkUp.bundle */; };
 		BE42D3C944FF42599D7D9C15 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B966072335F4356A91AE97F /* QuartzCore.framework */; };
 		D4A0D8761607E02300AEF8BB /* Default-568h@2x~iphone.png in Resources */ = {isa = PBXBuildFile; fileRef = D4A0D8751607E02300AEF8BB /* Default-568h@2x~iphone.png */; };
 /* End PBXBuildFile section */
@@ -109,8 +107,6 @@
 		7E7966DC1810823500FA85AD /* icon-small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-small.png"; sourceTree = "<group>"; };
 		7E7966DD1810823500FA85AD /* icon-small@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-small@2x.png"; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* CordovaBlinkUpExample-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "CordovaBlinkUpExample-Info.plist"; path = "../CordovaBlinkUpExample-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
-		A60222471B28C4C600F3ABA0 /* BlinkUp.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = BlinkUp.framework; sourceTree = "<group>"; };
-		A60222491B28C4D100F3ABA0 /* BlinkUp.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = BlinkUp.bundle; path = BlinkUp.framework/Versions/A/Resources/BlinkUp.bundle; sourceTree = "<group>"; };
 		C1E52449420D408899D0BBE6 /* OpenGLES.framework */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		C9E237BB235A42D08D206432 /* Security.framework */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		D4A0D8751607E02300AEF8BB /* Default-568h@2x~iphone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x~iphone.png"; sourceTree = "<group>"; };
@@ -126,7 +122,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				5B1594DD16A7569C00FEF299 /* AssetsLibrary.framework in Frameworks */,
-				A60222481B28C4C600F3ABA0 /* BlinkUp.framework in Frameworks */,
 				301BF552109A68D80062928A /* libCordova.a in Frameworks */,
 				288765FD0DF74451002DB57D /* CoreGraphics.framework in Frameworks */,
 				305D5FD1115AB8F900A74A75 /* MobileCoreServices.framework in Frameworks */,
@@ -164,8 +159,6 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
-				A60222491B28C4D100F3ABA0 /* BlinkUp.bundle */,
-				A60222471B28C4C600F3ABA0 /* BlinkUp.framework */,
 				EB87FDF41871DAF40020F90C /* config.xml */,
 				EB87FDF31871DA8E0020F90C /* www */,
 				EB87FDF21871DA7A0020F90C /* merges */,
@@ -289,7 +282,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 1D6058960D05DD3E006BFB54 /* Build configuration list for PBXNativeTarget "CordovaBlinkUpExample" */;
 			buildPhases = (
-				A602223B1B28AF1900F3ABA0 /* Check BlinkUp.framework Exists */,
+				A602223B1B28AF1900F3ABA0 /* Check For BlinkUp SDK */,
 				304B58A110DAC018002A0835 /* Copy www directory */,
 				1D60588D0D05DD3D006BFB54 /* Resources */,
 				1D60588E0D05DD3D006BFB54 /* Sources */,
@@ -360,7 +353,6 @@
 				7E7966E41810823500FA85AD /* icon-76.png in Resources */,
 				7E7966DF1810823500FA85AD /* icon-40@2x.png in Resources */,
 				308D05371370CCF300D202BF /* icon-72.png in Resources */,
-				A602224A1B28C4D100F3ABA0 /* BlinkUp.bundle in Resources */,
 				30B4F30119D5E07200D9F7D8 /* Default-736h.png in Resources */,
 				308D05381370CCF300D202BF /* icon.png in Resources */,
 				308D05391370CCF300D202BF /* icon@2x.png in Resources */,
@@ -405,19 +397,19 @@
 			shellScript = "cordova/lib/copy-www-build-step.sh";
 			showEnvVarsInLog = 0;
 		};
-		A602223B1B28AF1900F3ABA0 /* Check BlinkUp.framework Exists */ = {
+		A602223B1B28AF1900F3ABA0 /* Check For BlinkUp SDK */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Check BlinkUp.framework Exists";
+			name = "Check For BlinkUp SDK";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "i=$(find . -name \"BlinkUp.framework\" | wc -l)\nif [ $i -eq 0 ]; then\nosascript -e 'display dialog \"BlinkUp.framework could not be found in platforms/ios. Ensure that the file exists and that it is included in \\\"Link binary with libraries\\\" in Build Phases.\\n\\nIf you do not own the BlinkUp SDK, you may send a request to sales@electricimp.com\" buttons \"OK\" default button 1 with title \"Missing BlinkUp Framework\" with icon stop'\nfi\n\n";
+			shellScript = "numSdk=$(find . -name \"BlinkUp.framework\" | wc -l)\nnumBundle=$(find . -name \"BlinkUp.bundle\" | wc -l)\nif [ $numSdk -eq 0 ]; then\nosascript -e 'display dialog \"BlinkUp.framework could not be found in platforms/ios or any of its subdirectories. Ensure that the file exists and that it is included in \\\"Link Binary With Libraries\\\" in Build Phases.\\n\\nIf you do not own the BlinkUp SDK, you may send a request to sales@electricimp.com\" buttons \"OK\" default button 1 with title \"Missing BlinkUp Framework\" with icon stop'\nelif [ $numBundle -eq 0]; then\nosascript -e 'display dialog \"BlinkUp.bundle could not be found in platforms/ios or any of its subdirectories. Ensure that the file exists and that it is included in \\\"Copy Bundle Resources\\\" in Build Phases.\\n\\nIf you do not own the BlinkUp SDK, you may send a request to sales@electricimp.com\" buttons \"OK\" default button 1 with title \"Missing BlinkUp Bundle\" with icon stop'\nfi\n\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
