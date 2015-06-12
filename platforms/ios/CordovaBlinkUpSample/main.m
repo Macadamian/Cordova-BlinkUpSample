@@ -16,13 +16,6 @@
  specific language governing permissions and limitations
  under the License.
  */
-//
-//  main.m
-//  CordovaBlinkUpSample
-//
-//  Created by ___FULLUSERNAME___ on ___DATE___.
-//  Copyright ___ORGANIZATIONNAME___ ___YEAR___. All rights reserved.
-//
 
 #import <UIKit/UIKit.h>
 

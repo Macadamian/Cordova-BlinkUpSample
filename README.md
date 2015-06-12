@@ -15,7 +15,7 @@ A BlinkUp SDK and API Key. For more information on how to obtain a license, plea
 Run the `SetApiKey.sh` script with your BlinkUp API key as an argument. E.g: `./SetApiKey.sh this_is_my_api_key`.
 
 **iOS**<br>
-Open `platforms/ios/CordovaBlinkUp.xcodeproj` in Xcode and select File > Add Files. Choose the `BlinkUp.framework` file included in the BlinkUp SDK and make sure "Copy items if needed" is selected. Do the same for `BlinkUp.bundle`, found in `BlinkUp.framework/resources/versions/A`. 
+Open `platforms/ios/CordovaBlinkUp.xcodeproj` in Xcode and select the Frameworks group in project navigator. Choose File > Add Files and select the `BlinkUp.framework` file included in the BlinkUp SDK, making sure "Copy items if needed" is selected. Do the same for `BlinkUp.bundle`, found in `BlinkUp.framework/resources/versions/A`. 
 
 If you wish to link to these resources without copying them into the project directory, you will need to remove "Check For BlinkUp SDK" from the Xcode project's build phases.
 
