@@ -1,5 +1,4 @@
 /*
-<<<<<<< HEAD
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
  * distributed with this work for additional information
@@ -81,8 +80,7 @@ var app = {
                     this.endProgress();
                 }
             };
-
-            blinkup.initiateBlinkUp(apiKey, timeoutMs, true, success, failure);
+            blinkup.invokeBlinkUp(apiKey, timeoutMs, true, success, failure);
         });
     },
     // Update DOM on a Received Event
@@ -127,4 +125,8 @@ function updateInfo(deviceInfo, isJSON) {
     document.getElementById('agentURL').innerHTML = (isJSON && deviceInfo.agentURL != null) ? deviceInfo.agentURL : "";
 }
 
+<<<<<<< HEAD
 app.initialize();
+=======
+app.initialize();
+>>>>>>> bcadead... Renamed plugin files to BlinkUpPlugin, and initiateBlinkUp to invokeBlinkUp

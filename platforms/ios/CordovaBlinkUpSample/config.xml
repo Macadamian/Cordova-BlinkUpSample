@@ -14,8 +14,8 @@
     <feature name="LocalStorage">
         <param name="ios-package" value="CDVLocalStorage" />
     </feature>
-    <feature name="BlinkUp">
-        <param name="ios-package" value="BlinkUp" />
+    <feature name="BlinkUpPlugin">
+        <param name="ios-package" value="BlinkUpPlugin" />
     </feature>
     <allow-intent href="itms:*" />
     <allow-intent href="itms-apps:*" />

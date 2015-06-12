@@ -56,3 +56,5 @@ proguard/
 # -- MISCELLANEOUS -------------------------
 *.DS_STORE
 platforms/android/blinkup_sdk
+platforms/ios/BlinkUp.framework
+platforms/ios/BlinkUp.framework/BlinkUp

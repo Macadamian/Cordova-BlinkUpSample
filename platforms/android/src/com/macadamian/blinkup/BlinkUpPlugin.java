@@ -17,8 +17,10 @@
 
 package com.macadamian.blinkup;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.util.Log;
 import android.widget.Toast;
 import android.content.pm.ApplicationInfo;
 import org.json.JSONArray;
@@ -53,7 +55,7 @@ public class BlinkUpPlugin extends CordovaPlugin {
                 Globals.timeoutMs = data.getInt(1);
                 this.useCachedPlanId = data.getBoolean(2);
             } catch (JSONException exc) {
-                String error = "Error. Invalid argument count in call to invoke blink up(apiKey: String, timeoutMs: Integer, useCachedPlanId: Bool, success: Callback, failure: Callback)";
+                String error = "Error. Invalid argument count in call to invoke blink up (apiKey: String, timeoutMs: Integer, useCachedPlanId: Bool, success: Callback, failure: Callback)";
                 callbackContext.error(error);
                 return false;
             }
@@ -74,14 +76,22 @@ public class BlinkUpPlugin extends CordovaPlugin {
      *********************************************************/
     private void presentBlinkUp() {
 
-        // show toast if can't acquire token, but don't interrupt execution
+        // show toast if can't acquire token
         final BlinkupController.TokenAcquireCallback tokenAcquireCallback = new BlinkupController.TokenAcquireCallback() {
             @Override
             public void onSuccess(String planId, String id) { }
 
             @Override
             public void onError(String s) {
-                Toast.makeText(cordova.getActivity(), ("Error. " + s), Toast.LENGTH_SHORT).show();
+                // show more descriptive message if api key not valid, i.e. 401 authentication failure
+                if (s.contains("401")) {
+                    String errorMsg = "Error. Invalid API key. You must set your BlinkUp API key using the SetApiKey.sh script. See README.md for more details.";
+                    Toast.makeText(cordova.getActivity(), errorMsg, Toast.LENGTH_LONG).show();
+                    Globals.callbackContext.error(errorMsg);
+                }
+                else {
+                    Toast.makeText(cordova.getActivity(), ("Error. " + s), Toast.LENGTH_SHORT).show();
+                }
             }
         };
 
@@ -105,7 +115,7 @@ public class BlinkUpPlugin extends CordovaPlugin {
 
         // set developerPlanId here to see device in Electric Imp IDE if in Debug Mode
         // see electricimp.com/docs/manufacturing/planids/ for info about planIDs
-        if (0 != (this.cordova.getActivity().getApplicationInfo().flags &= ApplicationInfo.FLAG_DEBUGGABLE)) {
+        if (org.apache.cordova.BuildConfig.DEBUG) {
             String developerPlanId = null;
             Globals.blinkUpController.setPlanID(developerPlanId);
         }

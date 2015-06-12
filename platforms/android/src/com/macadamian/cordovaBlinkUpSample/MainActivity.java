@@ -23,14 +23,22 @@ package com.macadamian.cordovaBlinkUpSample;
 
 import android.os.Bundle;
 import org.apache.cordova.*;
+import android.content.Intent;
+import com.macadamian.blinkup.Globals;
 
-public class MainActivity extends CordovaActivity
-{
+
+public class MainActivity extends CordovaActivity {
     @Override
-    public void onCreate(Bundle savedInstanceState)
-    {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // Set by <content src="index.html" /> in config.xml
         loadUrl(launchUrl);
+    }
+
+    @Override
+    // need to handle results when blinkup completes -- added by Stuart Douglas June 11, 2015
+    protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        super.onActivityResult(requestCode, resultCode, intent);
+        Globals.blinkUpController.handleActivityResult(this, requestCode, resultCode, intent);
     }
 }
