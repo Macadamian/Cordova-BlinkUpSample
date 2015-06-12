@@ -125,8 +125,4 @@ function updateInfo(deviceInfo, isJSON) {
     document.getElementById('agentURL').innerHTML = (isJSON && deviceInfo.agentURL != null) ? deviceInfo.agentURL : "";
 }
 
-<<<<<<< HEAD
 app.initialize();
-=======
-app.initialize();
->>>>>>> bcadead... Renamed plugin files to BlinkUpPlugin, and initiateBlinkUp to invokeBlinkUp

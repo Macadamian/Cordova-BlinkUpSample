@@ -46,6 +46,7 @@
 		9DF30E070EC147B6AA6C95F7 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAD13AC17A984F37AE4E5FC5 /* QuartzCore.framework */; };
 		A664959A1B2B1666001D68B8 /* BlinkUp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A66495991B2B1666001D68B8 /* BlinkUp.framework */; };
 		A664959C1B2B174A001D68B8 /* BlinkUp.bundle in Resources */ = {isa = PBXBuildFile; fileRef = A664959B1B2B174A001D68B8 /* BlinkUp.bundle */; };
+		A6C711B81B2B76F10006D7AA /* BlinkUp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A6C711B71B2B76F10006D7AA /* BlinkUp.framework */; };
 		D4A0D8761607E02300AEF8BB /* Default-568h@2x~iphone.png in Resources */ = {isa = PBXBuildFile; fileRef = D4A0D8751607E02300AEF8BB /* Default-568h@2x~iphone.png */; };
 /* End PBXBuildFile section */
 
@@ -109,6 +110,7 @@
 		8D1107310486CEB800E47090 /* CordovaBlinkUpSample-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "CordovaBlinkUpSample-Info.plist"; path = "../CordovaBlinkUpSample-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
 		A66495991B2B1666001D68B8 /* BlinkUp.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = BlinkUp.framework; sourceTree = "<group>"; };
 		A664959B1B2B174A001D68B8 /* BlinkUp.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = BlinkUp.bundle; path = ../../BlinkUp.framework/Versions/A/Resources/BlinkUp.bundle; sourceTree = "<group>"; };
+		A6C711B71B2B76F10006D7AA /* BlinkUp.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = BlinkUp.framework; path = "../../../BlinkUp SDKs/iOS SDK/BlinkUpSDK/BlinkUp/BlinkUp.embeddedframework/BlinkUp.framework"; sourceTree = "<group>"; };
 		A91A010209BA4E45BA66830A /* OpenGLES.framework */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		CAC8BB0555194F6E82277EA2 /* BlinkUpPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BlinkUpPlugin.h; path = com.macadamian.blinkup/BlinkUpPlugin.h; sourceTree = "<group>"; };
 		D4A0D8751607E02300AEF8BB /* Default-568h@2x~iphone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x~iphone.png"; sourceTree = "<group>"; };
@@ -125,6 +127,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A6C711B81B2B76F10006D7AA /* BlinkUp.framework in Frameworks */,
 				5B1594DD16A7569C00FEF299 /* AssetsLibrary.framework in Frameworks */,
 				A664959A1B2B1666001D68B8 /* BlinkUp.framework in Frameworks */,
 				301BF552109A68D80062928A /* libCordova.a in Frameworks */,
@@ -204,6 +207,7 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				A6C711B71B2B76F10006D7AA /* BlinkUp.framework */,
 				A66495991B2B1666001D68B8 /* BlinkUp.framework */,
 				5B1594DC16A7569C00FEF299 /* AssetsLibrary.framework */,
 				288765FC0DF74451002DB57D /* CoreGraphics.framework */,
@@ -457,6 +461,9 @@
 					/Users/sdouglas/Documents/BlinkUp,
 					SDKs/iOS,
 					SDK/BlinkUpSDK/BlinkUp/BlinkUp.embeddedframework,
+					/Users/sdouglas/Documents/BlinkUp,
+					SDKs/iOS,
+					SDK/BlinkUpSDK/BlinkUp/BlinkUp.embeddedframework,
 				);
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -492,6 +499,9 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
+					/Users/sdouglas/Documents/BlinkUp,
+					SDKs/iOS,
+					SDK/BlinkUpSDK/BlinkUp/BlinkUp.embeddedframework,
 					/Users/sdouglas/Documents/BlinkUp,
 					SDKs/iOS,
 					SDK/BlinkUpSDK/BlinkUp/BlinkUp.embeddedframework,
