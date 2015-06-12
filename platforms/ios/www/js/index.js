@@ -1,4 +1,5 @@
 /*
+<<<<<<< HEAD
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
  * distributed with this work for additional information
@@ -16,27 +17,74 @@
  * specific language governing permissions and limitations
  * under the License.
  */
+
+//-JSLint---------
+/*global blinkup*/
+//----------------
+
+var apiKey = "YOUR_API_KEY_HERE";
+var timeoutMs = 60000;
+var interval;
+
 var app = {
     // Application Constructor
-    initialize: function() {
+    initialize: function () {
         this.bindEvents();
     },
     // Bind Event Listeners
     //
     // Bind any events that are required on startup. Common events are:
     // 'load', 'deviceready', 'offline', and 'online'.
-    bindEvents: function() {
+    bindEvents: function () {
         document.addEventListener('deviceready', this.onDeviceReady, false);
     },
     // deviceready Event Handler
     //
     // The scope of 'this' is the event. In order to call the 'receivedEvent'
     // function, we must explicitly call 'app.receivedEvent(...);'
-    onDeviceReady: function() {
+    onDeviceReady: function () {
         app.receivedEvent('deviceready');
+
+        var btn = document.getElementById('blinkup-button');
+        btn.addEventListener('click', function () {
+
+            var success = function (message) {
+                var jsonData;
+                try {
+                    jsonData = JSON.parse(message);
+                    this.updateInfo(jsonData, true);
+
+                    if (jsonData.gatheringDeviceInfo === "true") {
+                        this.startProgress();
+                    } else {
+                        this.endProgress();
+                    }
+                } catch (exception) {
+                    this.updateInfo(message, false);
+                    this.endProgress();
+                }
+            };
+
+            var failure = function (message) {
+                var jsonData;
+                try {
+                    jsonData = JSON.parse(message);
+                    this.updateInfo(jsonData, true);
+
+                    if (jsonData.gatheringDeviceInfo === "false") {
+                        this.endProgress();
+                    }
+                } catch (exception) {
+                    this.updateInfo(message, false);
+                    this.endProgress();
+                }
+            };
+
+            blinkup.initiateBlinkUp(apiKey, timeoutMs, true, success, failure);
+        });
     },
     // Update DOM on a Received Event
-    receivedEvent: function(id) {
+    receivedEvent: function (id) {
         var parentElement = document.getElementById(id);
         var listeningElement = parentElement.querySelector('.listening');
         var receivedElement = parentElement.querySelector('.received');
@@ -47,5 +95,34 @@ var app = {
         console.log('Received Event: ' + id);
     }
 };
+
+function startProgress() {
+    document.getElementById('progress-bar-wrapper').style.display = "inline-block";
+    
+    var progressBar = document.getElementById('progress-bar');
+    progressBar.style.width = "0px";
+
+    clearInterval(interval);
+    var percentDone = 0;
+    interval = setInterval(function () {
+        percentDone++;
+        progressBar.style.width = percentDone + "%";
+        if (percentDone > 99) {
+            clearInterval(interval);
+        }
+    }, (timeoutMs / 100));
+}
+
+function endProgress() {
+    document.getElementById('progress-bar').style.width = "0px";
+    document.getElementById('progress-bar-wrapper').style.display = "none";
+}
+
+function updateInfo(deviceInfo, isJSON) {
+    document.getElementById('status').innerHTML   = (isJSON && deviceInfo.status   != null) ? deviceInfo.status   : deviceInfo;
+    document.getElementById('planId').innerHTML   = (isJSON && deviceInfo.planId   != null) ? deviceInfo.planId   : "";
+    document.getElementById('deviceId').innerHTML = (isJSON && deviceInfo.deviceId != null) ? deviceInfo.deviceId : "";
+    document.getElementById('agentURL').innerHTML = (isJSON && deviceInfo.agentURL != null) ? deviceInfo.agentURL : "";
+}
 
 app.initialize();
