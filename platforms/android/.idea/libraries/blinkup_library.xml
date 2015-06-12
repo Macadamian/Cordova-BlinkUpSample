@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="blinkup_library">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/blinkup_sdk/libs/blinkup_library.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

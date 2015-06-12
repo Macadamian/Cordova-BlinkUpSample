@@ -9,7 +9,7 @@
                 "parents": {
                     "/*": [
                         {
-                            "xml": "<feature name=\"BlinkUp\"><param name=\"android-package\" value=\"com.macadamian.blinkup.BlinkUp\" /></feature>",
+                            "xml": "<feature name=\"BlinkUpPlugin\"><param name=\"android-package\" value=\"com.macadamian.blinkup.BlinkUpPlugin\" /></feature>",
                             "count": 1
                         },
                         {

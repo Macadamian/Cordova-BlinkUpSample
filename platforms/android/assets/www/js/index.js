@@ -80,8 +80,7 @@ var app = {
                     this.endProgress();
                 }
             };
-
-            blinkup.initiateBlinkUp(apiKey, timeoutMs, true, success, failure);
+            blinkup.invokeBlinkUp(apiKey, timeoutMs, true, success, failure);
         });
     },
     // Update DOM on a Received Event

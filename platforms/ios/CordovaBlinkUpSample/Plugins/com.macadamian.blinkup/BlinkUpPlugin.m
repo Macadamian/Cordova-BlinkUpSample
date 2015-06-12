@@ -15,9 +15,9 @@
  * Copyright (c) 2015 Macadamian. All rights reserved.
  */
 
-#import "BlinkUp.h"
+#import "BlinkUpPlugin.h"
 
-@implementation BlinkUp
+@implementation BlinkUpPlugin
 
 //------------------------------------------
 // Need to hold on to callbackId to send 2nd
@@ -33,7 +33,7 @@ BUBasicController *blinkUpController;
  * Called by Javascript in Cordova application.
  * `command.arguments` is array, first item is apiKey
  ********************************************************/
-- (void)initiateBlinkUp:(CDVInvokedUrlCommand*)command {
+- (void)invokeBlinkUp:(CDVInvokedUrlCommand*)command {
     
     callbackId = command.callbackId;
     
