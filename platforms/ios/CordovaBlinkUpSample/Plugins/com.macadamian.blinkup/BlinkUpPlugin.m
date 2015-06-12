@@ -18,22 +18,11 @@
 #import "BlinkUpPlugin.h"
 #import <BlinkUp/BlinkUp.h>
 
-@implementation BlinkUpPlugin
-
 typedef NS_ENUM(NSInteger, BlinkupArguments) {
     BlinkUpArgumentApiKey = 0,
     BlinkUpArgumentTimeOut,
     BlinkUpUsedCachedPlanId,
 };
-
-@interface BlinkUpPlugin (Private)
-@property BUBasicController  *blinkUpController;
-
-@property NSString  *apiKey;
-@property NSString *callbackId;
-@property NSNumber *timeoutInMs;
-@property NSNumber *useCachedPlanId;
-@end
 
 @implementation BlinkUpPlugin
 
@@ -43,7 +32,6 @@ typedef NS_ENUM(NSInteger, BlinkupArguments) {
  ********************************************************/
 - (void)invokeBlinkUp:(CDVInvokedUrlCommand*)command {
     self.callbackId = command.callbackId;
-    CordovaBlinkUpSample/Plugins/com.macadamian.blinkup/BlinkUpPlugin.m
     
     if (command.arguments.count <= BlinkUpUsedCachedPlanId) {
         NSString *error = @"Error. Invalid argument count in call to invoke blink up(apiKey: String, timeoutMs: Integer, useCachedPlanId: Bool, success: Callback, failure: Callback)";
