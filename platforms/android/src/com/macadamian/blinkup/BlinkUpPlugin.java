@@ -17,18 +17,15 @@
 
 package com.macadamian.blinkup;
 
-import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.util.Log;
 import android.widget.Toast;
-import android.content.pm.ApplicationInfo;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 
-import com.electricimp.blinkup.*;
-import com.electricimp.blinkup.BuildConfig;
-
+import com.electricimp.blinkup.BlinkupController;
+import com.macadamian.cordovaBlinkUpSample.R;
 import org.apache.cordova.*;
 
 /*********************************************
@@ -48,14 +45,14 @@ public class BlinkUpPlugin extends CordovaPlugin {
     @Override
     public boolean execute(String action, JSONArray data, CallbackContext callbackContext) throws JSONException {
         if (action.equalsIgnoreCase("invokeBlinkUp")) {
-
             Globals.callbackContext = callbackContext;
+
             try {
                 this.apiKey = data.getString(0);
                 Globals.timeoutMs = data.getInt(1);
                 this.useCachedPlanId = data.getBoolean(2);
             } catch (JSONException exc) {
-                String error = "Error. Invalid argument count in call to invoke blink up (apiKey: String, timeoutMs: Integer, useCachedPlanId: Bool, success: Callback, failure: Callback)";
+                String error = this.cordova.getActivity().getString(R.string.invalidArguments);
                 callbackContext.error(error);
                 return false;
             }
@@ -85,12 +82,13 @@ public class BlinkUpPlugin extends CordovaPlugin {
             public void onError(String s) {
                 // show more descriptive message if api key not valid, i.e. 401 authentication failure
                 if (s.contains("401")) {
-                    String errorMsg = "Error. Invalid API key. You must set your BlinkUp API key using the SetApiKey.sh script. See README.md for more details.";
+                    String errorMsg = cordova.getActivity().getString(R.string.invalidApiKey);
                     Toast.makeText(cordova.getActivity(), errorMsg, Toast.LENGTH_LONG).show();
                     Globals.callbackContext.error(errorMsg);
                 }
                 else {
-                    Toast.makeText(cordova.getActivity(), ("Error. " + s), Toast.LENGTH_SHORT).show();
+                    String errorText = cordova.getActivity().getString(R.string.error);
+                    Toast.makeText(cordova.getActivity(), (errorText + s), Toast.LENGTH_SHORT).show();
                 }
             }
         };
@@ -99,7 +97,8 @@ public class BlinkUpPlugin extends CordovaPlugin {
         BlinkupController.ServerErrorHandler serverErrorHandler= new BlinkupController.ServerErrorHandler() {
             @Override
             public void onError(String s) {
-                Globals.callbackContext.error("Error. Could not verify API key with Electric Imp servers.");
+                String errorMsg = cordova.getActivity().getString(R.string.couldNotVerifyApiKey);
+                Globals.callbackContext.error(errorMsg);
             }
         };
 
@@ -109,7 +108,7 @@ public class BlinkUpPlugin extends CordovaPlugin {
         // load cached planId if available. Otherwise, SDK generates new one automatically
         if (this.useCachedPlanId) {
             SharedPreferences preferences = this.cordova.getActivity().getSharedPreferences("DefaultPreferences", this.cordova.getActivity().MODE_PRIVATE);
-            String planId = preferences.getString("planId", null);
+            String planId = preferences.getString(Globals.PLAN_ID_KEY, null);
             Globals.blinkUpController.setPlanID(planId);
         }
 
