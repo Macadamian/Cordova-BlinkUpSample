@@ -415,7 +415,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "numSdk=$(find . -name \"BlinkUp.framework\" | wc -l)\nnumBundle=$(find . -name \"BlinkUp.bundle\" | wc -l)\nif [ $numSdk -eq 0 ]; then\nosascript -e 'display dialog \"BlinkUp.framework could not be found in platforms/ios or any of its subdirectories. Ensure that the file exists and that it is included in \\\"Link Binary With Libraries\\\" in Build Phases.\\n\\nIf you do not own the BlinkUp SDK, you may send a request to sales@electricimp.com\" buttons \"OK\" default button 1 with title \"Missing BlinkUp Framework\" with icon stop'\nexit 1\nelif [ $numBundle -eq 0]; then\nosascript -e 'display dialog \"BlinkUp.bundle could not be found in platforms/ios or any of its subdirectories. Ensure that the file exists and that it is included in \\\"Copy Bundle Resources\\\" in Build Phases.\\n\\nIf you do not own the BlinkUp SDK, you may send a request to sales@electricimp.com\" buttons \"OK\" default button 1 with title \"Missing BlinkUp Bundle\" with icon stop'\nexit 1\nfi";
+			shellScript = "if [ -e \"CordovaBlinkUpSample/Frameworks/BlinkUp.framework\" ]; then\nosascript -e 'display dialog \"BlinkUp.framework could not be found in platforms/ios/CordovaBlinkUpSample/Frameworks. Ensure that you have copied the file to that location.\\n\\nIf you do not own the BlinkUp SDK, you may send a request to sales@electricimp.com\" buttons \"OK\" default button 1 with title \"Cannot Locate BlinkUp Framework\" with icon stop'\nexit 1\nfi\n\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
