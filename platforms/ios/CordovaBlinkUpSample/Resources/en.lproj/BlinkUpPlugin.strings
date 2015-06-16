@@ -27,4 +27,4 @@
 
 // deviceRequestDidCompleteWithDeviceInfo()
 "processTimedOut" = "Error. Could not gather device info. Process timed out.";
-"deciceConnected" = "Device Connected";
+"deviceConnected" = "Device Connected";
