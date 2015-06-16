@@ -1,11 +1,11 @@
 # -- MISCELLANEOUS -------------------------
-*.DS_STORE
+*.DS_Store
 
 # Intentionally excluding the BlinkUp SDK from this repository
 *BlinkUp.framework
 *BlinkUp.bundle
 *BlinkUp.embeddedframework
-*/blinkup_sdk
+**/blinkup_sdk/
 
 # -- OBJECTIVE-C -----------------------
 # https://github.com/github/gitignore/blob/master/Objective-C.gitignore
