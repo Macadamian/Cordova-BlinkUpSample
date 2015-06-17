@@ -26,6 +26,12 @@ typedef NS_ENUM(NSInteger, BlinkupArguments) {
 
 @implementation BlinkUpPlugin
 
+NSString * const STATUS_KEY = @"status";
+NSString * const PLAN_ID_KEY = @"planId";
+NSString * const DEVICE_ID_KEY = @"deviceId";
+NSString * const AGENT_URL_KEY = @"agentURL";
+NSString * const GATHERING_DEVICE_INFO_KEY = @"gatheringDeviceInfo";
+
 /*********************************************************
  * Called by Javascript in Cordova application.
  * `command.arguments` is array, first item is apiKey
@@ -55,7 +61,7 @@ typedef NS_ENUM(NSInteger, BlinkupArguments) {
 - (void) navigateToBlinkUpView {
     
     // load cached planID (if not cached yet, BlinkUp automatically generates a new one)
-    NSString *planId = [[NSUserDefaults standardUserDefaults] objectForKey:@"planId"];
+    NSString *planId = [[NSUserDefaults standardUserDefaults] objectForKey:PLAN_ID_KEY];
     
     // set your developer planId here to allow the imps to show up in the Electric Imp IDE
     // see electricimp.com/docs/manufacturing/planids/ for info about planIDs
@@ -97,15 +103,15 @@ typedef NS_ENUM(NSInteger, BlinkupArguments) {
         long timeoutInMs = self.timeoutInMs.longValue;
         if (timeoutInMs != 60000) {
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, timeoutInMs * NSEC_PER_MSEC),
-                           dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-                               [self.blinkUpController.devicePoller stopPolling];
-                               [self deviceRequestDidCompleteWithDeviceInfo:nil timedOut:true error:nil];
-                           });
+                dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+                    [self.blinkUpController.devicePoller stopPolling];
+                    [self deviceRequestDidCompleteWithDeviceInfo:nil timedOut:true error:nil];
+            });
         }
 
         // TODO: I want to isolate this in its own method
         NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
-        [dict setValue:@"Gathering device info..." forKey:@"status"];
+        [dict setValue:@"Gathering device info..." forKey:STATUS_KEY];
         [dict setValue:@"true" forKey:@"gatheringDeviceInfo"];
         NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dict options:NSJSONWritingPrettyPrinted error:nil];
 
@@ -158,14 +164,14 @@ typedef NS_ENUM(NSInteger, BlinkupArguments) {
     }
     else {
         // cache plan ID (see electricimp.com/docs/manufacturing/planids/)
-        [[NSUserDefaults standardUserDefaults] setObject:deviceInfo.planId forKey:@"planId"];
+        [[NSUserDefaults standardUserDefaults] setObject:deviceInfo.planId forKey:PLAN_ID_KEY];
 
         // TODO isolate + create constants
         NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
-        [dict setValue:@"Device Connected"             forKey:@"status"];
-        [dict setValue:deviceInfo.planId               forKey:@"planId"];
-        [dict setValue:deviceInfo.deviceId             forKey:@"deviceId"];
-        [dict setValue:deviceInfo.agentURL.description forKey:@"agentURL"];
+        [dict setValue:@"Device Connected" forKey:STATUS_KEY];
+        [dict setValue:deviceInfo.planId forKey:PLAN_ID_KEY];
+        [dict setValue:deviceInfo.deviceId forKey:DEVICE_ID_KEY];
+        [dict setValue:deviceInfo.agentURL.description forKey:AGENT_URL_KEY];
         NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dict options:NSJSONWritingPrettyPrinted error:nil];
         
         resultMessage = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];

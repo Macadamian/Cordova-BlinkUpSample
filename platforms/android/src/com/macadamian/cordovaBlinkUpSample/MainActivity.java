@@ -26,7 +26,6 @@ import org.apache.cordova.*;
 import android.content.Intent;
 import com.macadamian.blinkup.Globals;
 
-
 public class MainActivity extends CordovaActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
