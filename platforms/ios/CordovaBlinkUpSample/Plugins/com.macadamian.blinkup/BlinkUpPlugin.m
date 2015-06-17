@@ -26,11 +26,11 @@ typedef NS_ENUM(NSInteger, BlinkupArguments) {
 
 @implementation BlinkUpPlugin
 
-NSString *STATUS_KEY = @"status";
-NSString *PLAN_ID_KEY = @"planId";
-NSString *DEVICE_ID_KEY = @"deviceId";
-NSString *AGENT_URL_KEY = @"agentURL";
-NSString *GATHERING_DEVICE_INFO_KEY = @"gatheringDeviceInfo";
+NSString * const STATUS_KEY = @"status";
+NSString * const PLAN_ID_KEY = @"planId";
+NSString * const DEVICE_ID_KEY = @"deviceId";
+NSString * const AGENT_URL_KEY = @"agentURL";
+NSString * const GATHERING_DEVICE_INFO_KEY = @"gatheringDeviceInfo";
 
 /*********************************************************
  * Called by Javascript in Cordova application.
@@ -161,14 +161,14 @@ NSString *GATHERING_DEVICE_INFO_KEY = @"gatheringDeviceInfo";
     }
     else {
         // cache plan ID (see electricimp.com/docs/manufacturing/planids/)
-        [[NSUserDefaults standardUserDefaults] setObject:deviceInfo.planId forKey:PLAN_ID_KEY];
+        [[NSUserDefaults standardUserDefaults] setObject:deviceInfo.planId forKey: PLAN_ID_KEY];
 
         // TODO isolate + create constants
         NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
-        [dict setValue:NSLocalizedStringFromTable(@"deviceConnected", @"BlinkUpPlugin", nil)  forKey:STATUS_KEY];
-        [dict setValue:deviceInfo.planId                                                      forKey:PLAN_ID_KEY];
-        [dict setValue:deviceInfo.deviceId                                                    forKey:DEVICE_ID_KEY];
-        [dict setValue:deviceInfo.agentURL.description                                        forKey:AGENT_URL_KEY];
+        [dict setValue:NSLocalizedStringFromTable(@"deviceConnected", @"BlinkUpPlugin", nil) forKey: STATUS_KEY];
+        [dict setValue:deviceInfo.planId forKey: PLAN_ID_KEY];
+        [dict setValue:deviceInfo.deviceId forKey: DEVICE_ID_KEY];
+        [dict setValue:deviceInfo.agentURL.description forKey:AGENT_URL_KEY];
         NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dict options:NSJSONWritingPrettyPrinted error:nil];
 
         resultMessage = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
