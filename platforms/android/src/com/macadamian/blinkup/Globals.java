@@ -17,6 +17,11 @@
 
 package com.macadamian.blinkup;
 
+import android.content.Context;
+import android.content.pm.PackageManager;
+import android.content.res.Resources;
+import android.util.Log;
+
 import org.apache.cordova.CallbackContext;
 import com.electricimp.blinkup.BlinkupController;
 
@@ -25,6 +30,7 @@ import com.electricimp.blinkup.BlinkupController;
  * by multiple classes in application
  *************************************/
 public class Globals {
+    public static Context currentContext;
     public static CallbackContext callbackContext;
     public static BlinkupController blinkUpController;
     public static int timeoutMs = 60000; // default is 1 minute
@@ -35,4 +41,31 @@ public class Globals {
     public static String PLAN_ID_KEY = "planId";
     public static String DEVICE_ID_KEY = "deviceId";
     public static String AGENT_URL_KEY = "agentURL";
+
+    /**********************************************************
+     * Returns string from res/values/strings.xml with passed
+     * identifier. Returns "" on error.
+     *********************************************************/
+    public static String getStringRes(String identifier) {
+
+        // package name different for each app so need to do this dynamically
+        PackageManager packageManager = currentContext.getPackageManager();
+
+        try {
+            Resources resources = packageManager.getResourcesForApplication(currentContext.getPackageName());
+            try {
+                // return string associated with id
+                int resId = resources.getIdentifier(identifier, "string", currentContext.getPackageName());
+                return resources.getString(resId);
+            }
+            catch (Resources.NotFoundException e) {
+                Log.e("BlinkUpPlugin", "Resource not found. " + e.getLocalizedMessage());
+            }
+        } catch (PackageManager.NameNotFoundException e) {
+            Log.e("BlinkUpPlugin", "Could not load package manager, name not found. " + e.getLocalizedMessage());
+        }
+
+        // return empty string on error
+        return "";
+    }
 }

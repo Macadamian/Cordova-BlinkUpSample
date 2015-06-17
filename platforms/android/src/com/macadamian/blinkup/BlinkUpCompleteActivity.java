@@ -27,7 +27,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.electricimp.blinkup.BlinkupController;
-import com.macadamian.cordovaBlinkUpSample.R;
 
 /*****************************************************
  * When the BlinkUpPlugin process completes, it executes the
@@ -47,7 +46,7 @@ public class BlinkUpCompleteActivity extends Activity {
         // send callback that we're waiting on server
         JSONObject resultJSON = new JSONObject();
         try {
-            resultJSON.put(Globals.STATUS_KEY, getString(R.string.gatheringDeviceInfo));
+            resultJSON.put(Globals.STATUS_KEY, Globals.getStringRes("gatheringDeviceInfo"));
             resultJSON.put(Globals.GATHERING_DEVICE_INFO_KEY, "true");
 
             PluginResult pluginResult = new PluginResult(PluginResult.Status.OK, resultJSON.toString());
@@ -72,7 +71,7 @@ public class BlinkUpCompleteActivity extends Activity {
                     String agentURL = json.getString("agent_url");
 
                     JSONObject resultJSON = new JSONObject();
-                    resultJSON.put(Globals.STATUS_KEY, getString(R.string.deviceConnected));
+                    resultJSON.put(Globals.STATUS_KEY, Globals.getStringRes("deviceConnected"));
                     resultJSON.put(Globals.GATHERING_DEVICE_INFO_KEY, "false");
                     resultJSON.put(Globals.PLAN_ID_KEY, json.getString("plan_id"));
                     resultJSON.put(Globals.DEVICE_ID_KEY, deviceId);
@@ -97,7 +96,7 @@ public class BlinkUpCompleteActivity extends Activity {
             // give error msg to Cordova
             //---------------------------------
             @Override public void onError(String errorMsg) {
-                PluginResult pluginResult = new PluginResult(PluginResult.Status.ERROR, (getString(R.string.error) + errorMsg));
+                PluginResult pluginResult = new PluginResult(PluginResult.Status.ERROR, (Globals.getStringRes("error") + errorMsg));
                 pluginResult.setKeepCallback(true);
                 Globals.callbackContext.sendPluginResult(pluginResult);
             }
@@ -106,7 +105,7 @@ public class BlinkUpCompleteActivity extends Activity {
             // give timeout message to Cordova
             //---------------------------------
             @Override public void onTimeout() {
-                onError(getString(R.string.processTimedOut));
+                onError(Globals.getStringRes("processTimedOut"));
             }
         };
 

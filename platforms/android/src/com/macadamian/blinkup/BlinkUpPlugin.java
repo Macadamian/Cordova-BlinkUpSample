@@ -25,7 +25,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 
 import com.electricimp.blinkup.BlinkupController;
-import com.macadamian.cordovaBlinkUpSample.R;
 import org.apache.cordova.*;
 
 /*********************************************
@@ -45,6 +44,7 @@ public class BlinkUpPlugin extends CordovaPlugin {
     @Override
     public boolean execute(String action, JSONArray data, CallbackContext callbackContext) throws JSONException {
         if (action.equalsIgnoreCase("invokeBlinkUp")) {
+            Globals.currentContext = this.cordova.getActivity();
             Globals.callbackContext = callbackContext;
 
             try {
@@ -52,7 +52,7 @@ public class BlinkUpPlugin extends CordovaPlugin {
                 Globals.timeoutMs = data.getInt(1);
                 this.useCachedPlanId = data.getBoolean(2);
             } catch (JSONException exc) {
-                String error = this.cordova.getActivity().getString(R.string.invalidArguments);
+                String error = Globals.getStringRes("invalidArguments");
                 callbackContext.error(error);
                 return false;
             }
@@ -82,12 +82,12 @@ public class BlinkUpPlugin extends CordovaPlugin {
             public void onError(String s) {
                 // show more descriptive message if api key not valid, i.e. 401 authentication failure
                 if (s.contains("401")) {
-                    String errorMsg = cordova.getActivity().getString(R.string.invalidApiKey);
+                    String errorMsg = Globals.getStringRes("invalidApiKey");
                     Toast.makeText(cordova.getActivity(), errorMsg, Toast.LENGTH_LONG).show();
                     Globals.callbackContext.error(errorMsg);
                 }
                 else {
-                    String errorText = cordova.getActivity().getString(R.string.error);
+                    String errorText = Globals.getStringRes("error");
                     Toast.makeText(cordova.getActivity(), (errorText + s), Toast.LENGTH_SHORT).show();
                 }
             }
@@ -97,7 +97,7 @@ public class BlinkUpPlugin extends CordovaPlugin {
         BlinkupController.ServerErrorHandler serverErrorHandler= new BlinkupController.ServerErrorHandler() {
             @Override
             public void onError(String s) {
-                String errorMsg = cordova.getActivity().getString(R.string.couldNotVerifyApiKey);
+                String errorMsg = Globals.getStringRes("couldNotVerifyApiKey");
                 Globals.callbackContext.error(errorMsg);
             }
         };

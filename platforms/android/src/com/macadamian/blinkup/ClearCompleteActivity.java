@@ -20,8 +20,6 @@ package com.macadamian.blinkup;
 import android.app.Activity;
 import android.os.Bundle;
 
-import com.macadamian.cordovaBlinkUpSample.R;
-
 /*****************************************************
  * When the clearing BlinkUpPlugin process completes, it
  * executes the BlinkUpClearIntent set in BlinkUpPlugin.java,
@@ -35,7 +33,7 @@ public class ClearCompleteActivity extends Activity {
         super.onCreate(savedInstanceState);
 
         // send callback that we've cleared device
-        Globals.callbackContext.success(getString(R.string.clearComplete));
+        Globals.callbackContext.success(Globals.getStringRes("clearComplete"));
 
         this.finish();
     }
