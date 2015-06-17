@@ -44,6 +44,7 @@
 		7E7966E71810823500FA85AD /* icon-small@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E7966DD1810823500FA85AD /* icon-small@2x.png */; };
 		99617F88E38E4DF3AD1891FE /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 21980FA2D0264CCF96B48A7C /* SystemConfiguration.framework */; };
 		9DF30E070EC147B6AA6C95F7 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAD13AC17A984F37AE4E5FC5 /* QuartzCore.framework */; };
+		A6868BE01B3083430051BCDE /* en.lproj in Resources */ = {isa = PBXBuildFile; fileRef = A6868BDF1B3083430051BCDE /* en.lproj */; };
 		A6C711C11B2B7EC80006D7AA /* BlinkUp.embeddedframework in Resources */ = {isa = PBXBuildFile; fileRef = A6C711C01B2B7EC80006D7AA /* BlinkUp.embeddedframework */; };
 		A6C711C31B2B7ED50006D7AA /* BlinkUp.bundle in Resources */ = {isa = PBXBuildFile; fileRef = A6C711C21B2B7ED50006D7AA /* BlinkUp.bundle */; };
 		A6C711C51B2B7EE00006D7AA /* BlinkUp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A6C711C41B2B7EE00006D7AA /* BlinkUp.framework */; };
@@ -108,6 +109,7 @@
 		7E7966DC1810823500FA85AD /* icon-small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-small.png"; sourceTree = "<group>"; };
 		7E7966DD1810823500FA85AD /* icon-small@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-small@2x.png"; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* CordovaBlinkUpSample-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "CordovaBlinkUpSample-Info.plist"; path = "../CordovaBlinkUpSample-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
+		A6868BDF1B3083430051BCDE /* en.lproj */ = {isa = PBXFileReference; lastKnownFileType = folder; path = en.lproj; sourceTree = "<group>"; };
 		A6C711C01B2B7EC80006D7AA /* BlinkUp.embeddedframework */ = {isa = PBXFileReference; lastKnownFileType = folder; name = BlinkUp.embeddedframework; path = CordovaBlinkUpSample/Frameworks/BlinkUp.embeddedframework; sourceTree = "<group>"; };
 		A6C711C21B2B7ED50006D7AA /* BlinkUp.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = BlinkUp.bundle; path = CordovaBlinkUpSample/Frameworks/BlinkUp.embeddedframework/BlinkUp.framework/Versions/A/Resources/BlinkUp.bundle; sourceTree = SOURCE_ROOT; };
 		A6C711C41B2B7EE00006D7AA /* BlinkUp.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = BlinkUp.framework; path = CordovaBlinkUpSample/Frameworks/BlinkUp.embeddedframework/BlinkUp.framework; sourceTree = "<group>"; };
@@ -189,6 +191,7 @@
 			isa = PBXGroup;
 			children = (
 				A6C711C21B2B7ED50006D7AA /* BlinkUp.bundle */,
+				A6868BDF1B3083430051BCDE /* en.lproj */,
 				308D052D1370CCF300D202BF /* icons */,
 				308D05311370CCF300D202BF /* splash */,
 				8D1107310486CEB800E47090 /* CordovaBlinkUpSample-Info.plist */,
@@ -224,8 +227,8 @@
 		307C750510C5A3420062BCA9 /* Plugins */ = {
 			isa = PBXGroup;
 			children = (
-				D72B472A205E43AF95F60D49 /* BlinkUpPlugin.m */,
 				CAC8BB0555194F6E82277EA2 /* BlinkUpPlugin.h */,
+				D72B472A205E43AF95F60D49 /* BlinkUpPlugin.m */,
 			);
 			name = Plugins;
 			path = CordovaBlinkUpSample/Plugins;
@@ -380,6 +383,7 @@
 				7E7966E11810823500FA85AD /* icon-50@2x.png in Resources */,
 				7E7966E51810823500FA85AD /* icon-76@2x.png in Resources */,
 				30FC414916E50CA1004E6F35 /* icon-72@2x.png in Resources */,
+				A6868BE01B3083430051BCDE /* en.lproj in Resources */,
 				A6C711C11B2B7EC80006D7AA /* BlinkUp.embeddedframework in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -22,11 +22,11 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 
-import com.electricimp.blinkup.BlinkupController;
-
 import org.apache.cordova.PluginResult;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import com.electricimp.blinkup.BlinkupController;
 
 /*****************************************************
  * When the BlinkUpPlugin process completes, it executes the
@@ -46,8 +46,8 @@ public class BlinkUpCompleteActivity extends Activity {
         // send callback that we're waiting on server
         JSONObject resultJSON = new JSONObject();
         try {
-            resultJSON.put("status", "Gathering device info...");
-            resultJSON.put("gatheringDeviceInfo", "true");
+            resultJSON.put(Globals.STATUS_KEY, Globals.getStringRes("gatheringDeviceInfo"));
+            resultJSON.put(Globals.GATHERING_DEVICE_INFO_KEY, "true");
 
             PluginResult pluginResult = new PluginResult(PluginResult.Status.OK, resultJSON.toString());
             pluginResult.setKeepCallback(true);
@@ -71,16 +71,16 @@ public class BlinkUpCompleteActivity extends Activity {
                     String agentURL = json.getString("agent_url");
 
                     JSONObject resultJSON = new JSONObject();
-                    resultJSON.put("status", "Device Connected");
-                    resultJSON.put("gatheringDeviceInfo", "false");
-                    resultJSON.put("planId", json.getString("plan_id"));
-                    resultJSON.put("deviceId", deviceId);
-                    resultJSON.put("agentURL", agentURL);
+                    resultJSON.put(Globals.STATUS_KEY, Globals.getStringRes("deviceConnected"));
+                    resultJSON.put(Globals.GATHERING_DEVICE_INFO_KEY, "false");
+                    resultJSON.put(Globals.PLAN_ID_KEY, json.getString("plan_id"));
+                    resultJSON.put(Globals.DEVICE_ID_KEY, deviceId);
+                    resultJSON.put(Globals.AGENT_URL_KEY, agentURL);
 
                     // cache planID (see electricimp.com/docs/manufacturing/planids/)
                     SharedPreferences preferences = getSharedPreferences("DefaultPreferences", MODE_PRIVATE);
                     SharedPreferences.Editor editor = preferences.edit();
-                    editor.putString("planId", json.getString("plan_id"));
+                    editor.putString(Globals.PLAN_ID_KEY, json.getString("plan_id"));
                     editor.apply();
 
                     PluginResult pluginResult = new PluginResult(PluginResult.Status.OK, resultJSON.toString());
@@ -96,7 +96,7 @@ public class BlinkUpCompleteActivity extends Activity {
             // give error msg to Cordova
             //---------------------------------
             @Override public void onError(String errorMsg) {
-                PluginResult pluginResult = new PluginResult(PluginResult.Status.ERROR, ("Error. " + errorMsg));
+                PluginResult pluginResult = new PluginResult(PluginResult.Status.ERROR, (Globals.getStringRes("error") + errorMsg));
                 pluginResult.setKeepCallback(true);
                 Globals.callbackContext.sendPluginResult(pluginResult);
             }
@@ -105,7 +105,7 @@ public class BlinkUpCompleteActivity extends Activity {
             // give timeout message to Cordova
             //---------------------------------
             @Override public void onTimeout() {
-                onError("Could not gather device info. Process timed out.");
+                onError(Globals.getStringRes("processTimedOut"));
             }
         };
 
