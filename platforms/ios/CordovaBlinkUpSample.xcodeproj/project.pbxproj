@@ -286,7 +286,6 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 1D6058960D05DD3E006BFB54 /* Build configuration list for PBXNativeTarget "CordovaBlinkUpSample" */;
 			buildPhases = (
-				A6F5B1411B29CDCE009AC5FF /* Check For BlinkUp SDK */,
 				304B58A110DAC018002A0835 /* Copy www directory */,
 				1D60588D0D05DD3D006BFB54 /* Resources */,
 				1D60588E0D05DD3D006BFB54 /* Sources */,
@@ -401,21 +400,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "cordova/lib/copy-www-build-step.sh";
-			showEnvVarsInLog = 0;
-		};
-		A6F5B1411B29CDCE009AC5FF /* Check For BlinkUp SDK */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Check For BlinkUp SDK";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "if [ -e \"CordovaBlinkUpSample/Frameworks/BlinkUp.framework\" ]; then\nosascript -e 'display dialog \"BlinkUp.framework could not be found in platforms/ios/CordovaBlinkUpSample/Frameworks. Ensure that you have copied the file to that location.\\n\\nIf you do not own the BlinkUp SDK, you may send a request to sales@electricimp.com\" buttons \"OK\" default button 1 with title \"Cannot Locate BlinkUp Framework\" with icon stop'\nexit 1\nfi\n\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
