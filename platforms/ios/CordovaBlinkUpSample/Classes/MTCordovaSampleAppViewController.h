@@ -21,7 +21,7 @@
 #import <Cordova/CDVCommandDelegateImpl.h>
 #import <Cordova/CDVCommandQueue.h>
 
-@interface MainViewController : CDVViewController
+@interface MTCordovaSampleAppViewController : CDVViewController
 
 @end
 

@@ -18,8 +18,7 @@
  */
 
 #import "AppDelegate.h"
-#import "MainViewController.h"
-
+#import "MTCordovaSampleAppViewController.h"
 #import <Cordova/CDVPlugin.h>
 
 @implementation AppDelegate
@@ -65,9 +64,9 @@
     self.window.autoresizesSubviews = YES;
 
 #if __has_feature(objc_arc)
-        self.viewController = [[MainViewController alloc] init];
+        self.viewController = [[MTCordovaSampleAppViewController alloc] init];
 #else
-        self.viewController = [[[MainViewController alloc] init] autorelease];
+        self.viewController = [[[MTCordovaSampleAppViewController alloc] init] autorelease];
 #endif
 
     // Set your app's start page by setting the <content src='foo.html' /> tag in config.xml.
