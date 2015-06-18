@@ -33,7 +33,7 @@ public class ClearCompleteActivity extends Activity {
         super.onCreate(savedInstanceState);
 
         // send callback that we've cleared device
-        Globals.callbackContext.success("Wireless configuration cleared.");
+        Globals.callbackContext.success(Globals.CLEAR_COMPLETE);
 
         this.finish();
     }

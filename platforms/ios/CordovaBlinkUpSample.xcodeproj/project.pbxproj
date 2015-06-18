@@ -224,8 +224,8 @@
 		307C750510C5A3420062BCA9 /* Plugins */ = {
 			isa = PBXGroup;
 			children = (
-				D72B472A205E43AF95F60D49 /* BlinkUpPlugin.m */,
 				CAC8BB0555194F6E82277EA2 /* BlinkUpPlugin.h */,
+				D72B472A205E43AF95F60D49 /* BlinkUpPlugin.m */,
 			);
 			name = Plugins;
 			path = CordovaBlinkUpSample/Plugins;
