@@ -28,4 +28,11 @@ public class Globals {
     public static CallbackContext callbackContext;
     public static BlinkupController blinkUpController;
     public static int timeoutMs = 60000; // default is 1 minute
+
+    // keys for JSON sent back to javascript
+    public static final String STATUS_KEY = "status";
+    public static final String GATHERING_DEVICE_INFO_KEY = "gatheringDeviceInfo";
+    public static final String PLAN_ID_KEY = "planId";
+    public static final String DEVICE_ID_KEY = "deviceId";
+    public static final String AGENT_URL_KEY = "agentURL";
 }

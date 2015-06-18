@@ -17,17 +17,13 @@
 
 package com.macadamian.blinkup;
 
-import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.util.Log;
 import android.widget.Toast;
-import android.content.pm.ApplicationInfo;
 import org.json.JSONArray;
 import org.json.JSONException;
 
-import com.electricimp.blinkup.*;
-import com.electricimp.blinkup.BuildConfig;
+import com.electricimp.blinkup.BlinkupController;
 
 import org.apache.cordova.*;
 
@@ -109,7 +105,7 @@ public class BlinkUpPlugin extends CordovaPlugin {
         // load cached planId if available. Otherwise, SDK generates new one automatically
         if (this.useCachedPlanId) {
             SharedPreferences preferences = this.cordova.getActivity().getSharedPreferences("DefaultPreferences", this.cordova.getActivity().MODE_PRIVATE);
-            String planId = preferences.getString("planId", null);
+            String planId = preferences.getString(Globals.PLAN_ID_KEY, null);
             Globals.blinkUpController.setPlanID(planId);
         }
 
