@@ -34,7 +34,7 @@ NSString * const GATHERING_DEVICE_INFO_KEY = @"gatheringDeviceInfo";
 
 // == Status codes ==========================
 NSString *const DEVICE_CONNECTED    = @"0";
-NSString *const ERROR               = @"1";
+NSString *const ERROR   = @"1";
 
 NSString *const INVALID_ARGUMENTS   = @"100";
 NSString *const PROCESS_TIMED_OUT   = @"101";

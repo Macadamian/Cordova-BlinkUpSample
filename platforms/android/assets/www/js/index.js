@@ -142,7 +142,7 @@ function statusMessageForCode(statusCode) {
     case 1:
         return ""; // error string part of BlinkUp SDK
     case 100:
-        return "Error. Invalid arguments in call to invokeBlinkUp(apiKey: String, timeoutMs: Integer, useCachedPlanId: Bool, success: Callback, failure: Callback).";
+        return "Error. Invalid arguments in call to invokeBlinkUp(apiKey: String, developerPlanId: String, timeoutMs: Integer, useCachedPlanId: Bool, success: Callback, failure: Callback).";
     case 101:
         return "Error. Could not gather device info. Process timed out.";
     case 102:
