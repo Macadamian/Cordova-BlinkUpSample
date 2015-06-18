@@ -5,14 +5,14 @@
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
  *
- * Created by Stuart Douglas (sdouglas@macadamian.com) on June 11, 2015.
- * Copyright (c) 2015 Macadamian. All rights reserved.
+ * Modified by Stuart Douglas (sdouglas@macadamian.com) on June 11, 2015
  */
 
 //--JSLint---------------------
@@ -21,6 +21,7 @@
 //-----------------------------
 
 var apiKey = "YOUR_API_KEY_HERE";
+var developerPlanId = "DEVELOPER_PLAN_ID_HERE"; //if blank or left as DEVELOPER_PLAN_ID_HERE, SDK will auto-generate a planId
 var timeoutMs = 60000;
 var interval;
 
@@ -77,7 +78,10 @@ var app = {
                 }
             };
 
-            blinkup.invokeBlinkUp(apiKey, timeoutMs, true, success, failure);
+            if (developerPlanId == "DEVELOPER_PLAN_ID_HERE") {
+                developerPlanId = ""; // SDK will generate planId if left blank
+            }
+            blinkup.invokeBlinkUp(apiKey, developerPlanId, timeoutMs, true, success, failure);
         });
     },
     // Update DOM on a Received Event

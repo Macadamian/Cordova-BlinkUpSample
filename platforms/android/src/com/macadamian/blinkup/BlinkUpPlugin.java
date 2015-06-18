@@ -36,7 +36,13 @@ public class BlinkUpPlugin extends CordovaPlugin {
 
     // Only needed in this class, so not in Globals
     private String apiKey;
+    private String developerPlanId;
     private Boolean useCachedPlanId = false;
+
+    final int BlinkUpArgumentApiKey = 0;
+    final int BlinkUpArgumentDeveloperPlanId = 1;
+    final int BlinkUpArgumentTimeOut = 2;
+    final int BlinkUpUsedCachedPlanId = 3;
 
     /**********************************************************
      * method called by Cordova javascript
@@ -47,9 +53,10 @@ public class BlinkUpPlugin extends CordovaPlugin {
 
             Globals.callbackContext = callbackContext;
             try {
-                this.apiKey = data.getString(0);
-                Globals.timeoutMs = data.getInt(1);
-                this.useCachedPlanId = data.getBoolean(2);
+                this.apiKey = data.getString(BlinkUpArgumentApiKey);
+                this.developerPlanId = data.getString(BlinkUpArgumentDeveloperPlanId);
+                Globals.timeoutMs = data.getInt(BlinkUpArgumentTimeOut);
+                this.useCachedPlanId = data.getBoolean(BlinkUpUsedCachedPlanId);
             } catch (JSONException exc) {
                 callbackContext.error(Globals.INVALID_ARGUMENTS);
                 return false;
@@ -107,11 +114,9 @@ public class BlinkUpPlugin extends CordovaPlugin {
             Globals.blinkUpController.setPlanID(planId);
         }
 
-        // set developerPlanId here to see device in Electric Imp IDE if in Debug Mode
         // see electricimp.com/docs/manufacturing/planids/ for info about planIDs
-        if (org.apache.cordova.BuildConfig.DEBUG) {
-            String developerPlanId = null;
-            Globals.blinkUpController.setPlanID(developerPlanId);
+        if (org.apache.cordova.BuildConfig.DEBUG && !this.developerPlanId.equals("")) {
+            Globals.blinkUpController.setPlanID(this.developerPlanId);
         }
 
         Globals.blinkUpController.acquireSetupToken(this.cordova.getActivity(), this.apiKey, tokenAcquireCallback);

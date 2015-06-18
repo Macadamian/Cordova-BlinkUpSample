@@ -18,9 +18,9 @@
 cordova.define("com.macadamian.blinkup.blinkup", function(require, exports, module) { /*global cordova, module*/
 
 module.exports = {
-    //API key is a string, timeoutMs is an int
-    invokeBlinkUp: function (apiKey, timeoutMs, useCachedPlanId, successCallback, errorCallback) {
-        cordova.exec(successCallback, errorCallback, "BlinkUpPlugin", "invokeBlinkUp", [apiKey, timeoutMs, useCachedPlanId]);
+    //apiKey: string, developerPlanId: string (set "" to have SDK generate one), timeoutMs: int, useCachedPlanId: bool 
+    invokeBlinkUp: function (apiKey, developerPlanId, timeoutMs, useCachedPlanId, successCallback, errorCallback) {
+        cordova.exec(successCallback, errorCallback, "BlinkUpPlugin", "invokeBlinkUp", [apiKey, developerPlanId, timeoutMs, useCachedPlanId]);
     }
 };
 

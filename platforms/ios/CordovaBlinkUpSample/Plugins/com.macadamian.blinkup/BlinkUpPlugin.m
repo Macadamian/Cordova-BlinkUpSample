@@ -20,8 +20,9 @@
 
 typedef NS_ENUM(NSInteger, BlinkupArguments) {
     BlinkUpArgumentApiKey = 0,
+    BlinkUpArgumentDeveloperPlanId,
     BlinkUpArgumentTimeOut,
-    BlinkUpUsedCachedPlanId,
+    BlinkUpUsedCachedPlanId
 };
 
 // status codes
@@ -62,6 +63,7 @@ NSString * const GATHERING_DEVICE_INFO_KEY = @"gatheringDeviceInfo";
     }
 
     self.apiKey = [command.arguments objectAtIndex:BlinkUpArgumentApiKey];
+    self.developerPlanId = [command.arguments objectAtIndex:BlinkUpArgumentDeveloperPlanId];
     self.timeoutInMs = [command.arguments objectAtIndex:BlinkUpArgumentTimeOut];
     self.useCachedPlanId = [command.arguments objectAtIndex:BlinkUpUsedCachedPlanId];
     
@@ -78,10 +80,9 @@ NSString * const GATHERING_DEVICE_INFO_KEY = @"gatheringDeviceInfo";
     // load cached planID (if not cached yet, BlinkUp automatically generates a new one)
     NSString *planId = [[NSUserDefaults standardUserDefaults] objectForKey:PLAN_ID_KEY];
     
-    // set your developer planId here to allow the imps to show up in the Electric Imp IDE
     // see electricimp.com/docs/manufacturing/planids/ for info about planIDs
     #ifdef DEBUG
-        planId = nil;
+        planId = (self.developerPlanId != "") ? self.developerPlanId : nil;
     #endif
     
     if (self.useCachedPlanId.boolValue) {
