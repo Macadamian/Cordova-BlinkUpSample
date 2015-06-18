@@ -46,12 +46,12 @@ public class BlinkUpCompleteActivity extends Activity {
         // send callback that we're waiting on server
         JSONObject resultJSON = new JSONObject();
         try {
-            resultJSON.put(Globals.STATUS_KEY, "Gathering device info...");
-            resultJSON.put(Globals.GATHERING_DEVICE_INFO_KEY, "true");
+            resultJSON.put(Globals.getInstance().STATUS_KEY, "Gathering device info...");
+            resultJSON.put(Globals.getInstance().GATHERING_DEVICE_INFO_KEY, "true");
 
             PluginResult pluginResult = new PluginResult(PluginResult.Status.OK, resultJSON.toString());
             pluginResult.setKeepCallback(true);
-            Globals.callbackContext.sendPluginResult(pluginResult);
+            Globals.getInstance().callbackContext.sendPluginResult(pluginResult);
         } catch (JSONException e) {
             Log.e("BlinkUpPlugin","JSON Exception: " + e.toString());
         }
@@ -71,21 +71,21 @@ public class BlinkUpCompleteActivity extends Activity {
                     String agentURL = json.getString("agent_url");
 
                     JSONObject resultJSON = new JSONObject();
-                    resultJSON.put(Globals.STATUS_KEY, "Device Connected");
-                    resultJSON.put(Globals.GATHERING_DEVICE_INFO_KEY, "false");
-                    resultJSON.put(Globals.PLAN_ID_KEY, json.getString("plan_id"));
-                    resultJSON.put(Globals.DEVICE_ID_KEY, deviceId);
-                    resultJSON.put(Globals.AGENT_URL_KEY, agentURL);
+                    resultJSON.put(Globals.getInstance().STATUS_KEY, "Device Connected");
+                    resultJSON.put(Globals.getInstance().GATHERING_DEVICE_INFO_KEY, "false");
+                    resultJSON.put(Globals.getInstance().PLAN_ID_KEY, json.getString("plan_id"));
+                    resultJSON.put(Globals.getInstance().DEVICE_ID_KEY, deviceId);
+                    resultJSON.put(Globals.getInstance().AGENT_URL_KEY, agentURL);
 
                     // cache planID (see electricimp.com/docs/manufacturing/planids/)
                     SharedPreferences preferences = getSharedPreferences("DefaultPreferences", MODE_PRIVATE);
                     SharedPreferences.Editor editor = preferences.edit();
-                    editor.putString(Globals.PLAN_ID_KEY, json.getString("plan_id"));
+                    editor.putString(Globals.getInstance().PLAN_ID_KEY, json.getString("plan_id"));
                     editor.apply();
 
                     PluginResult pluginResult = new PluginResult(PluginResult.Status.OK, resultJSON.toString());
                     pluginResult.setKeepCallback(true);
-                    Globals.callbackContext.sendPluginResult(pluginResult);
+                    Globals.getInstance().callbackContext.sendPluginResult(pluginResult);
                 }
                 catch (JSONException e) {
                     Log.e("BlinkUpPlugin", e.getMessage());
@@ -98,7 +98,7 @@ public class BlinkUpCompleteActivity extends Activity {
             @Override public void onError(String errorMsg) {
                 PluginResult pluginResult = new PluginResult(PluginResult.Status.ERROR, ("Error. " + errorMsg));
                 pluginResult.setKeepCallback(true);
-                Globals.callbackContext.sendPluginResult(pluginResult);
+                Globals.getInstance().callbackContext.sendPluginResult(pluginResult);
             }
 
             //---------------------------------
@@ -110,6 +110,6 @@ public class BlinkUpCompleteActivity extends Activity {
         };
 
         // request the device info from the server
-        Globals.blinkUpController.getTokenStatus(tokenStatusCallback, Globals.timeoutMs);
+        Globals.getInstance().blinkUpController.getTokenStatus(tokenStatusCallback, Globals.getInstance().timeoutMs);
     }
 }

@@ -34,7 +34,7 @@ import org.apache.cordova.*;
  ********************************************/
 public class BlinkUpPlugin extends CordovaPlugin {
 
-    // Only needed in this class, so not in Globals
+    // Only needed in this class, so not in Globals.getInstance()
     private String apiKey;
     private Boolean useCachedPlanId = false;
 
@@ -45,10 +45,10 @@ public class BlinkUpPlugin extends CordovaPlugin {
     public boolean execute(String action, JSONArray data, CallbackContext callbackContext) throws JSONException {
         if (action.equalsIgnoreCase("invokeBlinkUp")) {
 
-            Globals.callbackContext = callbackContext;
+            Globals.getInstance().callbackContext = callbackContext;
             try {
                 this.apiKey = data.getString(0);
-                Globals.timeoutMs = data.getInt(1);
+                Globals.getInstance().timeoutMs = data.getInt(1);
                 this.useCachedPlanId = data.getBoolean(2);
             } catch (JSONException exc) {
                 String error = "Error. Invalid argument count in call to invoke blink up (apiKey: String, timeoutMs: Integer, useCachedPlanId: Bool, success: Callback, failure: Callback)";
@@ -83,7 +83,7 @@ public class BlinkUpPlugin extends CordovaPlugin {
                 if (s.contains("401")) {
                     String errorMsg = "Error. Invalid API key. You must set your BlinkUp API key using the SetApiKey.sh script. See README.md for more details.";
                     Toast.makeText(cordova.getActivity(), errorMsg, Toast.LENGTH_LONG).show();
-                    Globals.callbackContext.error(errorMsg);
+                    Globals.getInstance().callbackContext.error(errorMsg);
                 }
                 else {
                     Toast.makeText(cordova.getActivity(), ("Error. " + s), Toast.LENGTH_SHORT).show();
@@ -95,34 +95,34 @@ public class BlinkUpPlugin extends CordovaPlugin {
         BlinkupController.ServerErrorHandler serverErrorHandler= new BlinkupController.ServerErrorHandler() {
             @Override
             public void onError(String s) {
-                Globals.callbackContext.error("Error. Could not verify API key with Electric Imp servers.");
+                Globals.getInstance().callbackContext.error("Error. Could not verify API key with Electric Imp servers.");
             }
         };
 
         // initialize controller
-        Globals.blinkUpController = BlinkupController.getInstance();
+        Globals.getInstance().blinkUpController = BlinkupController.getInstance();
 
         // load cached planId if available. Otherwise, SDK generates new one automatically
         if (this.useCachedPlanId) {
             SharedPreferences preferences = this.cordova.getActivity().getSharedPreferences("DefaultPreferences", this.cordova.getActivity().MODE_PRIVATE);
-            String planId = preferences.getString(Globals.PLAN_ID_KEY, null);
-            Globals.blinkUpController.setPlanID(planId);
+            String planId = preferences.getString(Globals.getInstance().PLAN_ID_KEY, null);
+            Globals.getInstance().blinkUpController.setPlanID(planId);
         }
 
         // set developerPlanId here to see device in Electric Imp IDE if in Debug Mode
         // see electricimp.com/docs/manufacturing/planids/ for info about planIDs
         if (org.apache.cordova.BuildConfig.DEBUG) {
             String developerPlanId = null;
-            Globals.blinkUpController.setPlanID(developerPlanId);
+            Globals.getInstance().blinkUpController.setPlanID(developerPlanId);
         }
 
-        Globals.blinkUpController.acquireSetupToken(this.cordova.getActivity(), this.apiKey, tokenAcquireCallback);
+        Globals.getInstance().blinkUpController.acquireSetupToken(this.cordova.getActivity(), this.apiKey, tokenAcquireCallback);
 
         // onActivityResult called on MainActivity (i.e. cordova.getActivity()) when blinkup or clear
         // complete. It calls handleActivityResult on blinkupController, which initiates the following intents
-        Globals.blinkUpController.intentBlinkupComplete = new Intent(this.cordova.getActivity(), BlinkUpCompleteActivity.class);
-        Globals.blinkUpController.intentClearComplete = new Intent(this.cordova.getActivity(), ClearCompleteActivity.class);
+        Globals.getInstance().blinkUpController.intentBlinkupComplete = new Intent(this.cordova.getActivity(), BlinkUpCompleteActivity.class);
+        Globals.getInstance().blinkUpController.intentClearComplete = new Intent(this.cordova.getActivity(), ClearCompleteActivity.class);
 
-        Globals.blinkUpController.selectWifiAndSetupDevice(this.cordova.getActivity(), this.apiKey, serverErrorHandler);
+        Globals.getInstance().blinkUpController.selectWifiAndSetupDevice(this.cordova.getActivity(), this.apiKey, serverErrorHandler);
     }
 }
