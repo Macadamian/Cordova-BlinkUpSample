@@ -30,8 +30,8 @@
 // instance variables
 @property BUBasicController  *blinkUpController;
 
-@property NSString *callbackId;
 @property NSString *apiKey;
+@property NSString *callbackId;
 @property NSString *developerPlanId;
 @property NSNumber *timeoutInMs;
 @property NSNumber *useCachedPlanId;

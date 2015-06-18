@@ -16,6 +16,7 @@
  */
 
 #import "BlinkUpPlugin.h"
+#import "BlinkUpPluginResult.h"
 #import <BlinkUp/BlinkUp.h>
 
 typedef NS_ENUM(NSInteger, BlinkupArguments) {
@@ -29,25 +30,18 @@ typedef NS_ENUM(NSInteger, BlinkupArguments) {
 typedef NS_ENUM(NSInteger, BlinkUpStatusCodes) {
     DEVICE_CONNECTED    = 0,
     ERROR               = 1,
-    
+
     INVALID_ARGUMENTS   = 100,
     PROCESS_TIMED_OUT   = 101,
     CANCELLED_BY_USER   = 102,
     INVALID_API_KEY     = 103, // android only
     VERIFY_API_KEY_FAIL = 104, // android only
-    
+
     GATHERING_INFO      = 200,
     CLEAR_COMPLETE      = 201
 };
 
 @implementation BlinkUpPlugin
-
-NSString * const STATUS_KEY = @"status";
-NSString * const ERROR_MSG_KEY = @"errorMsg";
-NSString * const PLAN_ID_KEY = @"planId";
-NSString * const DEVICE_ID_KEY = @"deviceId";
-NSString * const AGENT_URL_KEY = @"agentURL";
-NSString * const GATHERING_DEVICE_INFO_KEY = @"gatheringDeviceInfo";
 
 /*********************************************************
  * Called by Javascript in Cordova application.
@@ -57,8 +51,12 @@ NSString * const GATHERING_DEVICE_INFO_KEY = @"gatheringDeviceInfo";
     self.callbackId = command.callbackId;
     
     if (command.arguments.count <= BlinkUpUsedCachedPlanId) {
-        CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString: [@(INVALID_ARGUMENTS) stringValue]];
-        [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+        BlinkUpPluginResult *pluginResult = [[BlinkUpPluginResult alloc] init];
+        pluginResult.state = Error;
+        [pluginResult setPluginError:INVALID_ARGUMENTS];
+
+        CDVPluginResult *cordovaResult = [CDVPluginResult resultWithStatus:[pluginResult getCordovaStatus] messageAsString: [pluginResult getResults]];
+        [self.commandDelegate sendPluginResult:cordovaResult callbackId:command.callbackId];
         return;
     }
 
@@ -78,7 +76,7 @@ NSString * const GATHERING_DEVICE_INFO_KEY = @"gatheringDeviceInfo";
 - (void) navigateToBlinkUpView {
     
     // load cached planID (if not cached yet, BlinkUp automatically generates a new one)
-    NSString *planId = [[NSUserDefaults standardUserDefaults] objectForKey:PLAN_ID_KEY];
+    NSString *planId = [[NSUserDefaults standardUserDefaults] objectForKey:@"planId"];
     
     // see electricimp.com/docs/manufacturing/planids/ for info about planIDs
     #ifdef DEBUG
@@ -110,9 +108,8 @@ NSString * const GATHERING_DEVICE_INFO_KEY = @"gatheringDeviceInfo";
  ********************************************************/
 - (void) blinkUpDidComplete:(BOOL)willRespond userDidCancel:(BOOL)userDidCancel error:(NSError*)error {
     
-    CDVCommandStatus status;
-    NSString *resultStatus;;
-    
+    BlinkUpPluginResult *pluginResult = [[BlinkUpPluginResult alloc] init];
+
     if (willRespond) {
         // can't set timeout manually, so just tell devicePoller to stop polling (if timeout not default)
         long timeoutInMs = self.timeoutInMs.longValue;
@@ -123,42 +120,26 @@ NSString * const GATHERING_DEVICE_INFO_KEY = @"gatheringDeviceInfo";
                     [self deviceRequestDidCompleteWithDeviceInfo:nil timedOut:true error:nil];
             });
         }
-
-        NSDictionary *resultsDict = @{
-            STATUS_KEY : [@(GATHERING_INFO) stringValue],
-            GATHERING_DEVICE_INFO_KEY : @"true"
-        };
-        resultStatus = [self toJsonString:resultsDict];
-        status = CDVCommandStatus_OK;
+        pluginResult.state = Started;
+        pluginResult.statusCode = GATHERING_INFO;
     }
-    
     else if (userDidCancel) {
-        resultStatus = [@(CANCELLED_BY_USER) stringValue];
-        status = CDVCommandStatus_ERROR;
+        pluginResult.state = Error;
+        pluginResult.state = CANCELLED_BY_USER;
     }
-    
     else if (error != nil) {
-        NSDictionary *resultsDict = @{
-            STATUS_KEY : [@(ERROR) stringValue],
-            ERROR_MSG_KEY : [NSString stringWithFormat:@"BlinkUp Error #%ld: %@", (long) error.code, error.localizedDescription]
-        };
-        resultStatus = [self toJsonString:resultsDict];
-        status = CDVCommandStatus_ERROR;
+        pluginResult.state = Error;
+        [pluginResult setBlinkUpError: error];
     }
-    
     else {
-        resultStatus = [@(CLEAR_COMPLETE) stringValue];
-        status = CDVCommandStatus_OK;
+        pluginResult.state = Completed;
+        pluginResult.statusCode = CLEAR_COMPLETE;
     }
     
-    // send result, and keep callback if gathering device info
-    CDVPluginResult *result = [CDVPluginResult resultWithStatus:status messageAsString:resultStatus];
-
-    if (willRespond) {
-        [result setKeepCallbackAsBool:YES];
-    }
-
-    [self.commandDelegate sendPluginResult:result callbackId:self.callbackId];
+    //send results
+    CDVPluginResult *cordovaResult = [CDVPluginResult resultWithStatus:[pluginResult getCordovaStatus] messageAsString:[pluginResult getResults]];
+    [cordovaResult setKeepCallbackAsBool: [pluginResult getKeepCallback]];
+    [self.commandDelegate sendPluginResult:cordovaResult callbackId:self.callbackId];
 }
 
 
@@ -169,56 +150,29 @@ NSString * const GATHERING_DEVICE_INFO_KEY = @"gatheringDeviceInfo";
  ********************************************************/
 - (void) deviceRequestDidCompleteWithDeviceInfo:(BUDeviceInfo*)deviceInfo timedOut:(BOOL)timedOut error:(NSError*)error {
     
-    CDVCommandStatus status;
-    NSString *resultStatus;
+    BlinkUpPluginResult *pluginResult = [[BlinkUpPluginResult alloc] init];
 
     if (timedOut) {
-        resultStatus = [@(PROCESS_TIMED_OUT) stringValue];
-        status = CDVCommandStatus_ERROR;
+        pluginResult.state = Error;
+        [pluginResult setPluginError:PROCESS_TIMED_OUT];
     }
     else if (error != nil) {
-        NSDictionary *resultsDict = @{
-            STATUS_KEY : [@(ERROR) stringValue],
-            ERROR_MSG_KEY : [NSString stringWithFormat:@"BlinkUp Error #%ld: %@", (long) error.code, error.localizedDescription]
-        };
-        resultStatus = [self toJsonString:resultsDict];
-        status = CDVCommandStatus_ERROR;
+        pluginResult.state = Error;
+        [pluginResult setBlinkUpError:error];
     }
     else {
         // cache plan ID (see electricimp.com/docs/manufacturing/planids/)
-        [[NSUserDefaults standardUserDefaults] setObject:deviceInfo.planId forKey:PLAN_ID_KEY];
-
-        NSDictionary *resultsDict = @{
-           STATUS_KEY : [@(DEVICE_CONNECTED) stringValue],
-           PLAN_ID_KEY : deviceInfo.planId,
-           DEVICE_ID_KEY : deviceInfo.deviceId,
-           AGENT_URL_KEY: deviceInfo.agentURL
-        };
-        resultStatus = [self toJsonString:resultsDict];
-        status = CDVCommandStatus_OK;
+        [[NSUserDefaults standardUserDefaults] setObject:deviceInfo.planId forKey:@"planId"];
+        
+        pluginResult.state = Completed;
+        pluginResult.statusCode = DEVICE_CONNECTED;
+        pluginResult.deviceInfo = deviceInfo;
     }
     
-    // send result, discard callback
-    CDVPluginResult *result = [CDVPluginResult resultWithStatus:status messageAsString:resultStatus];
-    [result setKeepCallbackAsBool:NO];
-    [self.commandDelegate sendPluginResult:result callbackId:self.callbackId];
-}
-
-
-/********************************************
- * Takes dictionary and outputs a JSON string
- ********************************************/
-- (NSString *) toJsonString:(NSDictionary *)resultsDict {
-    
-    NSError *jsonError;
-    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:resultsDict options:NSJSONWritingPrettyPrinted error:&jsonError];
-    
-    if (jsonError != nil) {
-        NSLog(@"Error converting to JSON. %@", jsonError.localizedDescription);
-        return @"";
-    }
-    
-    return [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+    //send results
+    CDVPluginResult *cordovaResult = [CDVPluginResult resultWithStatus:[pluginResult getCordovaStatus] messageAsString:[pluginResult getResults]];
+    [cordovaResult setKeepCallbackAsBool: [pluginResult getKeepCallback]];
+    [self.commandDelegate sendPluginResult:cordovaResult callbackId:self.callbackId];
 }
 
 @end

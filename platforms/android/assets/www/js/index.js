@@ -119,16 +119,31 @@ function endProgress() {
     document.getElementById('progress-bar-wrapper').style.display = "none";
 }
 
-function updateInfo(deviceInfo, isJSON) {
+function updateInfo(pluginResult) {
 
-    // set status
+    // clear current info
+    document.getElementById('status').innerHTML = "";
+    document.getElementById('planId').innerHTML = "";
+    document.getElementById('deviceId').innerHTML = "";
+    document.getElementById('agentURL').innerHTML = "";
+    document.getElementById('verificationDate').innerHTML = "";
+    
     var status = "";
-    if (isJSON && deviceInfo.status == "1") {
-        status = deviceInfo.errorMsg;
-    } else if (isJSON && deviceInfo.status != null) {
-        status = statusMessageForCode(deviceInfo.status);
-    } else {
-        status = statusMessageForCode(deviceInfo);
+
+    if (pluginResult.state == "error") {
+        if (pluginResult.error.errorType == "blinkup") {
+            status = pluginResult.error.errorMsg;
+        } else {
+            status = errorMessageForCode(pluginResult.error.errorCode);
+        }
+    } else if (pluginResult.state == "completed" || pluginResult.state == "started") {
+        status = statusMessageForCode(pluginResult.statusCode);
+        if (pluginResult.statusCode == "0") {
+            document.getElementById('planId').innerHTML = pluginResult.deviceInfo.planId;
+            document.getElementById('deviceId').innerHTML = pluginResult.deviceInfo.deviceId;
+            document.getElementById('agentURL').innerHTML = pluginResult.deviceInfo.agentURL;
+            document.getElementById('verificationDate').innerHTML = pluginResult.deviceInfo.verificationDate;
+        }
     }
     document.getElementById('status').innerHTML = status;
 
