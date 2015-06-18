@@ -27,6 +27,7 @@ typedef NS_ENUM(NSInteger, BlinkupArguments) {
 @implementation BlinkUpPlugin
 
 NSString * const STATUS_KEY = @"status";
+NSString * const ERROR_MSG_KEY = @"errorMsg";
 NSString * const PLAN_ID_KEY = @"planId";
 NSString * const DEVICE_ID_KEY = @"deviceId";
 NSString * const AGENT_URL_KEY = @"agentURL";
@@ -122,8 +123,8 @@ NSString *const CLEAR_COMPLETE      = @"201";
         }
 
         NSDictionary *resultsDict = @{
-            @"status" : GATHERING_INFO,
-            @"gatheringDeviceInfo" : @"true"
+            STATUS_KEY : GATHERING_INFO,
+            GATHERING_DEVICE_INFO_KEY : @"true"
         };
         resultStatus = [self toJsonString:resultsDict];
         status = CDVCommandStatus_OK;
@@ -136,8 +137,8 @@ NSString *const CLEAR_COMPLETE      = @"201";
     
     else if (error != nil) {
         NSDictionary *resultsDict = @{
-            @"status" : ERROR,
-            @"errorExtras" : [NSString stringWithFormat:@"BlinkUp Error #%ld: %@", (long) error.code, error.localizedDescription]
+            STATUS_KEY : ERROR,
+            ERROR_MSG_KEY : [NSString stringWithFormat:@"BlinkUp Error #%ld: %@", (long) error.code, error.localizedDescription]
         };
         resultStatus = [self toJsonString:resultsDict];
         status = CDVCommandStatus_ERROR;
@@ -175,8 +176,8 @@ NSString *const CLEAR_COMPLETE      = @"201";
     }
     else if (error != nil) {
         NSDictionary *resultsDict = @{
-            @"status" : ERROR,
-            @"errorExtras" : [NSString stringWithFormat:@"BlinkUp Error #%ld: %@", (long) error.code, error.localizedDescription]
+            STATUS_KEY : ERROR,
+            ERROR_MSG_KEY : [NSString stringWithFormat:@"BlinkUp Error #%ld: %@", (long) error.code, error.localizedDescription]
         };
         resultStatus = [self toJsonString:resultsDict];
         status = CDVCommandStatus_ERROR;
@@ -186,10 +187,10 @@ NSString *const CLEAR_COMPLETE      = @"201";
         [[NSUserDefaults standardUserDefaults] setObject:deviceInfo.planId forKey:PLAN_ID_KEY];
 
         NSDictionary *resultsDict = @{
-           @"status" : DEVICE_CONNECTED,
-           @"planId" : deviceInfo.planId,
-           @"deviceId" : deviceInfo.deviceId,
-           @"agentURL": deviceInfo.agentURL
+           STATUS_KEY : DEVICE_CONNECTED,
+           PLAN_ID_KEY : deviceInfo.planId,
+           DEVICE_ID_KEY : deviceInfo.deviceId,
+           AGENT_URL_KEY: deviceInfo.agentURL
         };
         resultStatus = [self toJsonString:resultsDict];
         status = CDVCommandStatus_OK;

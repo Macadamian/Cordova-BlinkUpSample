@@ -120,7 +120,7 @@ function updateInfo(deviceInfo, isJSON) {
     // set status
     var status = "";
     if (isJSON && deviceInfo.status == "1") {
-        status = deviceInfo.errorExtras;
+        status = deviceInfo.errorMsg;
     } else if (isJSON && deviceInfo.status != null) {
         status = statusMessageForCode(deviceInfo.status);
     } else {

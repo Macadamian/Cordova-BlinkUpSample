@@ -99,8 +99,8 @@ public class BlinkUpCompleteActivity extends Activity {
             @Override public void onError(String errorMsg) {
                 JSONObject resultJSON = new JSONObject();
                 try {
-                    resultJSON.put("status", Globals.ERROR);
-                    resultJSON.put("errorExtras", errorMsg);
+                    resultJSON.put(Globals.STATUS_KEY, Globals.ERROR);
+                    resultJSON.put(Globals.ERROR_MSG_KEY, errorMsg);
                 } catch (JSONException e) {
                     Log.e("BlinkUpPlugin", e.getMessage());
                 }

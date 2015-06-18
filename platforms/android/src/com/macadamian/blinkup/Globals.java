@@ -31,6 +31,7 @@ public class Globals {
 
     // keys for JSON sent back to javascript
     public static final String STATUS_KEY = "status";
+    public static final String ERROR_MSG_KEY = "errorMsg";
     public static final String GATHERING_DEVICE_INFO_KEY = "gatheringDeviceInfo";
     public static final String PLAN_ID_KEY = "planId";
     public static final String DEVICE_ID_KEY = "deviceId";
