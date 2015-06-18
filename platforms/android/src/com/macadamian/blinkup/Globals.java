@@ -22,9 +22,12 @@ import com.electricimp.blinkup.BlinkupController;
 
 /**************************************
  * stores several objects required
- * by multiple classes in application
+ * by multiple classes in application,
+ * following Java singleton pattern
  *************************************/
-public class Globals {
+public final class Globals {
+    private static Globals instance = null;
+
     public static CallbackContext callbackContext;
     public static BlinkupController blinkUpController;
     public static int timeoutMs = 60000; // default is 1 minute
@@ -35,4 +38,15 @@ public class Globals {
     public static final String PLAN_ID_KEY = "planId";
     public static final String DEVICE_ID_KEY = "deviceId";
     public static final String AGENT_URL_KEY = "agentURL";
+
+    // ensure that no one else can initialize us
+    private Globals() { }
+
+    // ensures that we always get the same instance
+    public static Globals getInstance() {
+        if (instance == null) {
+            instance = new Globals();
+        }
+        return instance;
+    }
 }

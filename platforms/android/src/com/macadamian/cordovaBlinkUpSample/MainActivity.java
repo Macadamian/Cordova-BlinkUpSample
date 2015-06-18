@@ -38,6 +38,6 @@ public class MainActivity extends CordovaActivity {
     // need to handle results when blinkup completes -- added by Stuart Douglas June 11, 2015
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
         super.onActivityResult(requestCode, resultCode, intent);
-        Globals.blinkUpController.handleActivityResult(this, requestCode, resultCode, intent);
+        Globals.getInstance().blinkUpController.handleActivityResult(this, requestCode, resultCode, intent);
     }
 }
