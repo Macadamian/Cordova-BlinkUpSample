@@ -21,6 +21,7 @@
 //-----------------------------
 
 var apiKey = "YOUR_API_KEY_HERE";
+var developerPlanId = "DEVELOPER_PLAN_ID_HERE"; //if blank or left as DEVELOPER_PLAN_ID_HERE, SDK will auto-generate a planId
 var timeoutMs = 60000;
 var interval;
 
@@ -77,7 +78,10 @@ var app = {
                 }
             };
 
-            blinkup.invokeBlinkUp(apiKey, timeoutMs, true, success, failure);
+            if (developerPlanId == "DEVELOPER_PLAN_ID_HERE") {
+                developerPlanId = ""; // SDK will generate planId if left blank
+            }
+            blinkup.invokeBlinkUp(apiKey, developerPlanId, timeoutMs, true, success, failure);
         });
     },
     // Update DOM on a Received Event
