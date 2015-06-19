@@ -78,9 +78,10 @@ public class BlinkUpPlugin extends CordovaPlugin {
      *********************************************************/
     @Override
     public boolean execute(String action, JSONArray data, CallbackContext callbackContext) throws JSONException {
-        if (action.equalsIgnoreCase("invokeBlinkUp")) {
 
-            BlinkUpPlugin.callbackContext = callbackContext;
+        BlinkUpPlugin.callbackContext = callbackContext;
+
+        if (action.equalsIgnoreCase("invokeBlinkUp")) {
             try {
                 this.apiKey = data.getString(BlinkUpArgumentApiKey);
                 this.developerPlanId = data.getString(BlinkUpArgumentPlanId);
@@ -110,6 +111,15 @@ public class BlinkUpPlugin extends CordovaPlugin {
                     presentBlinkUp();
                 }
             });
+        }
+
+        else if (action.equalsIgnoreCase("abortBlinkUp")) {
+            BlinkupController.getInstance().cancelTokenStatusPolling();
+
+            BlinkUpPluginResult pluginResult = new BlinkUpPluginResult();
+            pluginResult.setState(BlinkUpPluginResult.BlinkUpPluginState.Error);
+            pluginResult.setPluginError(this.CANCELLED_BY_USER);
+            pluginResult.sendResultsToCallback();
         }
         return true;
     }

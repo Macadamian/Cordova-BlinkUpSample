@@ -5,14 +5,14 @@
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied.  See the License for the
- * specific language governing permissions and limitations
- * under the License.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  *
- * Modified by Stuart Douglas (sdouglas@macadamian.com) on June 11, 2015
+ * Created by Stuart Douglas (sdouglas@macadamian.com) on June 11, 2015.
+ * Copyright (c) 2015 Macadamian. All rights reserved.
  */
 
 /*global blinkup*/
@@ -50,44 +50,42 @@ var app = {
     onDeviceReady: function () {
         app.receivedEvent('deviceready');
 
-        var btn = document.getElementById('blinkup-button');
-        btn.addEventListener('click', function () {
-
-            var success = function (message) {
-                var jsonData;
-                try {
-                    jsonData = JSON.parse(message);
-                    this.updateInfo(jsonData);
-                    if (jsonData.state === "started") {
-                        this.startProgress();
-                    } else {
-                        this.endProgress();
-                    }
-                } catch (exception) {
-                    console.log("Error parsing JSON in success callback:" + exception);
-                    console.log(message);
+        // parses returned json, sets UI accordingly
+        var blinkUpCallback = function (message) {
+            var jsonData;
+            try {
+                jsonData = JSON.parse(message);
+                this.updateInfo(jsonData);
+                if (jsonData.state === "started") {
+                    this.startProgress();
+                } else {
                     this.endProgress();
                 }
-            };
+            } catch (exception) {
+                console.log("Error parsing JSON in blinkUpCallback:" + exception);
+                this.endProgress();
+            }
+        };
+    
+        // Perform Blinkup ----------------------------------------
+        var blinkupBtn = document.getElementById('blinkup-button');
+        blinkupBtn.addEventListener('click', function () {
+            blinkup.invokeBlinkUp(apiKey, planId, timeoutMs, true, blinkUpCallback, blinkUpCallback);
+        });
 
-            var failure = function (message) {
-                var jsonData;
-                try {
-                    jsonData = JSON.parse(message);
-                    this.updateInfo(jsonData);
-
-                    if (jsonData.state === "started") {
-                        this.endProgress();
-                    }
-                } catch (exception) {
-                    console.log("Error parsing JSON in failure callback:" + exception);
-                    console.log(message);
-                    this.endProgress();
-                }
-            };
-            blinkup.invokeBlinkUp(apiKey, planId, timeoutMs, false, success, failure);
+        // Clear Results --------------------------------------
+        var clearBtn = document.getElementById('clear-button');
+        clearBtn.addEventListener('click', function () {
+            blinkup.clearResults(blinkUpCallback, blinkUpCallback);
+        });
+        
+        // Abort BlinkUp --------------------------------------
+        var abortBtn = document.getElementById('abort-button');
+        abortBtn.addEventListener('click', function () {
+            blinkup.abortBlinkUp(blinkUpCallback, blinkUpCallback);
         });
     },
+
     // Update DOM on a Received Event
     receivedEvent: function (id) {
         var parentElement = document.getElementById(id);
@@ -101,8 +99,15 @@ var app = {
     }
 };
 
+/******************************************
+ * resets progress interval and bar,
+ * unhides abort button and progress bar
+ *****************************************/
 function startProgress() {
+    document.getElementById('abort-button').style.display = "inline-block";
     document.getElementById('progress-bar-wrapper').style.display = "inline-block";
+    document.getElementById('clear-button').style.display = "none";
+    document.getElementById('blinkup-button').style.display = "none";
 
     var progressBar = document.getElementById('progress-bar');
     progressBar.style.width = "0px";
@@ -118,11 +123,21 @@ function startProgress() {
     }, (timeoutMs / 100));
 }
 
+/******************************************
+ * hides abort button and progress bar
+ *****************************************/
 function endProgress() {
     document.getElementById('progress-bar').style.width = "0px";
     document.getElementById('progress-bar-wrapper').style.display = "none";
+    document.getElementById('abort-button').style.display = "none";
+    document.getElementById('blinkup-button').style.display = "inline-block";
+    document.getElementById('clear-button').style.display = "inline-block";
 }
 
+/********************************************
+ * updates UI according to result of BlinkUp
+ * @param JSON object of BlinkUpPlugin result
+ ********************************************/
 function updateInfo(pluginResult) {
 
     // clear current info

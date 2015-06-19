@@ -71,6 +71,20 @@ typedef NS_ENUM(NSInteger, BlinkupArguments) {
     [self navigateToBlinkUpView];
 }
 
+/*********************************************************
+ * nulls controller, cancelling device polling
+ ********************************************************/
+- (void)abortBlinkUp:(CDVInvokedUrlCommand *)command {
+    self.blinkUpController = nil;
+
+    BlinkUpPluginResult *abortResult = [[BlinkUpPluginResult alloc] init];
+    abortResult.state = Error;
+    [abortResult setPluginError:CANCELLED_BY_USER];
+    
+    CDVPluginResult *cordovaResult = [CDVPluginResult resultWithStatus:[abortResult getCordovaStatus] messageAsString: [abortResult getResults]];
+    [self.commandDelegate sendPluginResult:cordovaResult callbackId:command.callbackId];
+
+}
 
 /*********************************************************
  * shows default UI for BlinkUp process. Modify this method
