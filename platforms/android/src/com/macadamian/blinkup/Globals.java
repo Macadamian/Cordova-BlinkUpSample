@@ -31,8 +31,23 @@ public class Globals {
 
     // keys for JSON sent back to javascript
     public static final String STATUS_KEY = "status";
+    public static final String ERROR_MSG_KEY = "errorMsg";
     public static final String GATHERING_DEVICE_INFO_KEY = "gatheringDeviceInfo";
     public static final String PLAN_ID_KEY = "planId";
     public static final String DEVICE_ID_KEY = "deviceId";
     public static final String AGENT_URL_KEY = "agentURL";
+
+    // == Status codes ====================================
+    public static final String DEVICE_CONNECTED    = "0";
+    public static final String ERROR               = "1";
+
+    public static final String INVALID_ARGUMENTS   = "100";
+    public static final String PROCESS_TIMED_OUT   = "101";
+    public static final String CANCELLED_BY_USER   = "102"; //iOS only
+    public static final String INVALID_API_KEY     = "103";
+    public static final String VERIFY_API_KEY_FAIL = "104";
+
+    public static final String GATHERING_INFO      = "200";
+    public static final String CLEAR_COMPLETE      = "201";
+    // ====================================================
 }

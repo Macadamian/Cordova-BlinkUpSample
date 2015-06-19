@@ -51,8 +51,7 @@ public class BlinkUpPlugin extends CordovaPlugin {
                 Globals.timeoutMs = data.getInt(1);
                 this.useCachedPlanId = data.getBoolean(2);
             } catch (JSONException exc) {
-                String error = "Error. Invalid argument count in call to invoke blink up (apiKey: String, timeoutMs: Integer, useCachedPlanId: Bool, success: Callback, failure: Callback)";
-                callbackContext.error(error);
+                callbackContext.error(Globals.INVALID_ARGUMENTS);
                 return false;
             }
 
@@ -81,9 +80,8 @@ public class BlinkUpPlugin extends CordovaPlugin {
             public void onError(String s) {
                 // show more descriptive message if api key not valid, i.e. 401 authentication failure
                 if (s.contains("401")) {
-                    String errorMsg = "Error. Invalid API key. You must set your BlinkUp API key using the SetApiKey.sh script. See README.md for more details.";
-                    Toast.makeText(cordova.getActivity(), errorMsg, Toast.LENGTH_LONG).show();
-                    Globals.callbackContext.error(errorMsg);
+                    Toast.makeText(cordova.getActivity(), "Error. Invalid BlinkUp API key.", Toast.LENGTH_LONG).show();
+                    Globals.callbackContext.error(Globals.INVALID_API_KEY);
                 }
                 else {
                     Toast.makeText(cordova.getActivity(), ("Error. " + s), Toast.LENGTH_SHORT).show();
@@ -95,7 +93,7 @@ public class BlinkUpPlugin extends CordovaPlugin {
         BlinkupController.ServerErrorHandler serverErrorHandler= new BlinkupController.ServerErrorHandler() {
             @Override
             public void onError(String s) {
-                Globals.callbackContext.error("Error. Could not verify API key with Electric Imp servers.");
+                Globals.callbackContext.error(Globals.VERIFY_API_KEY_FAIL);
             }
         };
 
