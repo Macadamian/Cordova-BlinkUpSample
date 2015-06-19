@@ -24,6 +24,21 @@ typedef NS_ENUM(NSInteger, BlinkupArguments) {
     BlinkUpUsedCachedPlanId,
 };
 
+// status codes
+typedef NS_ENUM(NSInteger, BlinkUpStatusCodes) {
+    DEVICE_CONNECTED    = 0,
+    ERROR               = 1,
+    
+    INVALID_ARGUMENTS   = 100,
+    PROCESS_TIMED_OUT   = 101,
+    CANCELLED_BY_USER   = 102,
+    INVALID_API_KEY     = 103, // android only
+    VERIFY_API_KEY_FAIL = 104, // android only
+    
+    GATHERING_INFO      = 200,
+    CLEAR_COMPLETE      = 201
+};
+
 @implementation BlinkUpPlugin
 
 NSString * const STATUS_KEY = @"status";
@@ -33,20 +48,6 @@ NSString * const DEVICE_ID_KEY = @"deviceId";
 NSString * const AGENT_URL_KEY = @"agentURL";
 NSString * const GATHERING_DEVICE_INFO_KEY = @"gatheringDeviceInfo";
 
-// == Status codes ==========================
-NSString *const DEVICE_CONNECTED    = @"0";
-NSString *const ERROR   = @"1";
-
-NSString *const INVALID_ARGUMENTS   = @"100";
-NSString *const PROCESS_TIMED_OUT   = @"101";
-NSString *const CANCELLED_BY_USER   = @"102";
-NSString *const INVALID_API_KEY     = @"103"; // android only
-NSString *const VERIFY_API_KEY_FAIL = @"104"; // android only
-
-NSString *const GATHERING_INFO      = @"200";
-NSString *const CLEAR_COMPLETE      = @"201";
-// ==========================================
-
 /*********************************************************
  * Called by Javascript in Cordova application.
  * `command.arguments` is array, first item is apiKey
@@ -55,7 +56,7 @@ NSString *const CLEAR_COMPLETE      = @"201";
     self.callbackId = command.callbackId;
     
     if (command.arguments.count <= BlinkUpUsedCachedPlanId) {
-        CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString: INVALID_ARGUMENTS];
+        CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString: [@(INVALID_ARGUMENTS) stringValue]];
         [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
         return;
     }
@@ -123,7 +124,7 @@ NSString *const CLEAR_COMPLETE      = @"201";
         }
 
         NSDictionary *resultsDict = @{
-            STATUS_KEY : GATHERING_INFO,
+            STATUS_KEY : [@(GATHERING_INFO) stringValue],
             GATHERING_DEVICE_INFO_KEY : @"true"
         };
         resultStatus = [self toJsonString:resultsDict];
@@ -131,13 +132,13 @@ NSString *const CLEAR_COMPLETE      = @"201";
     }
     
     else if (userDidCancel) {
-        resultStatus = CANCELLED_BY_USER;
+        resultStatus = [@(CANCELLED_BY_USER) stringValue];
         status = CDVCommandStatus_ERROR;
     }
     
     else if (error != nil) {
         NSDictionary *resultsDict = @{
-            STATUS_KEY : ERROR,
+            STATUS_KEY : [@(ERROR) stringValue],
             ERROR_MSG_KEY : [NSString stringWithFormat:@"BlinkUp Error #%ld: %@", (long) error.code, error.localizedDescription]
         };
         resultStatus = [self toJsonString:resultsDict];
@@ -145,7 +146,7 @@ NSString *const CLEAR_COMPLETE      = @"201";
     }
     
     else {
-        resultStatus = CLEAR_COMPLETE;
+        resultStatus = [@(CLEAR_COMPLETE) stringValue];
         status = CDVCommandStatus_OK;
     }
     
@@ -171,12 +172,12 @@ NSString *const CLEAR_COMPLETE      = @"201";
     NSString *resultStatus;
 
     if (timedOut) {
-        resultStatus = PROCESS_TIMED_OUT;
+        resultStatus = [@(PROCESS_TIMED_OUT) stringValue];
         status = CDVCommandStatus_ERROR;
     }
     else if (error != nil) {
         NSDictionary *resultsDict = @{
-            STATUS_KEY : ERROR,
+            STATUS_KEY : [@(ERROR) stringValue],
             ERROR_MSG_KEY : [NSString stringWithFormat:@"BlinkUp Error #%ld: %@", (long) error.code, error.localizedDescription]
         };
         resultStatus = [self toJsonString:resultsDict];
@@ -187,7 +188,7 @@ NSString *const CLEAR_COMPLETE      = @"201";
         [[NSUserDefaults standardUserDefaults] setObject:deviceInfo.planId forKey:PLAN_ID_KEY];
 
         NSDictionary *resultsDict = @{
-           STATUS_KEY : DEVICE_CONNECTED,
+           STATUS_KEY : [@(DEVICE_CONNECTED) stringValue],
            PLAN_ID_KEY : deviceInfo.planId,
            DEVICE_ID_KEY : deviceInfo.deviceId,
            AGENT_URL_KEY: deviceInfo.agentURL
