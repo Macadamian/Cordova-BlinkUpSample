@@ -24,7 +24,8 @@ package com.macadamian.cordovaBlinkUpSample;
 import android.os.Bundle;
 import org.apache.cordova.*;
 import android.content.Intent;
-import com.macadamian.blinkup.Globals;
+
+import com.electricimp.blinkup.BlinkupController;
 
 public class MainActivity extends CordovaActivity {
     @Override
@@ -38,6 +39,6 @@ public class MainActivity extends CordovaActivity {
     // need to handle results when blinkup completes -- added by Stuart Douglas June 11, 2015
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
         super.onActivityResult(requestCode, resultCode, intent);
-        Globals.blinkUpController.handleActivityResult(this, requestCode, resultCode, intent);
+        BlinkupController.getInstance().handleActivityResult(this, requestCode, resultCode, intent);
     }
 }

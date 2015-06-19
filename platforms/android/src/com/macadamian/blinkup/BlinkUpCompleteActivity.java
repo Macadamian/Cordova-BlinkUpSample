@@ -46,12 +46,12 @@ public class BlinkUpCompleteActivity extends Activity {
         // send callback that we're waiting on server
         JSONObject resultJSON = new JSONObject();
         try {
-            resultJSON.put(Globals.STATUS_KEY, Globals.GATHERING_INFO);
-            resultJSON.put(Globals.GATHERING_DEVICE_INFO_KEY, "true");
+            resultJSON.put(BlinkUpPlugin.STATUS_KEY, "Gathering device info...");
+            resultJSON.put(BlinkUpPlugin.GATHERING_DEVICE_INFO_KEY, "true");
 
             PluginResult pluginResult = new PluginResult(PluginResult.Status.OK, resultJSON.toString());
             pluginResult.setKeepCallback(true);
-            Globals.callbackContext.sendPluginResult(pluginResult);
+            BlinkUpPlugin.callbackContext.sendPluginResult(pluginResult);
         } catch (JSONException e) {
             Log.e("BlinkUpPlugin","JSON Exception: " + e.toString());
         }
@@ -71,22 +71,21 @@ public class BlinkUpCompleteActivity extends Activity {
                     String agentURL = json.getString("agent_url");
 
                     JSONObject resultJSON = new JSONObject();
-
-                    resultJSON.put(Globals.STATUS_KEY, Globals.DEVICE_CONNECTED);
-                    resultJSON.put(Globals.GATHERING_DEVICE_INFO_KEY, "false");
-                    resultJSON.put(Globals.PLAN_ID_KEY, json.getString("plan_id"));
-                    resultJSON.put(Globals.DEVICE_ID_KEY, deviceId);
-                    resultJSON.put(Globals.AGENT_URL_KEY, agentURL);
+                    resultJSON.put(BlinkUpPlugin.STATUS_KEY, "Device Connected");
+                    resultJSON.put(BlinkUpPlugin.GATHERING_DEVICE_INFO_KEY, "false");
+                    resultJSON.put(BlinkUpPlugin.PLAN_ID_KEY, json.getString("plan_id"));
+                    resultJSON.put(BlinkUpPlugin.DEVICE_ID_KEY, deviceId);
+                    resultJSON.put(BlinkUpPlugin.AGENT_URL_KEY, agentURL);
 
                     // cache planID (see electricimp.com/docs/manufacturing/planids/)
                     SharedPreferences preferences = getSharedPreferences("DefaultPreferences", MODE_PRIVATE);
                     SharedPreferences.Editor editor = preferences.edit();
-                    editor.putString(Globals.PLAN_ID_KEY, json.getString("plan_id"));
+                    editor.putString(BlinkUpPlugin.PLAN_ID_KEY, json.getString("plan_id"));
                     editor.apply();
 
                     PluginResult pluginResult = new PluginResult(PluginResult.Status.OK, resultJSON.toString());
                     pluginResult.setKeepCallback(true);
-                    Globals.callbackContext.sendPluginResult(pluginResult);
+                    BlinkUpPlugin.callbackContext.sendPluginResult(pluginResult);
                 }
                 catch (JSONException e) {
                     Log.e("BlinkUpPlugin", e.getMessage());
@@ -99,26 +98,27 @@ public class BlinkUpCompleteActivity extends Activity {
             @Override public void onError(String errorMsg) {
                 JSONObject resultJSON = new JSONObject();
                 try {
-                    resultJSON.put(Globals.STATUS_KEY, Globals.ERROR);
-                    resultJSON.put(Globals.ERROR_MSG_KEY, errorMsg);
+                    resultJSON.put(BlinkUpPlugin.STATUS_KEY, BlinkUpPlugin.ERROR);
+                    resultJSON.put(BlinkUpPlugin.ERROR_MSG_KEY, errorMsg);
                 } catch (JSONException e) {
                     Log.e("BlinkUpPlugin", e.getMessage());
                 }
 
-                PluginResult pluginResult = new PluginResult(PluginResult.Status.ERROR, resultJSON.toString());
-                Globals.callbackContext.sendPluginResult(pluginResult);
+                PluginResult pluginResult = new PluginResult(PluginResult.Status.ERROR, resultJSON.toString());;
+                pluginResult.setKeepCallback(true);
+                BlinkUpPlugin.callbackContext.sendPluginResult(pluginResult);
             }
 
             //---------------------------------
             // give timeout message to Cordova
             //---------------------------------
             @Override public void onTimeout() {
-                PluginResult pluginResult = new PluginResult(PluginResult.Status.ERROR, Globals.PROCESS_TIMED_OUT);
-                Globals.callbackContext.sendPluginResult(pluginResult);
+                PluginResult pluginResult = new PluginResult(PluginResult.Status.ERROR, "Error. Could not gather device information. Process timed out."");
+                BlinkUpPlugin.callbackContext.sendPluginResult(pluginResult);
             }
         };
 
         // request the device info from the server
-        Globals.blinkUpController.getTokenStatus(tokenStatusCallback, Globals.timeoutMs);
+        BlinkupController.getInstance().getTokenStatus(tokenStatusCallback, BlinkUpPlugin.timeoutMs);
     }
 }
