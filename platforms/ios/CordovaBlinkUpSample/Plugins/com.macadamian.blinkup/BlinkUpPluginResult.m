@@ -16,6 +16,7 @@
  */
 
 #import "BlinkUpPluginResult.h"
+#import "BUDeviceInfo+JSON.h"
 #import <BlinkUp/BlinkUp.h>
 
 @implementation BlinkUpPluginResult
@@ -32,10 +33,6 @@ NSString * const ERROR_CODE_KEY = @"errorCode";
 NSString * const ERROR_MSG_KEY = @"errorMsg";
 
 NSString * const DEVICE_INFO_KEY = @"deviceInfo";
-NSString * const DEVICE_ID_KEY = @"deviceId";
-NSString * const PLAN_ID_KEY = @"planId";
-NSString * const AGENT_URL_KEY = @"agentURL";
-NSString * const VERIFICATION_DATE_KEY = @"verificationDate";
 
 
 /********************************************
@@ -76,12 +73,15 @@ NSString * const VERIFICATION_DATE_KEY = @"verificationDate";
     NSMutableDictionary *resultsDict = [[NSMutableDictionary alloc] init];
 
     // set our state (never null)
-    if (self.state == Started)
+    if (self.state == Started) {
         [resultsDict setObject:@"started" forKey:STATE_KEY];
-    else if (self.state == Completed)
+    }
+    else if (self.state == Completed) {
         [resultsDict setObject:@"completed" forKey:STATE_KEY];
-    else
+    }
+    else {
         [resultsDict setObject:@"error" forKey:STATE_KEY];
+    }
     
     if (self.state == Error) {
         NSMutableDictionary *errorDict = [[NSMutableDictionary alloc] init];
@@ -95,17 +95,11 @@ NSString * const VERIFICATION_DATE_KEY = @"verificationDate";
         [errorDict setObject:[@(self.errorCode) stringValue] forKey:ERROR_CODE_KEY];
         [resultsDict setObject:errorDict forKey:ERROR_KEY];
     }
-    
     else {
         [resultsDict setObject:[@(self.statusCode) stringValue] forKey:STATUS_CODE_KEY];
         
         if (self.deviceInfo != nil) {
-            NSMutableDictionary *deviceInfoDict = [[NSMutableDictionary alloc] init];
-            [deviceInfoDict setObject:self.deviceInfo.deviceId forKey:DEVICE_ID_KEY];
-            [deviceInfoDict setObject:self.deviceInfo.planId   forKey:PLAN_ID_KEY];
-            [deviceInfoDict setObject:self.deviceInfo.agentURL.description forKey:AGENT_URL_KEY];
-            [deviceInfoDict setObject:self.deviceInfo.verificationDate.description forKey:VERIFICATION_DATE_KEY];
-            [resultsDict setObject:deviceInfoDict forKey:DEVICE_INFO_KEY];
+            [resultsDict setObject:[self.deviceInfo toDictionary] forKey:DEVICE_INFO_KEY];
         }
     }
     

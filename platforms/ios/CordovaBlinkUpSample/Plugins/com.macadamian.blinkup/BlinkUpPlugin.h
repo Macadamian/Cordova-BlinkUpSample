@@ -19,21 +19,23 @@
 
 @class BUBasicController;
 
+extern NSString * const STATUS_KEY;
+extern NSString * const PLAN_ID_KEY;
+
 @interface BlinkUpPlugin : CDVPlugin
 
 //------------------------------------------------------
 // Shows BlinkUp UI for user to enter wifi details and
 // perform the screen flash process to connect to an Imp
 //------------------------------------------------------
-- (void)invokeBlinkUp:(CDVInvokedUrlCommand*)command;
+- (void)invokeBlinkUp:(CDVInvokedUrlCommand *)command;
+- (void)abortBlinkUp:(CDVInvokedUrlCommand *)command;
 
 // instance variables
 @property BUBasicController  *blinkUpController;
-
 @property NSString *apiKey;
 @property NSString *callbackId;
 @property NSString *developerPlanId;
 @property NSNumber *timeoutInMs;
 @property NSNumber *useCachedPlanId;
-
 @end
