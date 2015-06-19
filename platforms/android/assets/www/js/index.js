@@ -51,14 +51,15 @@ var app = {
                 var jsonData;
                 try {
                     jsonData = JSON.parse(message);
-                    this.updateInfo(jsonData, true);
-                    if (jsonData.gatheringDeviceInfo === "true") {
+                    this.updateInfo(jsonData);
+                    if (jsonData.state === "started") {
                         this.startProgress();
                     } else {
                         this.endProgress();
                     }
                 } catch (exception) {
-                    this.updateInfo(message, false);
+                    console.log("Error parsing JSON in success callback:" + exception);
+                    console.log(message);
                     this.endProgress();
                 }
             };
@@ -67,13 +68,14 @@ var app = {
                 var jsonData;
                 try {
                     jsonData = JSON.parse(message);
-                    this.updateInfo(jsonData, true);
+                    this.updateInfo(jsonData);
 
-                    if (jsonData.gatheringDeviceInfo === "false") {
+                    if (jsonData.state === "started") {
                         this.endProgress();
                     }
                 } catch (exception) {
-                    this.updateInfo(message, false);
+                    console.log("Error parsing JSON in failure callback:" + exception);
+                    console.log(message);
                     this.endProgress();
                 }
             };
@@ -146,11 +148,6 @@ function updateInfo(pluginResult) {
         }
     }
     document.getElementById('status').innerHTML = status;
-
-    // set other values if non-nil
-    document.getElementById('planId').innerHTML = (isJSON && deviceInfo.planId != null) ? deviceInfo.planId : "";
-    document.getElementById('deviceId').innerHTML = (isJSON && deviceInfo.deviceId != null) ? deviceInfo.deviceId : "";
-    document.getElementById('agentURL').innerHTML = (isJSON && deviceInfo.agentURL != null) ? deviceInfo.agentURL : "";
 }
 
 function statusMessageForCode(statusCode) {
@@ -158,8 +155,18 @@ function statusMessageForCode(statusCode) {
     switch (integerCode) {
     case 0:
         return "Device Connected.";
-    case 1:
-        return ""; // error string part of BlinkUp SDK
+    case 200:
+        return "Gathering device info...";
+    case 201:
+        return "Wireless configuration cleared.";
+    default:
+        return statusCode;
+    }
+}
+
+function errorMessageForCode(errorCode) {
+    var integerCode = parseInt(errorCode);
+    switch (integerCode) {
     case 100:
         return "Error. Invalid arguments in call to invokeBlinkUp(apiKey: String, developerPlanId: String, timeoutMs: Integer, useCachedPlanId: Bool, success: Callback, failure: Callback).";
     case 101:
@@ -170,12 +177,8 @@ function statusMessageForCode(statusCode) {
         return "Error. Invalid API key. You must set your BlinkUp API key using the SetApiKey.sh script. See README.md for more details.";
     case 104:
         return "Error. Could not verify API key with Electric Imp servers.";
-    case 200:
-        return "Gathering device info…";
-    case 201:
-        return "Wireless configuration cleared.";
     default:
-        return statusCode;
+        return errorCode;
     }
 }
 

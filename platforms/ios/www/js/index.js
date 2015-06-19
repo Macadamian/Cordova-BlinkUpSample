@@ -58,7 +58,7 @@ var app = {
                         this.endProgress();
                     }
                 } catch (exception) {
-                    console.log("Error parsing JSON in success callback:");
+                    console.log("Error parsing JSON in success callback:" + exception);
                     console.log(message);
                     this.endProgress();
                 }
@@ -74,7 +74,7 @@ var app = {
                         this.endProgress();
                     }
                 } catch (exception) {
-                    console.log("Error parsing JSON in failure callback:");
+                    console.log("Error parsing JSON in failure callback:" + exception);
                     console.log(message);
                     this.endProgress();
                 }
@@ -134,7 +134,6 @@ function updateInfo(pluginResult) {
 
     if (pluginResult.state == "error") {
         if (pluginResult.error.errorType == "blinkup") {
-            console.log("BlinkUp SDK gave NSError with code: " + pluginResult.error.errorCode + ". See BUErrors.h for more information.");
             status = pluginResult.error.errorMsg;
         } else {
             status = errorMessageForCode(pluginResult.error.errorCode);

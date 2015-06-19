@@ -43,18 +43,10 @@ public class BlinkUpCompleteActivity extends Activity {
 
         getDeviceInfo();
 
-        // send callback that we're waiting on server
-        JSONObject resultJSON = new JSONObject();
-        try {
-            resultJSON.put(BlinkUpPlugin.STATUS_KEY, "Gathering device info...");
-            resultJSON.put(BlinkUpPlugin.GATHERING_DEVICE_INFO_KEY, "true");
-
-            PluginResult pluginResult = new PluginResult(PluginResult.Status.OK, resultJSON.toString());
-            pluginResult.setKeepCallback(true);
-            BlinkUpPlugin.callbackContext.sendPluginResult(pluginResult);
-        } catch (JSONException e) {
-            Log.e("BlinkUpPlugin","JSON Exception: " + e.toString());
-        }
+        BlinkUpPluginResult pluginResult = new BlinkUpPluginResult();
+        pluginResult.setState(BlinkUpPluginResult.BlinkUpPluginState.Started);
+        pluginResult.setStatusCode(BlinkUpPlugin.GATHERING_INFO);
+        pluginResult.sendResultsToCallback();
 
         this.finish();
     }
@@ -66,26 +58,18 @@ public class BlinkUpCompleteActivity extends Activity {
             // give connection info to Cordova
             //---------------------------------
             @Override public void onSuccess(JSONObject json) {
+                BlinkUpPluginResult pluginResult = new BlinkUpPluginResult();
+                pluginResult.setState(BlinkUpPluginResult.BlinkUpPluginState.Completed);
+                pluginResult.setStatusCode(BlinkUpPlugin.DEVICE_CONNECTED);
+                pluginResult.setDeviceInfoAsJson(json);
+                pluginResult.sendResultsToCallback();
+
+                // cache planID (see electricimp.com/docs/manufacturing/planids/)
                 try {
-                    String deviceId = (json.getString("impee_id") != null) ? json.getString("impee_id").trim() : null;
-                    String agentURL = json.getString("agent_url");
-
-                    JSONObject resultJSON = new JSONObject();
-                    resultJSON.put(BlinkUpPlugin.STATUS_KEY, "Device Connected");
-                    resultJSON.put(BlinkUpPlugin.GATHERING_DEVICE_INFO_KEY, "false");
-                    resultJSON.put(BlinkUpPlugin.PLAN_ID_KEY, json.getString("plan_id"));
-                    resultJSON.put(BlinkUpPlugin.DEVICE_ID_KEY, deviceId);
-                    resultJSON.put(BlinkUpPlugin.AGENT_URL_KEY, agentURL);
-
-                    // cache planID (see electricimp.com/docs/manufacturing/planids/)
                     SharedPreferences preferences = getSharedPreferences("DefaultPreferences", MODE_PRIVATE);
                     SharedPreferences.Editor editor = preferences.edit();
-                    editor.putString(BlinkUpPlugin.PLAN_ID_KEY, json.getString("plan_id"));
+                    editor.putString("planId", json.getString("plan_id"));
                     editor.apply();
-
-                    PluginResult pluginResult = new PluginResult(PluginResult.Status.OK, resultJSON.toString());
-                    pluginResult.setKeepCallback(true);
-                    BlinkUpPlugin.callbackContext.sendPluginResult(pluginResult);
                 }
                 catch (JSONException e) {
                     Log.e("BlinkUpPlugin", e.getMessage());
@@ -96,25 +80,20 @@ public class BlinkUpCompleteActivity extends Activity {
             // give error msg to Cordova
             //---------------------------------
             @Override public void onError(String errorMsg) {
-                JSONObject resultJSON = new JSONObject();
-                try {
-                    resultJSON.put(BlinkUpPlugin.STATUS_KEY, BlinkUpPlugin.ERROR);
-                    resultJSON.put(BlinkUpPlugin.ERROR_MSG_KEY, errorMsg);
-                } catch (JSONException e) {
-                    Log.e("BlinkUpPlugin", e.getMessage());
-                }
-
-                PluginResult pluginResult = new PluginResult(PluginResult.Status.ERROR, resultJSON.toString());;
-                pluginResult.setKeepCallback(true);
-                BlinkUpPlugin.callbackContext.sendPluginResult(pluginResult);
+                BlinkUpPluginResult pluginResult = new BlinkUpPluginResult();
+                pluginResult.setState(BlinkUpPluginResult.BlinkUpPluginState.Error);
+                pluginResult.setBlinkUpError(errorMsg);
+                pluginResult.sendResultsToCallback();
             }
 
             //---------------------------------
             // give timeout message to Cordova
             //---------------------------------
             @Override public void onTimeout() {
-                PluginResult pluginResult = new PluginResult(PluginResult.Status.ERROR, "Error. Could not gather device information. Process timed out."");
-                BlinkUpPlugin.callbackContext.sendPluginResult(pluginResult);
+                BlinkUpPluginResult pluginResult = new BlinkUpPluginResult();
+                pluginResult.setState(BlinkUpPluginResult.BlinkUpPluginState.Error);
+                pluginResult.setPluginError(BlinkUpPlugin.PROCESS_TIMED_OUT);
+                pluginResult.sendResultsToCallback();
             }
         };
 

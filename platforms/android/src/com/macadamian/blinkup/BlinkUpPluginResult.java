@@ -119,7 +119,7 @@ public class BlinkUpPluginResult {
             this.deviceId = (deviceInfo.getString("impee_id") != null) ? deviceInfo.getString("impee_id").trim() : null;
             this.planId = deviceInfo.getString("plan_id");
             this.agentURL = deviceInfo.getString("agent_url");
-            this.verificationDate = deviceInfo.getString("verification_date");
+            this.verificationDate = deviceInfo.getString("claimed_at");
         } catch (JSONException e) {
             Log.e("BlinkUpPlugin", "Error parsing device info JSON.");
             e.printStackTrace();

@@ -29,16 +29,17 @@ typedef NS_ENUM(NSInteger, BlinkupArguments) {
 // status codes
 typedef NS_ENUM(NSInteger, BlinkUpStatusCodes) {
     DEVICE_CONNECTED    = 0,
-    ERROR               = 1,
+    GATHERING_INFO      = 200,
+    CLEAR_COMPLETE      = 201
+};
 
+// error codes
+typedef NS_ENUM(NSInteger, BlinkUpErrorCodes) {
     INVALID_ARGUMENTS   = 100,
     PROCESS_TIMED_OUT   = 101,
     CANCELLED_BY_USER   = 102,
     INVALID_API_KEY     = 103, // android only
     VERIFY_API_KEY_FAIL = 104, // android only
-
-    GATHERING_INFO      = 200,
-    CLEAR_COMPLETE      = 201
 };
 
 @implementation BlinkUpPlugin
