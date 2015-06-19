@@ -44,6 +44,7 @@
 		7E7966E71810823500FA85AD /* icon-small@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E7966DD1810823500FA85AD /* icon-small@2x.png */; };
 		99617F88E38E4DF3AD1891FE /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 21980FA2D0264CCF96B48A7C /* SystemConfiguration.framework */; };
 		9DF30E070EC147B6AA6C95F7 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAD13AC17A984F37AE4E5FC5 /* QuartzCore.framework */; };
+		A61979C91B33649E00A49DF0 /* BlinkUpPluginResult.m in Sources */ = {isa = PBXBuildFile; fileRef = A61979C81B33549900A49DF0 /* BlinkUpPluginResult.m */; };
 		A6C711C11B2B7EC80006D7AA /* BlinkUp.embeddedframework in Resources */ = {isa = PBXBuildFile; fileRef = A6C711C01B2B7EC80006D7AA /* BlinkUp.embeddedframework */; };
 		A6C711C31B2B7ED50006D7AA /* BlinkUp.bundle in Resources */ = {isa = PBXBuildFile; fileRef = A6C711C21B2B7ED50006D7AA /* BlinkUp.bundle */; };
 		A6C711C51B2B7EE00006D7AA /* BlinkUp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A6C711C41B2B7EE00006D7AA /* BlinkUp.framework */; };
@@ -108,6 +109,8 @@
 		7E7966DC1810823500FA85AD /* icon-small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-small.png"; sourceTree = "<group>"; };
 		7E7966DD1810823500FA85AD /* icon-small@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-small@2x.png"; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* CordovaBlinkUpSample-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "CordovaBlinkUpSample-Info.plist"; path = "../CordovaBlinkUpSample-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
+		A61979C71B33548A00A49DF0 /* BlinkUpPluginResult.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = BlinkUpPluginResult.h; path = com.macadamian.blinkup/BlinkUpPluginResult.h; sourceTree = "<group>"; };
+		A61979C81B33549900A49DF0 /* BlinkUpPluginResult.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = BlinkUpPluginResult.m; path = com.macadamian.blinkup/BlinkUpPluginResult.m; sourceTree = "<group>"; };
 		A6C711C01B2B7EC80006D7AA /* BlinkUp.embeddedframework */ = {isa = PBXFileReference; lastKnownFileType = folder; name = BlinkUp.embeddedframework; path = CordovaBlinkUpSample/Frameworks/BlinkUp.embeddedframework; sourceTree = "<group>"; };
 		A6C711C21B2B7ED50006D7AA /* BlinkUp.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = BlinkUp.bundle; path = CordovaBlinkUpSample/Frameworks/BlinkUp.embeddedframework/BlinkUp.framework/Versions/A/Resources/BlinkUp.bundle; sourceTree = SOURCE_ROOT; };
 		A6C711C41B2B7EE00006D7AA /* BlinkUp.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = BlinkUp.framework; path = CordovaBlinkUpSample/Frameworks/BlinkUp.embeddedframework/BlinkUp.framework; sourceTree = "<group>"; };
@@ -227,6 +230,8 @@
 			children = (
 				CAC8BB0555194F6E82277EA2 /* BlinkUpPlugin.h */,
 				D72B472A205E43AF95F60D49 /* BlinkUpPlugin.m */,
+				A61979C71B33548A00A49DF0 /* BlinkUpPluginResult.h */,
+				A61979C81B33549900A49DF0 /* BlinkUpPluginResult.m */,
 			);
 			name = Plugins;
 			path = CordovaBlinkUpSample/Plugins;
@@ -421,6 +426,7 @@
 				1D3623260D0F684500981E51 /* AppDelegate.m in Sources */,
 				302D95F114D2391D003F00A1 /* MTCordovaSampleAppViewController.m in Sources */,
 				0A2083B860E240E1B732126B /* BlinkUpPlugin.m in Sources */,
+				A61979C91B33649E00A49DF0 /* BlinkUpPluginResult.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -445,7 +451,6 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/CordovaBlinkUpSample/Frameworks/BlinkUp.embeddedframework",
 					"$(PROJECT_DIR)",
-					"$(PROJECT_DIR)/BlinkUp.embeddedframework",
 				);
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -482,7 +487,6 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/CordovaBlinkUpSample/Frameworks/BlinkUp.embeddedframework",
 					"$(PROJECT_DIR)",
-					"$(PROJECT_DIR)/BlinkUp.embeddedframework",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "CordovaBlinkUpSample/CordovaBlinkUpSample-Prefix.pch";
