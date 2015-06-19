@@ -33,7 +33,10 @@ public class ClearCompleteActivity extends Activity {
         super.onCreate(savedInstanceState);
 
         // send callback that we've cleared device
-        BlinkUpPlugin.callbackContext.success("Wireless configuration cleared.");
+        BlinkUpPluginResult pluginResult = new BlinkUpPluginResult();
+        pluginResult.setState(BlinkUpPluginResult.BlinkUpPluginState.Completed);
+        pluginResult.setStatusCode(BlinkUpPlugin.CLEAR_COMPLETE);
+        pluginResult.sendResultsToCallback();
 
         this.finish();
     }
