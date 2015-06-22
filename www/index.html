@@ -35,34 +35,49 @@
     <meta name="msapplication-tap-highlight" content="no">
     <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
     <link rel="stylesheet" type="text/css" href="css/index.css">
-    <title>BlinkUp Plugin Example</title>
+    <title>BlinkUp Plugin Sample</title>
 </head>
 
 <body>
-<div class="app">
-    <h1>BlinkUp Plugin</h1>
-    <div id="deviceready" class="blink">
-        <p class="event listening">Connecting to Device</p>
-        <p class="event received">Device is Ready</p>
-    </div>
-    <br>
-    <p class="fixed-width">
-        <b>Status:</b> <span id="status"></span><br><br>
-        <b>Plan ID:</b> <span id="planId"></span><br>
-        <b>Device ID:</b> <span id="deviceId"></span><br>
-        <b>Agent URL:</b> <span id="agentURL"></span><br>
-        <b>Verification Date:</b> <span id="verificationDate"></span>
-    </p>
+    <div class="app">
+        <!-- Header -->
+        <h1>Cordova BlinkUp Sample</h1>
+        <div id="deviceready">
+            <p class="event listening">Connecting to Device</p>
+            <p class="event received">Device is Ready</p>
+        </div>
+        <p class="content-text">
+            This sample Cordova application demonstrates the Electric Imp BlinkUp process.
+            Running on a device is recommended.
+        </p>
 
-    <div id="progress-bar-wrapper">
-        <div id="progress-bar"></div>
+        <div class="separator"></div>
+
+        <!-- BlinkUp Status & Progress Bar -->
+        <p class="content-text fixed-width">
+            <b>Status:</b> <span id="status"></span>
+        </p>
+        
+        <div id="progress-bar-wrapper">
+            <div id="progress-bar"></div>
+        </div>
+        
+        <!-- Device Info -->
+        <p class="content-text fixed-width">
+            <b>Plan ID:</b> <span id="planId"></span><br>
+            <b>Device ID:</b> <span id="deviceId"></span><br>
+            <b>Agent URL:</b> <span id="agentURL"></span><br>
+            <b>Verification Date:</b> <span id="verificationDate"></span>
+        </p>
+        
+        <!-- Go Button -->
+        <div id="buttons-container">
+            <button id="abort-button" style="display: none;">Cancel BlinkUp</button>
+            <button id="clear-button">Clear Wifi &amp; Cache</button>
+            <button id="blinkup-button">Perform BlinkUp</button>
+        </div>
     </div>
 
-    <br><br>
-    <button id="abort-button" style="display: none;">Cancel BlinkUp</button>
-    <button id="clear-button">Clear Wifi &amp; Cache</button>
-    <button id="blinkup-button">Perform BlinkUp</button>
-</div>
 <script type="text/javascript" src="cordova.js"></script>
 <script type="text/javascript" src="js/index.js"></script>
 </body>

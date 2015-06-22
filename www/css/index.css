@@ -18,6 +18,7 @@
  *
  * Modified by Stuart Douglas (sdouglas@macadamian.com) on June 11, 2015.
  */
+
 * {
     -webkit-tap-highlight-color: rgba(0,0,0,0); /* make transparent link selection, adjust last value opacity 0 to 1.0 */
 }
@@ -42,21 +43,33 @@ body {
     text-align:center;
 }
 
+/*========== SEPARATOR ==========*/
+.separator {
+    height: 1px;
+    margin: 25px 20px;
+    background-color: #CBCBCB;
+}
+
+/*========== TEXT ==========*/
 h1 {
-    font-weight:normal;
+    font-family: 'HelveticaNeue', Helvetica, Arial, sans-serif;
     text-align:center;
 }
 
-.fixed-width {
+.content-text {
     font-size: 14px;
-    font-family: monospace;
     text-align: left;
-    padding: 20px;
+    padding: 0 20px;
     word-wrap: break-word;
 }
 
+.fixed-width {
+    font-family: 'Menlo-Regular', 'FreeMono', 'Courier', monospace;
+}
+
+/*========== PROGRESS BAR ==========*/
 #progress-bar-wrapper {
-    width: 80%;
+    margin: 0 20px;
     border-radius: 3px;
     margin: 0 auto;
     height: 20px;
@@ -72,38 +85,59 @@ h1 {
     border-radius: inherit;
 }
 
+/*========== BUTTONS ==========*/
+button {
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    
+    display:inline-block;
+    padding: 10px 15px;
+    vertical-align: middle;
+    text-align: center;
+
+    background-color: #D4D4D4;
+    border-radius: 3px;
+    border-bottom-style: solid;
+    border-bottom-color: #A09FA1;
+    border-width: 0 0 4px 0;
+}
+
+#buttons-container {
+    position: absolute;
+    bottom: 40px;
+    width: 300px;
+    margin-left: -150px;
+    left: 50%;
+}
+#blinkup-button {
+    color: #FDFDFD;
+    background-color: #2AB269;
+    border-bottom-color: #196E3A;
+}
+#clear-button {
+    color: #FDFDFD;
+    background-color: #61A48A;
+    border-bottom-color: #3E735D;
+}
+
+/*========== CORDOVA ==========*/
+#deviceready {
+    display: none;
+}
 .event {
     border-radius:4px;
     -webkit-border-radius:4px;
     color:#FFFFFF;
     font-size:12px;
-    margin:0px 30px;
+    text-align: center;
+    margin:0px 20px;
     padding:2px 0px;
 }
-
 .event.listening {
     background-color:#333333;
     display:block;
 }
-
 .event.received {
     background-color:#4B946A;
     display:none;
-}
-
-@keyframes fade {
-    from { opacity: 1.0; }
-    50% { opacity: 0.4; }
-    to { opacity: 1.0; }
-}
-
-@-webkit-keyframes fade {
-    from { opacity: 1.0; }
-    50% { opacity: 0.4; }
-    to { opacity: 1.0; }
-}
-
-.blink {
-    animation:fade 3000ms infinite;
-    -webkit-animation:fade 3000ms infinite;
 }
