@@ -14,12 +14,15 @@
  * Created by Stuart Douglas (sdouglas@macadamian.com) on June 11, 2015.
  * Copyright (c) 2015 Macadamian. All rights reserved.
  */
- 
+
 /*global cordova, module*/
 
 module.exports = {
     //apiKey: string, developerPlanId: string (set "" to have SDK generate one), timeoutMs: int, useCachedPlanId: bool 
     invokeBlinkUp: function (apiKey, developerPlanId, timeoutMs, useCachedPlanId, successCallback, errorCallback) {
         cordova.exec(successCallback, errorCallback, "BlinkUpPlugin", "invokeBlinkUp", [apiKey, developerPlanId, timeoutMs, useCachedPlanId]);
+    },
+    clearResults: function (successCallback, errorCallback) {
+        cordova.exec(successCallback, errorCallback, "BlinkUpPlugin", "clearResults", []);
     }
 };

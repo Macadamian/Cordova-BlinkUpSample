@@ -15,13 +15,15 @@
  * Copyright (c) 2015 Macadamian. All rights reserved.
  */
 
-cordova.define("com.macadamian.blinkup.blinkup", function(require, exports, module) { /*global cordova, module*/
-
-module.exports = {
-    //apiKey: string, developerPlanId: string (set "" to have SDK generate one), timeoutMs: int, useCachedPlanId: bool 
-    invokeBlinkUp: function (apiKey, developerPlanId, timeoutMs, useCachedPlanId, successCallback, errorCallback) {
-        cordova.exec(successCallback, errorCallback, "BlinkUpPlugin", "invokeBlinkUp", [apiKey, developerPlanId, timeoutMs, useCachedPlanId]);
-    }
-};
-
+/*global cordova, module*/
+cordova.define("com.macadamian.blinkup.blinkup", function (require, exports, module) {
+    module.exports = {
+        //apiKey: string, developerPlanId: string (set "" to have SDK generate one), timeoutMs: int, useCachedPlanId: bool 
+        invokeBlinkUp: function (apiKey, developerPlanId, timeoutMs, useCachedPlanId, successCallback, errorCallback) {
+            cordova.exec(successCallback, errorCallback, "BlinkUpPlugin", "invokeBlinkUp", [apiKey, developerPlanId, timeoutMs, useCachedPlanId]);
+        },
+        clearResults: function (successCallback, errorCallback) {
+            cordova.exec(successCallback, errorCallback, "BlinkUpPlugin", "clearResults", []);
+        }
+    };
 });
