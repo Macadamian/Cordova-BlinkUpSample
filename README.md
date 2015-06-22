@@ -11,10 +11,9 @@ An Electric Imp developer account. To register for an account, please visit: htt
 A BlinkUp SDK and API Key. For more information on how to obtain a license, please visit: https://electricimp.com/docs/manufacturing/blinkup_faqs/
 
 # Installation
-**Both Platforms**<br>
-Run the `SetApiKey.sh` script with your BlinkUp API key as an argument. E.g: `./SetApiKey.sh this_is_my_api_key`.
+Open `CordovaBlinkUpSample/www/js/index.js` and set your API key from Electric Imp. You can optionally set your plan ID as well, this will let you see Imps you've blinked up with in your IDE. Please see https://electricimp.com/docs/manufacturing/planids/ for more information about plan ID's.
 
-Optional: if you are in development, you can run the `SetDeveloperPlanId.sh` script with your developer planId as an argument. E.g.: `./SetDeveloperPlanId.sh this_is_my_developer_plan_id`.
+When building in Xcode or Android Studio, this `index.js` file overwrites the native platform's `index.js` file, propagating your changes down to both platforms.
 
 **iOS Instructions**<br>
 Copy the `BlinkUp.embeddedframework` folder to `path/to/Cordova-BlinkUpSample/platforms/ios/CordovaBlinkUpSample/Frameworks` folder.

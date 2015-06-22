@@ -7,6 +7,10 @@
 *BlinkUp.embeddedframework
 **/blinkup_sdk/
 
+# Exclude native copies of index.js (www/js/index.js version overwrites them)
+platforms/ios/www/js/index.js
+platforms/android/assets/www/js/index.js
+
 # -- OBJECTIVE-C -----------------------
 # https://github.com/github/gitignore/blob/master/Objective-C.gitignore
 
@@ -52,6 +56,8 @@ gen/
 # Gradle files
 .gradle/
 build/
+platforms/android/.gradle
+platforms/android/.idea/workspace.xml
 
 # Local configuration file (sdk path, etc)
 local.properties

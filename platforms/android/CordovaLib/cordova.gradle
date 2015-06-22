@@ -20,6 +20,9 @@
 import java.util.regex.Pattern
 import groovy.swing.SwingBuilder
 
+// forces copy of index.js from root to local www directory every build (copyIndexJs defined in android.gradle)
+preBuild.dependsOn copyIndexJs
+
 String doEnsureValueExists(filePath, props, key) {
     if (props.get(key) == null) {
         throw new GradleException(filePath + ': Missing key required "' + key + '"')

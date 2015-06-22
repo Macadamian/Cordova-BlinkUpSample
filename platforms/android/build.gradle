@@ -18,8 +18,26 @@
 */
 
 // GENERATED FILE! DO NOT EDIT!
+
+// check that necessary files exist
 if (!file("blinkup_sdk").exists()) {
     throw new GradleException('The blinkup_sdk folder can not be found in `CordovaBlinkUpSample/platforms/android`.')
+}
+if (!file("../../www/js/index.js").exists()) {
+    throw new GradleException('Could not find index.js in CordovaBlinkUpSample/www/js. Ensure that the file exists there.')
+}
+
+// copies root index.js file to android folder, so changes to it only
+// need to be applied to the root file (iOS does the same copy task)
+// NOTE: dependency on preBuild set in cordova.gradle
+task copyIndexJs(type: Copy) {
+    from "../../www/js/index.js"
+    into "assets/www/js"
+
+    // ensure file is re-copied every build
+    outputs.upToDateWhen {
+        false
+    }
 }
 
 apply plugin: 'android'
