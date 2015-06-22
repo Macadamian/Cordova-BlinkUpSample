@@ -148,7 +148,7 @@ typedef NS_ENUM(NSInteger, BlinkupArguments) {
 
     if (willRespond) {
         // can't set timeout manually, so just tell devicePoller to stop polling (if timeout not default)
-        if (self.timeoutMs != 60000) {
+        if (self.timeoutMs != 30000) {
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, self.timeoutMs * NSEC_PER_MSEC),
                 dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
                     [self.blinkUpController.devicePoller stopPolling];
