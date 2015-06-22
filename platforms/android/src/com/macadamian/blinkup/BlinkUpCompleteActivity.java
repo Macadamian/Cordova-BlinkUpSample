@@ -45,7 +45,7 @@ public class BlinkUpCompleteActivity extends Activity {
 
         BlinkUpPluginResult pluginResult = new BlinkUpPluginResult();
         pluginResult.setState(BlinkUpPluginResult.BlinkUpPluginState.Started);
-        pluginResult.setStatusCode(BlinkUpPlugin.GATHERING_INFO);
+        pluginResult.setStatusCode(BlinkUpPlugin.StatusCodes.GATHERING_INFO.getCode());
         pluginResult.sendResultsToCallback();
 
         this.finish();
@@ -60,7 +60,7 @@ public class BlinkUpCompleteActivity extends Activity {
             @Override public void onSuccess(JSONObject json) {
                 BlinkUpPluginResult pluginResult = new BlinkUpPluginResult();
                 pluginResult.setState(BlinkUpPluginResult.BlinkUpPluginState.Completed);
-                pluginResult.setStatusCode(BlinkUpPlugin.DEVICE_CONNECTED);
+                pluginResult.setStatusCode(BlinkUpPlugin.StatusCodes.DEVICE_CONNECTED.getCode());
                 pluginResult.setDeviceInfoAsJson(json);
                 pluginResult.sendResultsToCallback();
 
@@ -92,7 +92,7 @@ public class BlinkUpCompleteActivity extends Activity {
             @Override public void onTimeout() {
                 BlinkUpPluginResult pluginResult = new BlinkUpPluginResult();
                 pluginResult.setState(BlinkUpPluginResult.BlinkUpPluginState.Error);
-                pluginResult.setPluginError(BlinkUpPlugin.PROCESS_TIMED_OUT);
+                pluginResult.setPluginError(BlinkUpPlugin.ErrorCodes.PROCESS_TIMED_OUT.getCode());
                 pluginResult.sendResultsToCallback();
             }
         };
