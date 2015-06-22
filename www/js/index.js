@@ -104,8 +104,8 @@ var app = {
  * unhides abort button and progress bar
  *****************************************/
 function startProgress() {
-    document.getElementById('abort-button').style.display = "inline-block";
     document.getElementById('progress-bar-wrapper').style.display = "inline-block";
+    document.getElementById('abort-button').style.display = "inline-block";
     document.getElementById('clear-button').style.display = "none";
     document.getElementById('blinkup-button').style.display = "none";
 
@@ -130,8 +130,8 @@ function endProgress() {
     document.getElementById('progress-bar').style.width = "0px";
     document.getElementById('progress-bar-wrapper').style.display = "none";
     document.getElementById('abort-button').style.display = "none";
-    document.getElementById('blinkup-button').style.display = "inline-block";
     document.getElementById('clear-button').style.display = "inline-block";
+    document.getElementById('blinkup-button').style.display = "inline-block";
 }
 
 /********************************************

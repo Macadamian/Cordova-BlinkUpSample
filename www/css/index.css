@@ -109,6 +109,12 @@ button {
     margin-left: -150px;
     left: 50%;
 }
+#abort-button {
+    width: 100%;
+    color: #FDFDFD;
+    background-color: #E3373B;
+    border-bottom-color: #911620;
+}
 #blinkup-button {
     color: #FDFDFD;
     background-color: #2AB269;
