@@ -5,14 +5,14 @@
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied.  See the License for the
- * specific language governing permissions and limitations
- * under the License.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  *
- * Modified by Stuart Douglas (sdouglas@macadamian.com) on June 11, 2015
+ * Created by Stuart Douglas (sdouglas@macadamian.com) on June 11, 2015.
+ * Copyright (c) 2015 Macadamian. All rights reserved.
  */
 
 //--JSLint---------------------
@@ -45,10 +45,10 @@ var app = {
     onDeviceReady: function () {
         app.receivedEvent('deviceready');
 
-        var btn = document.getElementById('blinkup-button');
-        btn.addEventListener('click', function () {
+        var blinkupBtn = document.getElementById('blinkup-button');
+        blinkupBtn.addEventListener('click', function () {
 
-            var success = function (message) {
+            var callback = function (message) {
                 var jsonData;
                 try {
                     jsonData = JSON.parse(message);
@@ -59,28 +59,33 @@ var app = {
                         this.endProgress();
                     }
                 } catch (exception) {
-                    console.log("Error parsing JSON in success callback:" + exception);
+                    console.log("Error parsing JSON in callback:" + exception);
                     console.log(message);
                     this.endProgress();
                 }
             };
 
-            var failure = function (message) {
+            if (developerPlanId == "DEVELOPER_PLAN_ID_HERE") {
+                developerPlanId = ""; // SDK will generate planId if left blank
+            }
+            blinkup.invokeBlinkUp(apiKey, developerPlanId, timeoutMs, true, callback, callback);
+        });
+
+        var clearBtn = document.getElementById('clear-button');
+        clearBtn.addEventListener('click', function () {
+            
+            var callback = function (message) {
                 var jsonData;
                 try {
                     jsonData = JSON.parse(message);
                     this.updateInfo(jsonData);
-
-                    if (jsonData.state === "started") {
-                        this.endProgress();
-                    }
-                } catch (exception) {
-                    console.log("Error parsing JSON in failure callback:" + exception);
+                }
+                catch (exception) {
+                    console.log("Error parsing JSON in clearResults callback: " + exception);
                     console.log(message);
-                    this.endProgress();
                 }
             };
-            blinkup.invokeBlinkUp(apiKey, developerPlanId, timeoutMs, true, success, failure);
+            blinkup.clearResults(callback, callback);
         });
     },
     // Update DOM on a Received Event

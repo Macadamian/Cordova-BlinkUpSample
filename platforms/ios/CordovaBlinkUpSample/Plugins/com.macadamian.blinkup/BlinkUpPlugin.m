@@ -46,7 +46,7 @@ typedef NS_ENUM(NSInteger, BlinkUpErrorCodes) {
 
 /*********************************************************
  * Called by Javascript in Cordova application.
- * `command.arguments` is array, first item is apiKey
+ * `command.arguments` is array of args
  ********************************************************/
 - (void)invokeBlinkUp:(CDVInvokedUrlCommand*)command {
     self.callbackId = command.callbackId;
@@ -67,6 +67,37 @@ typedef NS_ENUM(NSInteger, BlinkUpErrorCodes) {
     self.useCachedPlanId = [command.arguments objectAtIndex:BlinkUpUsedCachedPlanId];
 
     [self navigateToBlinkUpView];
+}
+
+/*********************************************************
+ * Called by Javascript in Cordova application.
+ ********************************************************/
+- (void) clearResults:(CDVInvokedUrlCommand *)command {
+    
+    // create a controller to clear network info
+    BUNetworkConfig *clearConfig = [BUNetworkConfig clearNetworkConfig];
+    BUFlashController *flashController = [[BUFlashController alloc] init];
+
+    // present the clear device flashing screen
+    [flashController presentFlashWithNetworkConfig:clearConfig configId:nil animated:YES resignActive:
+    ^(BOOL willRespond, BUDevicePoller *devicePoller, NSError *error) {
+        
+        BlinkUpPluginResult *clearResult = [[BlinkUpPluginResult alloc] init];
+
+        // set up our plugin result
+        if (error != nil) {
+            clearResult.state = Error;
+            [clearResult setBlinkUpError:error];
+        }
+        else {
+            clearResult.state = Completed;
+            clearResult.statusCode = CLEAR_COMPLETE;
+        }
+
+        //send results back to callback
+        CDVPluginResult *cordovaResult = [CDVPluginResult resultWithStatus:[clearResult getCordovaStatus] messageAsString: [clearResult getResults]];
+        [self.commandDelegate sendPluginResult:cordovaResult callbackId:command.callbackId];
+    }];
 }
 
 

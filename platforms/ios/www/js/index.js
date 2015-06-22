@@ -44,10 +44,10 @@ var app = {
     onDeviceReady: function () {
         app.receivedEvent('deviceready');
 
-        var btn = document.getElementById('blinkup-button');
-        btn.addEventListener('click', function () {
+        var blinkupBtn = document.getElementById('blinkup-button');
+        blinkupBtn.addEventListener('click', function () {
 
-            var success = function (message) {
+            var callback = function (message) {
                 var jsonData;
                 try {
                     jsonData = JSON.parse(message);
@@ -58,23 +58,7 @@ var app = {
                         this.endProgress();
                     }
                 } catch (exception) {
-                    console.log("Error parsing JSON in success callback:" + exception);
-                    console.log(message);
-                    this.endProgress();
-                }
-            };
-
-            var failure = function (message) {
-                var jsonData;
-                try {
-                    jsonData = JSON.parse(message);
-                    this.updateInfo(jsonData);
-
-                    if (jsonData.state === "started") {
-                        this.endProgress();
-                    }
-                } catch (exception) {
-                    console.log("Error parsing JSON in failure callback:" + exception);
+                    console.log("Error parsing JSON in callback:" + exception);
                     console.log(message);
                     this.endProgress();
                 }
@@ -83,7 +67,24 @@ var app = {
             if (developerPlanId == "DEVELOPER_PLAN_ID_HERE") {
                 developerPlanId = ""; // SDK will generate planId if left blank
             }
-            blinkup.invokeBlinkUp(apiKey, developerPlanId, timeoutMs, true, success, failure);
+            blinkup.invokeBlinkUp(apiKey, developerPlanId, timeoutMs, true, callback, callback);
+        });
+
+        var clearBtn = document.getElementById('clear-button');
+        clearBtn.addEventListener('click', function () {
+            
+            var callback = function (message) {
+                var jsonData;
+                try {
+                    jsonData = JSON.parse(message);
+                    this.updateInfo(jsonData);
+                }
+                catch (exception) {
+                    console.log("Error parsing JSON in clearResults callback: " + exception);
+                    console.log(message);
+                }
+            };
+            blinkup.clearResults(callback, callback);
         });
     },
     // Update DOM on a Received Event
@@ -129,7 +130,7 @@ function updateInfo(pluginResult) {
     document.getElementById('deviceId').innerHTML = "";
     document.getElementById('agentURL').innerHTML = "";
     document.getElementById('verificationDate').innerHTML = "";
-    
+
     var status = "";
 
     if (pluginResult.state == "error") {

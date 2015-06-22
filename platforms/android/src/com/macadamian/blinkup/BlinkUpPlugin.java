@@ -19,6 +19,7 @@ package com.macadamian.blinkup;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.util.Log;
 import android.widget.Toast;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -75,9 +76,16 @@ public class BlinkUpPlugin extends CordovaPlugin {
      *********************************************************/
     @Override
     public boolean execute(String action, JSONArray data, CallbackContext callbackContext) throws JSONException {
-        if (action.equalsIgnoreCase("invokeBlinkUp")) {
 
-            this.callbackContext = callbackContext;
+        this.callbackContext = callbackContext;
+
+        // onActivityResult called on MainActivity (i.e. cordova.getActivity()) when blinkup or clear
+        // complete. It calls handleActivityResult on blinkupController, which initiates the following intents
+        BlinkupController.getInstance().intentBlinkupComplete = new Intent(this.cordova.getActivity(), BlinkUpCompleteActivity.class);
+        BlinkupController.getInstance().intentClearComplete = new Intent(this.cordova.getActivity(), ClearCompleteActivity.class);
+
+        // starting blinkup
+        if (action.equalsIgnoreCase("invokeBlinkUp")) {
             try {
                 this.apiKey = data.getString(BlinkUpArgumentApiKey);
                 this.developerPlanId = data.getString(BlinkUpArgumentDeveloperPlanId);
@@ -99,6 +107,12 @@ public class BlinkUpPlugin extends CordovaPlugin {
                 }
             });
         }
+
+        // clearing wifi info
+        else if (action.equalsIgnoreCase("clearResults")) {
+            BlinkupController.getInstance().clearDevice(this.cordova.getActivity());
+        }
+
         return true;
     }
 
@@ -152,12 +166,6 @@ public class BlinkUpPlugin extends CordovaPlugin {
         }
 
         BlinkupController.getInstance().acquireSetupToken(this.cordova.getActivity(), this.apiKey, tokenAcquireCallback);
-
-        // onActivityResult called on MainActivity (i.e. cordova.getActivity()) when blinkup or clear
-        // complete. It calls handleActivityResult on blinkupController, which initiates the following intents
-        BlinkupController.getInstance().intentBlinkupComplete = new Intent(this.cordova.getActivity(), BlinkUpCompleteActivity.class);
-        BlinkupController.getInstance().intentClearComplete = new Intent(this.cordova.getActivity(), ClearCompleteActivity.class);
-
         BlinkupController.getInstance().selectWifiAndSetupDevice(this.cordova.getActivity(), this.apiKey, serverErrorHandler);
     }
 }
