@@ -7,9 +7,11 @@
 *BlinkUp.embeddedframework
 **/blinkup_sdk/
 
-# Exclude native copies of index.js (www/js/index.js version overwrites them)
-platforms/ios/www/js/index.js
-platforms/android/assets/www/js/index.js
+# Exclude native copies of files in www that are copied from root www directory 
+platforms/ios/www/*
+platforms/android/assets/www/*
+!platforms/ios/www/cordova.js
+!platforms/android/assets/www/cordova.js
 
 # -- OBJECTIVE-C -----------------------
 # https://github.com/github/gitignore/blob/master/Objective-C.gitignore
