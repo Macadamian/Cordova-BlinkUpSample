@@ -25,8 +25,8 @@ cordova.define("com.macadamian.blinkup.blinkup", function(require, exports, modu
         abortBlinkUp: function (successCallback, errorCallback) {
             cordova.exec(successCallback, errorCallback, "BlinkUpPlugin", "abortBlinkUp", []);
         },
-        clearResults: function (successCallback, errorCallback) {
-            cordova.exec(successCallback, errorCallback, "BlinkUpPlugin", "clearResults", []);
+        clearWifiAndCache: function (successCallback, errorCallback) {
+            cordova.exec(successCallback, errorCallback, "BlinkUpPlugin", "clearWifiAndCache", []);
         }
     };
 });

@@ -21,6 +21,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.util.Log;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 
@@ -43,13 +44,16 @@ public class BlinkUpPlugin extends CordovaPlugin {
     // accessed from BlinkUpCompleteActivity and ClearCompleteActivity
     public static int timeoutMs = 60000;
     public static CallbackContext callbackContext;
+
     public static String PLAN_ID_CACHE_KEY = "planId";
     public static String PLAN_ID_CACHE_NAME = "DefaultPreferences";
+    public static boolean clearedCache = false;
 
     public enum StatusCodes {
         DEVICE_CONNECTED(0),
         GATHERING_INFO(200),
-        CLEAR_COMPLETE(201);
+        CLEAR_WIFI_COMPLETE(201),
+        CLEAR_WIFI_AND_CACHE_COMPLETE(202);
 
         private final int code;
         StatusCodes(int code) { this.code = code; }
@@ -81,6 +85,12 @@ public class BlinkUpPlugin extends CordovaPlugin {
 
         BlinkUpPlugin.callbackContext = callbackContext;
 
+        // onActivityResult called on MainActivity (i.e. cordova.getActivity()) when blinkup or clear
+        // complete. It calls handleActivityResult on blinkupController, which initiates the following intents
+        BlinkupController.getInstance().intentBlinkupComplete = new Intent(this.cordova.getActivity(), BlinkUpCompleteActivity.class);
+        BlinkupController.getInstance().intentClearComplete = new Intent(this.cordova.getActivity(), ClearCompleteActivity.class);
+
+        // starting blinkup
         if (action.equalsIgnoreCase("invokeBlinkUp")) {
             try {
                 this.apiKey = data.getString(BlinkUpArgumentApiKey);
@@ -113,14 +123,27 @@ public class BlinkUpPlugin extends CordovaPlugin {
             });
         }
 
+        // abort blinkup
         else if (action.equalsIgnoreCase("abortBlinkUp")) {
             BlinkupController.getInstance().cancelTokenStatusPolling();
 
             BlinkUpPluginResult pluginResult = new BlinkUpPluginResult();
             pluginResult.setState(BlinkUpPluginResult.BlinkUpPluginState.Error);
-            pluginResult.setPluginError(this.CANCELLED_BY_USER);
+            pluginResult.setPluginError(ErrorCodes.CANCELLED_BY_USER.getCode());
             pluginResult.sendResultsToCallback();
         }
+
+        // clears wifi and removes cached planId
+        else if (action.equalsIgnoreCase("clearWifiAndCache")) {
+            SharedPreferences preferences = cordova.getActivity().getSharedPreferences("DefaultPreferences", Activity.MODE_PRIVATE);
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.putString("planId", null);
+            editor.apply();
+
+            BlinkUpPlugin.clearedCache = true;
+            BlinkupController.getInstance().clearDevice(this.cordova.getActivity());
+        }
+
         return true;
     }
 
@@ -164,12 +187,6 @@ public class BlinkUpPlugin extends CordovaPlugin {
         }
 
         BlinkupController.getInstance().acquireSetupToken(this.cordova.getActivity(), this.apiKey, tokenAcquireCallback);
-
-        // onActivityResult called on MainActivity (i.e. cordova.getActivity()) when blinkup or clear
-        // complete. It calls handleActivityResult on blinkupController, which initiates the following intents
-        BlinkupController.getInstance().intentBlinkupComplete = new Intent(this.cordova.getActivity(), BlinkUpCompleteActivity.class);
-        BlinkupController.getInstance().intentClearComplete = new Intent(this.cordova.getActivity(), ClearCompleteActivity.class);
-
         BlinkupController.getInstance().selectWifiAndSetupDevice(this.cordova.getActivity(), this.apiKey, serverErrorHandler);
     }
 

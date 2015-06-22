@@ -67,19 +67,19 @@ var app = {
             }
         };
     
-        // Perform Blinkup ----------------------------------------
+        // Perform Blinkup ---------------------------------------
         var blinkupBtn = document.getElementById('blinkup-button');
         blinkupBtn.addEventListener('click', function () {
             blinkup.invokeBlinkUp(apiKey, planId, timeoutMs, true, blinkUpCallback, blinkUpCallback);
         });
 
-        // Clear Results --------------------------------------
+        // Clear Wifi & Cached PlanId ----------------------------
         var clearBtn = document.getElementById('clear-button');
         clearBtn.addEventListener('click', function () {
-            blinkup.clearResults(blinkUpCallback, blinkUpCallback);
+            blinkup.clearWifiAndCache(blinkUpCallback, blinkUpCallback);
         });
         
-        // Abort BlinkUp --------------------------------------
+        // Abort BlinkUp -----------------------------------------
         var abortBtn = document.getElementById('abort-button');
         abortBtn.addEventListener('click', function () {
             blinkup.abortBlinkUp(blinkUpCallback, blinkUpCallback);
@@ -170,7 +170,8 @@ function updateInfo(pluginResult) {
 var StatusMessages = {
     0   : "Device Connected.",
     200 : "Gathering device info...",
-    201 : "Wireless configuration cleared."
+    201 : "Wireless configuration cleared.",
+    202 : "Wireless configuration and cached Plan ID cleared."
 };
 
 var ErrorMessages = {   

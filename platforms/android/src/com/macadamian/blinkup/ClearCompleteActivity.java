@@ -38,6 +38,17 @@ public class ClearCompleteActivity extends Activity {
         clearResult.setStatusCode(BlinkUpPlugin.StatusCodes.CLEAR_COMPLETE.getCode());
         clearResult.sendResultsToCallback();
 
+        // set the status code depending if we just cleared the cache
+        if (BlinkUpPlugin.clearedCache) {
+            pluginResult.setStatusCode(BlinkUpPlugin.StatusCodes.CLEAR_WIFI_AND_CACHE_COMPLETE.getCode());
+            BlinkUpPlugin.clearedCache = false;
+        }
+        else {
+            pluginResult.setStatusCode(BlinkUpPlugin.StatusCodes.CLEAR_WIFI_COMPLETE.getCode());
+        }
+
+        pluginResult.sendResultsToCallback();
+
         this.finish();
     }
 }
