@@ -20,8 +20,8 @@
 /*global statusMessageForCode*/
 //-----------------------------
 
-var apiKey = "YOUR_API_KEY_HERE";
-var developerPlanId = "DEVELOPER_PLAN_ID_HERE"; //if blank or left as DEVELOPER_PLAN_ID_HERE, SDK will auto-generate a planId
+var apiKey = "86dc1fc4500073703a35c1a578d5e09f";
+var developerPlanId = "8ab6ecdf165bb693"; //if blank or left as DEVELOPER_PLAN_ID_HERE, SDK will auto-generate a planId
 var timeoutMs = 60000;
 var interval;
 
@@ -70,7 +70,7 @@ var app = {
                     jsonData = JSON.parse(message);
                     this.updateInfo(jsonData);
 
-                    if (jsonData.state === "started") {
+                    if (jsonData.state !== "started") {
                         this.endProgress();
                     }
                 } catch (exception) {
@@ -84,6 +84,23 @@ var app = {
                 developerPlanId = ""; // SDK will generate planId if left blank
             }
             blinkup.invokeBlinkUp(apiKey, developerPlanId, timeoutMs, true, success, failure);
+        });
+
+        var abortBtn = document.getElementById('abort-button');
+        abortBtn.addEventListener('click', function () {
+            var callback = function (message) {
+                this.endProgress();
+                var jsonData;
+                try {
+                    jsonData = JSON.parse(message);
+                    this.updateInfo(jsonData);
+                } catch (exception) {
+                    console.log("Error parsing JSON in abort callback:" + exception);
+                    console.log(message);
+                    this.endProgress();
+                }
+            };
+            blinkup.abortBlinkUp(callback, callback);
         });
     },
     // Update DOM on a Received Event
@@ -100,6 +117,7 @@ var app = {
 };
 
 function startProgress() {
+    document.getElementById('abort-button').style.display = "inline-block";
     document.getElementById('progress-bar-wrapper').style.display = "inline-block";
 
     var progressBar = document.getElementById('progress-bar');
@@ -119,6 +137,7 @@ function startProgress() {
 function endProgress() {
     document.getElementById('progress-bar').style.width = "0px";
     document.getElementById('progress-bar-wrapper').style.display = "none";
+    document.getElementById('abort-button').style.display = "none";
 }
 
 function updateInfo(pluginResult) {
@@ -129,7 +148,7 @@ function updateInfo(pluginResult) {
     document.getElementById('deviceId').innerHTML = "";
     document.getElementById('agentURL').innerHTML = "";
     document.getElementById('verificationDate').innerHTML = "";
-    
+
     var status = "";
 
     if (pluginResult.state == "error") {

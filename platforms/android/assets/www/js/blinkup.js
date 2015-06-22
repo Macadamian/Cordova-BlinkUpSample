@@ -21,5 +21,8 @@ module.exports = {
     //apiKey: string, developerPlanId: string (set "" to have SDK generate one), timeoutMs: int, useCachedPlanId: bool 
     invokeBlinkUp: function (apiKey, developerPlanId, timeoutMs, useCachedPlanId, successCallback, errorCallback) {
         cordova.exec(successCallback, errorCallback, "BlinkUpPlugin", "invokeBlinkUp", [apiKey, developerPlanId, timeoutMs, useCachedPlanId]);
+    },
+    abortBlinkUp: function (successCallback, errorCallback) {
+        cordova.exec(successCallback, errorCallback, "BlinkUpPlugin", "abortBlinkUp", []);
     }
 };

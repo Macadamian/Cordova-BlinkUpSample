@@ -5,14 +5,14 @@
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied.  See the License for the
- * specific language governing permissions and limitations
- * under the License.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  *
- * Modified by Stuart Douglas (sdouglas@macadamian.com) on June 11, 2015
+ * Created by Stuart Douglas (sdouglas@macadamian.com) on June 11, 2015.
+ * Copyright (c) 2015 Macadamian. All rights reserved.
  */
 
 //--JSLint---------------------
@@ -82,6 +82,14 @@ var app = {
             };
             blinkup.invokeBlinkUp(apiKey, developerPlanId, timeoutMs, true, success, failure);
         });
+        
+        var abortBtn = document.getElementById('abort-button');
+            abortBtn.addEventListener('click', function () {
+            var callback = function () {
+                this.endProgress();
+            }
+            blinkup.abortBlinkUp(callback, callback);
+        });
     },
     // Update DOM on a Received Event
     receivedEvent: function (id) {
@@ -97,6 +105,7 @@ var app = {
 };
 
 function startProgress() {
+    document.getElementById('abort-button').style.display = "inline-block";
     document.getElementById('progress-bar-wrapper').style.display = "inline-block";
 
     var progressBar = document.getElementById('progress-bar');
@@ -116,6 +125,7 @@ function startProgress() {
 function endProgress() {
     document.getElementById('progress-bar').style.width = "0px";
     document.getElementById('progress-bar-wrapper').style.display = "none";
+    document.getElementById('abort-button').style.display = "none";
 }
 
 function updateInfo(pluginResult) {
@@ -126,7 +136,7 @@ function updateInfo(pluginResult) {
     document.getElementById('deviceId').innerHTML = "";
     document.getElementById('agentURL').innerHTML = "";
     document.getElementById('verificationDate').innerHTML = "";
-
+    
     var status = "";
 
     if (pluginResult.state == "error") {
