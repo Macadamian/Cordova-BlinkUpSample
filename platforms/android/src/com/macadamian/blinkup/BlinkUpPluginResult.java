@@ -53,34 +53,48 @@ public class BlinkUpPluginResult {
 
     // possible states
     public enum BlinkUpPluginState {
-        Started,
-        Completed,
-        Error
+        Started("started"),
+        Completed("completed"),
+        Error("error");
+
+        private final String state;
+        BlinkUpPluginState(String state) { this.state = state; }
+        public String getKey() { return this.state; }
     }
 
-    // error types
+    // possible error types
     private enum BlinkUpErrorType {
-        BlinkUpSDKError,
-        PluginError
+        BlinkUpSDKError("blinkup"),
+        PluginError("plugin");
+
+        private final String type;
+        BlinkUpErrorType(String type) { this.type = type; }
+        public String getType() { return this.type; }
     }
 
     //=====================================
     // JSON keys for results
     //=====================================
-    // keys for JSON sent back to javascript
-    private static final String STATE_KEY = "state";
-    private static final String STATUS_CODE_KEY = "statusCode";
+    private enum ResultKeys {
+        STATE("state"),
+        STATUS_CODE("statusCode"),
 
-    private static final String ERROR_KEY = "error";
-    private static final String ERROR_TYPE_KEY = "errorType";
-    private static final String ERROR_CODE_KEY = "errorCode";
-    private static final String ERROR_MSG_KEY = "errorMsg";
+        ERROR("error"),
+        ERROR_TYPE("errorType"),
+        ERROR_CODE("errorCode"),
+        ERROR_MSG("errorMsg"),
 
-    private static final String DEVICE_INFO_KEY = "deviceInfo";
-    private static final String DEVICE_ID_KEY = "deviceId";
-    private static final String PLAN_ID_KEY = "planId";
-    private static final String AGENT_URL_KEY = "agentURL";
-    private static final String VERIFICATION_DATE_KEY = "verificationDate";
+        DEVICE_INFO("deviceInfo"),
+        DEVICE_ID("deviceId"),
+        PLAN_ID("planId"),
+        AGENT_URL("agentURL"),
+        VERIFICATION_DATE("verificationDate");
+
+        private final String key;
+        ResultKeys(String key) { this.key = key; }
+        public String getKey() { return this.key; }
+
+    }
 
     //====================================
     // BlinkUp Results
@@ -140,44 +154,34 @@ public class BlinkUpPluginResult {
 
         try {
             // set our state (never null)
-            if (this.state == BlinkUpPluginState.Started) {
-                resultJSON.put(this.STATE_KEY, "started");
-            } else if (this.state == BlinkUpPluginState.Completed) {
-                resultJSON.put(this.STATE_KEY, "completed");
-            } else {
-                resultJSON.put(this.STATE_KEY, "error");
-            }
+            resultJSON.put(ResultKeys.STATE.getKey(), this.state.getKey());
 
             // error
             if (this.state == BlinkUpPluginState.Error) {
                 JSONObject errorJson = new JSONObject();
-                if (this.errorType == BlinkUpErrorType.BlinkUpSDKError) {
-                    errorJson.put(this.ERROR_TYPE_KEY, "blinkup");
-                    errorJson.put(this.ERROR_MSG_KEY, this.errorMsg);
+                errorJson.put(ResultKeys.ERROR_CODE.getKey(), String.valueOf(this.errorCode));
+                if (this.errorMsg != null) {
+                    errorJson.put(ResultKeys.ERROR_MSG.getKey(), this.errorMsg);
                 }
-                else {
-                    errorJson.put(this.ERROR_TYPE_KEY, "plugin");
-                }
-                errorJson.put(this.ERROR_CODE_KEY, String.valueOf(this.errorCode));
-                resultJSON.put(this.ERROR_KEY, errorJson);
+                resultJSON.put(ResultKeys.ERROR.getKey(), errorJson);
             }
 
             // success
             else {
-                resultJSON.put(this.STATUS_CODE_KEY, String.valueOf(statusCode));
+                resultJSON.put(ResultKeys.STATUS_CODE.getKey(), String.valueOf(statusCode));
 
                 if (this.deviceId != null && this.planId != null
                  && this.agentURL != null && this.verificationDate != null) {
                     JSONObject deviceInfoJson = new JSONObject();
-                    deviceInfoJson.put(this.DEVICE_ID_KEY, this.deviceId);
-                    deviceInfoJson.put(this.PLAN_ID_KEY, this.planId);
-                    deviceInfoJson.put(this.AGENT_URL_KEY, this.agentURL);
-                    deviceInfoJson.put(this.VERIFICATION_DATE_KEY, this.verificationDate);
-                    resultJSON.put(this.DEVICE_INFO_KEY, deviceInfoJson);
+                    deviceInfoJson.put(ResultKeys.DEVICE_ID.getKey(), this.deviceId);
+                    deviceInfoJson.put(ResultKeys.PLAN_ID.getKey(), this.planId);
+                    deviceInfoJson.put(ResultKeys.AGENT_URL.getKey(), this.agentURL);
+                    deviceInfoJson.put(ResultKeys.VERIFICATION_DATE.getKey(), this.verificationDate);
+                    resultJSON.put(ResultKeys.DEVICE_INFO.getKey(), deviceInfoJson);
                 }
             }
         } catch (JSONException e) {
-            Log.e("BlinkUpPlugin", "Error creating result JSOn.");
+            Log.e("BlinkUpPlugin", "Error creating result JSON.");
             e.printStackTrace();
         }
 

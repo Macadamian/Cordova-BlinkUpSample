@@ -43,20 +43,32 @@ public class BlinkUpPlugin extends CordovaPlugin {
     public static int timeoutMs = 60000;
     public static CallbackContext callbackContext;
 
+    public enum StatusCodes {
+        DEVICE_CONNECTED(0),
+        GATHERING_INFO(200),
+        CLEAR_COMPLETE(201);
+
+        private final int code;
+        StatusCodes(int code) { this.code = code; }
+        public int getCode() { return code; }
+    }
+    public enum ErrorCodes {
+        INVALID_ARGUMENTS(100),
+        PROCESS_TIMED_OUT(101),
+        CANCELLED_BY_USER(102),
+        INVALID_API_KEY(103),
+        VERIFY_API_KEY_FAIL(104);
+
+        private final int code;
+        ErrorCodes(int code) { this.code = code; }
+        public int getCode() { return code; }
+    }
+
+    // argument indexes from Cordova javascript
     final int BlinkUpArgumentApiKey = 0;
     final int BlinkUpArgumentDeveloperPlanId = 1;
     final int BlinkUpArgumentTimeOut = 2;
     final int BlinkUpUsedCachedPlanId = 3;
-
-    public static final int DEVICE_CONNECTED = 0;
-    public static final int GATHERING_INFO = 200;
-    public static final int CLEAR_COMPLETE = 201;
-
-    public static final int INVALID_ARGUMENTS = 100;
-    public static final int PROCESS_TIMED_OUT = 101;
-    public static final int CANCELLED_BY_USER = 102;
-    public static final int INVALID_API_KEY = 103;
-    public static final int VERIFY_API_KEY_FAIL = 104;
 
     /**********************************************************
      * method called by Cordova javascript
@@ -69,12 +81,12 @@ public class BlinkUpPlugin extends CordovaPlugin {
             try {
                 this.apiKey = data.getString(BlinkUpArgumentApiKey);
                 this.developerPlanId = data.getString(BlinkUpArgumentDeveloperPlanId);
-                this.timeoutMs = data.getInt(BlinkUpArgumentTimeOut);
+                timeoutMs = data.getInt(BlinkUpArgumentTimeOut);
                 this.useCachedPlanId = data.getBoolean(BlinkUpUsedCachedPlanId);
             } catch (JSONException exc) {
                 BlinkUpPluginResult pluginResult = new BlinkUpPluginResult();
                 pluginResult.setState(BlinkUpPluginResult.BlinkUpPluginState.Error);
-                pluginResult.setPluginError(this.INVALID_ARGUMENTS);
+                pluginResult.setPluginError(ErrorCodes.INVALID_ARGUMENTS.getCode());
                 pluginResult.sendResultsToCallback();
                 return false;
             }
@@ -107,7 +119,7 @@ public class BlinkUpPlugin extends CordovaPlugin {
                     Toast.makeText(cordova.getActivity(), "Error. Invalid BlinkUp API key.", Toast.LENGTH_LONG).show();
                     BlinkUpPluginResult pluginResult = new BlinkUpPluginResult();
                     pluginResult.setState(BlinkUpPluginResult.BlinkUpPluginState.Error);
-                    pluginResult.setPluginError(INVALID_API_KEY);
+                    pluginResult.setPluginError(ErrorCodes.INVALID_API_KEY.getCode());
                     pluginResult.sendResultsToCallback();
                 }
                 else {
@@ -122,7 +134,7 @@ public class BlinkUpPlugin extends CordovaPlugin {
             public void onError(String s) {
                 BlinkUpPluginResult pluginResult = new BlinkUpPluginResult();
                 pluginResult.setState(BlinkUpPluginResult.BlinkUpPluginState.Error);
-                pluginResult.setStatusCode(VERIFY_API_KEY_FAIL);
+                pluginResult.setStatusCode(ErrorCodes.VERIFY_API_KEY_FAIL.getCode());
                 pluginResult.sendResultsToCallback();
             }
         };
