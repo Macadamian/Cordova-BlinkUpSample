@@ -1,4 +1,4 @@
-/*
+//*
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -20,8 +20,9 @@
 /*global statusMessageForCode*/
 //-----------------------------
 
-var apiKey = "YOUR_API_KEY_HERE";
-var developerPlanId = "DEVELOPER_PLAN_ID_HERE"; //if blank or left as DEVELOPER_PLAN_ID_HERE, SDK will auto-generate a planId
+var apiKey = ""; // You must provide your own BlinkUp API Key
+var developerPlanId = ""; // You must provide your own developer Plan ID.
+
 var timeoutMs = 60000;
 var interval;
 
@@ -79,10 +80,6 @@ var app = {
                     this.endProgress();
                 }
             };
-
-            if (developerPlanId == "DEVELOPER_PLAN_ID_HERE") {
-                developerPlanId = ""; // SDK will generate planId if left blank
-            }
             blinkup.invokeBlinkUp(apiKey, developerPlanId, timeoutMs, true, success, failure);
         });
     },
