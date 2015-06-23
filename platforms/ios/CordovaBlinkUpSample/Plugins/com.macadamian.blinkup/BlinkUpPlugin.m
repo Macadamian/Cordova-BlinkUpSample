@@ -65,7 +65,7 @@ typedef NS_ENUM(NSInteger, BlinkUpErrorCodes) {
     self.developerPlanId = [command.arguments objectAtIndex:BlinkUpArgumentDeveloperPlanId];
     self.timeoutInMs = [command.arguments objectAtIndex:BlinkUpArgumentTimeOut];
     self.useCachedPlanId = [command.arguments objectAtIndex:BlinkUpUsedCachedPlanId];
-    
+
     [self navigateToBlinkUpView];
 }
 
