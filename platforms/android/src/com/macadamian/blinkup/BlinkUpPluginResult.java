@@ -23,33 +23,41 @@ import org.apache.cordova.PluginResult;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class BlinkUpPluginResult {
+/* ========== JSON Format Reference =============================
+{
+   "state": "started" | "completed" | "error", [1]
+   "statusCode": "",                           [2]
+   "error": {                                  [3]
+       "errorType": "plugin" | "blinkup",      [4]
+       "errorCode": "",                        [5]
+       "errorMsg": ""                          [6]
+   },
+   "deviceInfo": {                             [7]
+       "deviceId": "",
+       "planId": "",
+       "agentURL": "",
+       "verificationDate": ""
+   }
+}
+[1] - started: flashing process has finished, waiting for device
+               info from Electric Imp servers
+    completed: Plugin done executing. This could be a clear-wifi
+               completed or device info from servers has arrived
+[2] - Status of plugin. See Readme.md for status codes.
+      Null if state is "error".
+[3] - Stores error information if state is "error".
+      Null if state is "started" or "completed".
+[4] - If error sent from SDK, "blinkup".
+      If error handled within native code of plugin, "plugin".
+[5] - BlinkUp SDK error code if errorType is "blinkup".
+      Custom error code if "plugin". See Readme.md for codes.
+[6] - If errorType is "blinkup", error message from BlinkUp SDK.
+      Null if errorType "plugin"
+[7] - Stores the deviceInfo from the Electric Imp servers.
+      Null if state = "started" or "error"
+===============================================================*/
 
-    /******** JSON Format ******************************
-    {
-        "state": "started" | "completed" | "error",
-        "statusCode": "",                           [1]
-        "error": {                                  [2]
-            "errorType": "plugin" | "blinkup",      [3]
-            "errorCode": "",                        [4]
-            "errorMsg": ""                          [5]
-        },
-        "deviceInfo": {                             [6]
-            "deviceId": "",
-            "planId": "",
-            "agentURL": "",
-            "verificationDate": ""
-        }
-    }
-    // [1] - null if error, see readme for status codes
-    // [2] - null if "started" or "completed"
-    // [3] - if error from BUErrors.h, "blinkup",
-             otherwise "plugin"
-    // [4] - NSError code if "blinkup", custom error code
-             if "plugin". See readme for custom errors.
-    // [5] - null if errorType "plugin"
-    // [6] - null if "started" or "error"
-    ****************************************************/
+public class BlinkUpPluginResult {
 
     // possible states
     public enum BlinkUpPluginState {
@@ -93,7 +101,6 @@ public class BlinkUpPluginResult {
         private final String key;
         ResultKeys(String key) { this.key = key; }
         public String getKey() { return this.key; }
-
     }
 
     //====================================
@@ -109,10 +116,11 @@ public class BlinkUpPluginResult {
     private String planId;
     private String agentURL;
     private String verificationDate;
+    private boolean hasDeviceInfo = false;
 
-    //====================================
-    // Setters for our Results
-    //====================================
+    /*************************************
+     * Setters for our Results
+     *************************************/
     public void setState(BlinkUpPluginState state) {
         this.state = state;
     }
@@ -125,7 +133,7 @@ public class BlinkUpPluginResult {
     }
     public void setBlinkUpError(String errorMsg) {
         this.errorType = BlinkUpErrorType.BlinkUpSDKError;
-        this.errorCode = 1;
+        this.errorCode = 1; // set generic error code
         this.errorMsg = errorMsg;
     }
     public void setDeviceInfoAsJson(JSONObject deviceInfo) {
@@ -134,59 +142,86 @@ public class BlinkUpPluginResult {
             this.planId = deviceInfo.getString("plan_id");
             this.agentURL = deviceInfo.getString("agent_url");
             this.verificationDate = deviceInfo.getString("claimed_at");
+            this.hasDeviceInfo = true;
         } catch (JSONException e) {
-            Log.e("BlinkUpPlugin", "Error parsing device info JSON.");
+            Log.e("BlinkUpPlugin", e.getMessage());
             e.printStackTrace();
         }
     }
 
+    /*************************************
+     * Generates JSON of our plugin results
+     * and sends back to the callback
+     *************************************/
     public void sendResultsToCallback() {
         JSONObject resultJSON = new JSONObject();
 
         // set result status
-        PluginResult.Status resultStatus;
+        PluginResult.Status cordovaResultStatus;
         if (this.state == BlinkUpPluginState.Error) {
-            resultStatus = PluginResult.Status.ERROR;
+            cordovaResultStatus = PluginResult.Status.ERROR;
         }
         else {
-            resultStatus = PluginResult.Status.OK;
+            cordovaResultStatus = PluginResult.Status.OK;
         }
 
         try {
-            // set our state (never null)
             resultJSON.put(ResultKeys.STATE.getKey(), this.state.getKey());
 
-            // error
             if (this.state == BlinkUpPluginState.Error) {
-                JSONObject errorJson = new JSONObject();
-                errorJson.put(ResultKeys.ERROR_CODE.getKey(), String.valueOf(this.errorCode));
-                if (this.errorMsg != null) {
-                    errorJson.put(ResultKeys.ERROR_MSG.getKey(), this.errorMsg);
-                }
-                resultJSON.put(ResultKeys.ERROR.getKey(), errorJson);
+                resultJSON.put(ResultKeys.ERROR.getKey(), generateErrorJson());
             }
-
-            // success
             else {
                 resultJSON.put(ResultKeys.STATUS_CODE.getKey(), String.valueOf(statusCode));
-
-                if (this.deviceId != null && this.planId != null
-                 && this.agentURL != null && this.verificationDate != null) {
-                    JSONObject deviceInfoJson = new JSONObject();
-                    deviceInfoJson.put(ResultKeys.DEVICE_ID.getKey(), this.deviceId);
-                    deviceInfoJson.put(ResultKeys.PLAN_ID.getKey(), this.planId);
-                    deviceInfoJson.put(ResultKeys.AGENT_URL.getKey(), this.agentURL);
-                    deviceInfoJson.put(ResultKeys.VERIFICATION_DATE.getKey(), this.verificationDate);
-                    resultJSON.put(ResultKeys.DEVICE_INFO.getKey(), deviceInfoJson);
+                if (this.hasDeviceInfo) {
+                    resultJSON.put(ResultKeys.DEVICE_INFO.getKey(), generateDeviceInfoJson());
                 }
             }
         } catch (JSONException e) {
-            Log.e("BlinkUpPlugin", "Error creating result JSON.");
+            Log.e("BlinkUpPlugin", e.getMessage());
             e.printStackTrace();
         }
 
-        PluginResult pluginResult = new PluginResult(resultStatus, resultJSON.toString());
+        PluginResult pluginResult = new PluginResult(cordovaResultStatus, resultJSON.toString());
         pluginResult.setKeepCallback(this.state == BlinkUpPluginState.Started);
         BlinkUpPlugin.callbackContext.sendPluginResult(pluginResult);
+    }
+
+    /*************************************
+     * Returns JSON containing error
+     *************************************/
+    private JSONObject generateErrorJson() {
+        JSONObject errorJson = new JSONObject();
+
+        try {
+            errorJson.put(ResultKeys.ERROR_TYPE.getKey(), this.errorType.getType());
+            errorJson.put(ResultKeys.ERROR_CODE.getKey(), String.valueOf(this.errorCode));
+
+            if (this.errorType == BlinkUpErrorType.BlinkUpSDKError) {
+                errorJson.put(ResultKeys.ERROR_MSG.getKey(), this.errorMsg);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return errorJson;
+    }
+
+    /*************************************
+     * Returns deviceInfo in JSON
+     *************************************/
+    private JSONObject generateDeviceInfoJson() {
+        JSONObject deviceInfoJson = new JSONObject();
+
+        try {
+            deviceInfoJson.put(ResultKeys.DEVICE_ID.getKey(), this.deviceId);
+            deviceInfoJson.put(ResultKeys.PLAN_ID.getKey(), this.planId);
+            deviceInfoJson.put(ResultKeys.AGENT_URL.getKey(), this.agentURL);
+            deviceInfoJson.put(ResultKeys.VERIFICATION_DATE.getKey(), this.verificationDate);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return deviceInfoJson;
     }
 }

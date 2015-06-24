@@ -15,31 +15,39 @@
  * Copyright (c) 2015 Macadamian. All rights reserved.
  */
 
-/* ========== JSON Format Reference ================
- {
-    "state": "started" | "completed" | "error",
-    "statusCode": "",                           [1]
-    "error": {                                  [2]
-        "errorType": "plugin" | "blinkup",      [3]
-        "errorCode": "",                        [4]
-        "errorMsg": ""                          [5]
-    },
-    "deviceInfo": {                             [6]
-        "deviceId": "",
-        "planId": "",
-        "agentURL": "",
-        "verificationDate": ""
-    }
- }
- // [1] - null if error, see readme for status codes
- // [2] - null if "started" or "completed"
- // [3] - if error from BUErrors.h, "blinkup",
-          otherwise "plugin"
- // [4] - NSError code if "blinkup", custom error code
-          if "plugin". See readme for custom errors.
- // [5] - null if errorType "plugin"
- // [6] - null if "started" or "error"
- ===================================================*/
+/* ========== JSON Format Reference =============================
+{
+   "state": "started" | "completed" | "error", [1]
+   "statusCode": "",                           [2]
+   "error": {                                  [3]
+       "errorType": "plugin" | "blinkup",      [4]
+       "errorCode": "",                        [5]
+       "errorMsg": ""                          [6]
+   },
+   "deviceInfo": {                             [7]
+       "deviceId": "",
+       "planId": "",
+       "agentURL": "",
+       "verificationDate": ""
+   }
+}
+[1] - started: flashing process has finished, waiting for device
+               info from Electric Imp servers
+    completed: Plugin done executing. This could be a clear-wifi
+               completed or device info from servers has arrived
+[2] - Status of plugin. See Readme.md for status codes.
+      Null if state is "error".
+[3] - Stores error information if state is "error".
+      Null if state is "started" or "completed".
+[4] - If error sent from SDK, "blinkup".
+      If error handled within native code of plugin, "plugin".
+[5] - BlinkUp SDK error code if errorType is "blinkup".
+      Custom error code if "plugin". See Readme.md for codes.
+[6] - If errorType is "blinkup", error message from BlinkUp SDK.
+      Null if errorType "plugin"
+[7] - Stores the deviceInfo from the Electric Imp servers.
+      Null if state = "started" or "error"
+===============================================================*/
 
 #import <Cordova/CDV.h>
 
@@ -62,7 +70,7 @@ typedef NS_ENUM(NSInteger, BlinkUpErrorType) {
 //*************************************
 - (void) setBlinkUpError:(NSError *)error;
 - (void) setPluginError:(NSInteger)errorCode;
-- (NSString *)getResults;
+- (NSString *)getResultsAsJsonString;
 - (CDVCommandStatus) getCordovaStatus;
 - (BOOL) getKeepCallback;
 

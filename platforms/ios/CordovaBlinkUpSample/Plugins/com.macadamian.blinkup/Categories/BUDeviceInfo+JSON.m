@@ -25,6 +25,7 @@ NSString * const AGENT_URL_KEY = @"agentURL";
 NSString * const VERIFICATION_DATE_KEY = @"verificationDate";
 
 @implementation BUDeviceInfo (JSON)
+
 -(NSDictionary*)toDictionary {
     NSMutableDictionary *deviceInfo = [[NSMutableDictionary alloc] init];
     [deviceInfo setValue:self.planId forKey:PLAN_ID_KEY];
@@ -33,4 +34,5 @@ NSString * const VERIFICATION_DATE_KEY = @"verificationDate";
     [deviceInfo setValue:self.verificationDate.description forKey:VERIFICATION_DATE_KEY];
     return deviceInfo;
 }
+
 @end

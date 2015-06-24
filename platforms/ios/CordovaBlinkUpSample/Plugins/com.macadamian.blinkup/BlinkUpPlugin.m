@@ -19,12 +19,7 @@
 #import "BlinkUpPluginResult.h"
 #import <BlinkUp/BlinkUp.h>
 
-typedef NS_ENUM(NSInteger, BlinkupArguments) {
-    BlinkUpArgumentApiKey = 0,
-    BlinkUpArgumentDeveloperPlanId,
-    BlinkUpArgumentTimeOut,
-    BlinkUpUsedCachedPlanId
-};
+NSString * const PLAN_ID_CACHE_KEY = @"planId";
 
 // status codes
 typedef NS_ENUM(NSInteger, BlinkUpStatusCodes) {
@@ -42,6 +37,13 @@ typedef NS_ENUM(NSInteger, BlinkUpErrorCodes) {
     VERIFY_API_KEY_FAIL = 104, // android only
 };
 
+typedef NS_ENUM(NSInteger, BlinkupArguments) {
+    BlinkUpArgumentApiKey = 0,
+    BlinkUpArgumentPlanId,
+    BlinkUpArgumentTimeOut,
+    BlinkUpArgumentGeneratePlanId
+};
+
 @implementation BlinkUpPlugin
 
 /*********************************************************
@@ -51,20 +53,20 @@ typedef NS_ENUM(NSInteger, BlinkUpErrorCodes) {
 - (void)invokeBlinkUp:(CDVInvokedUrlCommand*)command {
     self.callbackId = command.callbackId;
     
-    if (command.arguments.count <= BlinkUpUsedCachedPlanId) {
+    if (command.arguments.count <= BlinkUpArgumentGeneratePlanId) {
         BlinkUpPluginResult *pluginResult = [[BlinkUpPluginResult alloc] init];
         pluginResult.state = Error;
         [pluginResult setPluginError:INVALID_ARGUMENTS];
 
-        CDVPluginResult *cordovaResult = [CDVPluginResult resultWithStatus:[pluginResult getCordovaStatus] messageAsString: [pluginResult getResults]];
+        CDVPluginResult *cordovaResult = [CDVPluginResult resultWithStatus:[pluginResult getCordovaStatus] messageAsString: [pluginResult getResultsAsJsonString]];
         [self.commandDelegate sendPluginResult:cordovaResult callbackId:command.callbackId];
         return;
     }
 
     self.apiKey = [command.arguments objectAtIndex:BlinkUpArgumentApiKey];
-    self.developerPlanId = [command.arguments objectAtIndex:BlinkUpArgumentDeveloperPlanId];
-    self.timeoutInMs = [command.arguments objectAtIndex:BlinkUpArgumentTimeOut];
-    self.useCachedPlanId = [command.arguments objectAtIndex:BlinkUpUsedCachedPlanId];
+    self.developerPlanId = [command.arguments objectAtIndex:BlinkUpArgumentPlanId];
+    self.timeoutMs = [[command.arguments objectAtIndex:BlinkUpArgumentTimeOut] integerValue];
+    self.generatePlanId = [[command.arguments objectAtIndex:BlinkUpArgumentGeneratePlanId] boolValue];
 
     [self navigateToBlinkUpView];
 }
@@ -77,18 +79,18 @@ typedef NS_ENUM(NSInteger, BlinkUpErrorCodes) {
 - (void) navigateToBlinkUpView {
     
     // load cached planID (if not cached yet, BlinkUp automatically generates a new one)
-    NSString *planId = [[NSUserDefaults standardUserDefaults] objectForKey:@"planId"];
-    
+    NSString *planId = [[NSUserDefaults standardUserDefaults] objectForKey:PLAN_ID_CACHE_KEY];
+
     // see electricimp.com/docs/manufacturing/planids/ for info about planIDs
     #ifdef DEBUG
         planId = (self.developerPlanId != "") ? self.developerPlanId : nil;
     #endif
     
-    if (self.useCachedPlanId.boolValue) {
-        self.blinkUpController = [[BUBasicController alloc] initWithApiKey:self.apiKey planId:planId];
+    if (self.generatePlanId || planId != nil) {
+        self.blinkUpController = [[BUBasicController alloc] initWithApiKey:self.apiKey];
     }
     else {
-        self.blinkUpController = [[BUBasicController alloc] initWithApiKey:self.apiKey];
+        self.blinkUpController = [[BUBasicController alloc] initWithApiKey:self.apiKey planId:planId];
     }
 
     [self.blinkUpController presentInterfaceAnimated:YES
@@ -113,9 +115,8 @@ typedef NS_ENUM(NSInteger, BlinkUpErrorCodes) {
 
     if (willRespond) {
         // can't set timeout manually, so just tell devicePoller to stop polling (if timeout not default)
-        long timeoutInMs = self.timeoutInMs.longValue;
-        if (timeoutInMs != 60000) {
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, timeoutInMs * NSEC_PER_MSEC),
+        if (self.timeoutMs != 60000) {
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, self.timeoutMs * NSEC_PER_MSEC),
                 dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
                     [self.blinkUpController.devicePoller stopPolling];
                     [self deviceRequestDidCompleteWithDeviceInfo:nil timedOut:true error:nil];
@@ -126,7 +127,7 @@ typedef NS_ENUM(NSInteger, BlinkUpErrorCodes) {
     }
     else if (userDidCancel) {
         pluginResult.state = Error;
-        pluginResult.state = CANCELLED_BY_USER;
+        [pluginResult setPluginError:CANCELLED_BY_USER];
     }
     else if (error != nil) {
         pluginResult.state = Error;
@@ -138,7 +139,7 @@ typedef NS_ENUM(NSInteger, BlinkUpErrorCodes) {
     }
     
     //send results
-    CDVPluginResult *cordovaResult = [CDVPluginResult resultWithStatus:[pluginResult getCordovaStatus] messageAsString:[pluginResult getResults]];
+    CDVPluginResult *cordovaResult = [CDVPluginResult resultWithStatus:[pluginResult getCordovaStatus] messageAsString:[pluginResult getResultsAsJsonString]];
     [cordovaResult setKeepCallbackAsBool: [pluginResult getKeepCallback]];
     [self.commandDelegate sendPluginResult:cordovaResult callbackId:self.callbackId];
 }
@@ -163,7 +164,7 @@ typedef NS_ENUM(NSInteger, BlinkUpErrorCodes) {
     }
     else {
         // cache plan ID (see electricimp.com/docs/manufacturing/planids/)
-        [[NSUserDefaults standardUserDefaults] setObject:deviceInfo.planId forKey:@"planId"];
+        [[NSUserDefaults standardUserDefaults] setObject:deviceInfo.planId forKey:PLAN_ID_CACHE_KEY];
         
         pluginResult.state = Completed;
         pluginResult.statusCode = DEVICE_CONNECTED;
@@ -171,7 +172,7 @@ typedef NS_ENUM(NSInteger, BlinkUpErrorCodes) {
     }
     
     //send results
-    CDVPluginResult *cordovaResult = [CDVPluginResult resultWithStatus:[pluginResult getCordovaStatus] messageAsString:[pluginResult getResults]];
+    CDVPluginResult *cordovaResult = [CDVPluginResult resultWithStatus:[pluginResult getCordovaStatus] messageAsString:[pluginResult getResultsAsJsonString]];
     [cordovaResult setKeepCallbackAsBool: [pluginResult getKeepCallback]];
     [self.commandDelegate sendPluginResult:cordovaResult callbackId:self.callbackId];
 }

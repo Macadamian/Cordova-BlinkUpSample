@@ -24,7 +24,6 @@ import android.util.Log;
 
 import com.electricimp.blinkup.BlinkupController;
 
-import org.apache.cordova.PluginResult;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -58,17 +57,17 @@ public class BlinkUpCompleteActivity extends Activity {
             // give connection info to Cordova
             //---------------------------------
             @Override public void onSuccess(JSONObject json) {
-                BlinkUpPluginResult pluginResult = new BlinkUpPluginResult();
-                pluginResult.setState(BlinkUpPluginResult.BlinkUpPluginState.Completed);
-                pluginResult.setStatusCode(BlinkUpPlugin.StatusCodes.DEVICE_CONNECTED.getCode());
-                pluginResult.setDeviceInfoAsJson(json);
-                pluginResult.sendResultsToCallback();
+                BlinkUpPluginResult successResult = new BlinkUpPluginResult();
+                successResult.setState(BlinkUpPluginResult.BlinkUpPluginState.Completed);
+                successResult.setStatusCode(BlinkUpPlugin.StatusCodes.DEVICE_CONNECTED.getCode());
+                successResult.setDeviceInfoAsJson(json);
+                successResult.sendResultsToCallback();
 
                 // cache planID (see electricimp.com/docs/manufacturing/planids/)
                 try {
-                    SharedPreferences preferences = getSharedPreferences("DefaultPreferences", MODE_PRIVATE);
+                    SharedPreferences preferences = getSharedPreferences(BlinkUpPlugin.PLAN_ID_CACHE_NAME, MODE_PRIVATE);
                     SharedPreferences.Editor editor = preferences.edit();
-                    editor.putString("planId", json.getString("plan_id"));
+                    editor.putString(BlinkUpPlugin.PLAN_ID_CACHE_KEY, json.getString("plan_id"));
                     editor.apply();
                 }
                 catch (JSONException e) {
@@ -80,20 +79,20 @@ public class BlinkUpCompleteActivity extends Activity {
             // give error msg to Cordova
             //---------------------------------
             @Override public void onError(String errorMsg) {
-                BlinkUpPluginResult pluginResult = new BlinkUpPluginResult();
-                pluginResult.setState(BlinkUpPluginResult.BlinkUpPluginState.Error);
-                pluginResult.setBlinkUpError(errorMsg);
-                pluginResult.sendResultsToCallback();
+                BlinkUpPluginResult errorResult = new BlinkUpPluginResult();
+                errorResult.setState(BlinkUpPluginResult.BlinkUpPluginState.Error);
+                errorResult.setBlinkUpError(errorMsg);
+                errorResult.sendResultsToCallback();
             }
 
             //---------------------------------
             // give timeout message to Cordova
             //---------------------------------
             @Override public void onTimeout() {
-                BlinkUpPluginResult pluginResult = new BlinkUpPluginResult();
-                pluginResult.setState(BlinkUpPluginResult.BlinkUpPluginState.Error);
-                pluginResult.setPluginError(BlinkUpPlugin.ErrorCodes.PROCESS_TIMED_OUT.getCode());
-                pluginResult.sendResultsToCallback();
+                BlinkUpPluginResult timeoutResult = new BlinkUpPluginResult();
+                timeoutResult.setState(BlinkUpPluginResult.BlinkUpPluginState.Error);
+                timeoutResult.setPluginError(BlinkUpPlugin.ErrorCodes.PROCESS_TIMED_OUT.getCode());
+                timeoutResult.sendResultsToCallback();
             }
         };
 
