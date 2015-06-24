@@ -20,6 +20,9 @@
 import java.util.regex.Pattern
 import groovy.swing.SwingBuilder
 
+// forces copy of root web files to local www directory every build (task defined in android.gradle)
+preBuild.dependsOn copyRootWWW
+
 String doEnsureValueExists(filePath, props, key) {
     if (props.get(key) == null) {
         throw new GradleException(filePath + ': Missing key required "' + key + '"')

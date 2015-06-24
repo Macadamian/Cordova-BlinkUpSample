@@ -7,6 +7,12 @@
 *BlinkUp.embeddedframework
 **/blinkup_sdk/
 
+# Exclude native copies of files in www that are copied from root www directory 
+platforms/ios/www/*
+platforms/android/assets/www/*
+!platforms/ios/www/cordova.js
+!platforms/android/assets/www/cordova.js
+
 # -- OBJECTIVE-C -----------------------
 # https://github.com/github/gitignore/blob/master/Objective-C.gitignore
 
@@ -52,6 +58,8 @@ gen/
 # Gradle files
 .gradle/
 build/
+platforms/android/.gradle
+platforms/android/.idea/workspace.xml
 
 # Local configuration file (sdk path, etc)
 local.properties

@@ -18,8 +18,26 @@
 */
 
 // GENERATED FILE! DO NOT EDIT!
+
+// check that necessary files exist
 if (!file("blinkup_sdk").exists()) {
     throw new GradleException('The blinkup_sdk folder can not be found in `CordovaBlinkUpSample/platforms/android`.')
+}
+if (!file("../../www/").exists()) {
+    throw new GradleException('Could not find www folder in CordovaBlinkUpSample/. Ensure that the folder exists there.')
+}
+
+// copies root www files to android folder, so changes to them only
+// need to be applied to the root files (iOS does the same copy task)
+// NOTE: dependency on preBuild set in cordova.gradle
+task copyRootWWW(type: Copy) {
+    from "../../www/"
+    into "assets/www/"
+
+    // ensure file is re-copied every build
+    outputs.upToDateWhen {
+        false
+    }
 }
 
 apply plugin: 'android'

@@ -1,4 +1,4 @@
-//*
+/*
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -15,15 +15,20 @@
  * Modified by Stuart Douglas (sdouglas@macadamian.com) on June 11, 2015
  */
 
-//--JSLint---------------------
-/*global blinkup*/
-/*global statusMessageForCode*/
-//-----------------------------
+/*global blinkup, errorMessageForCode, statusMessageForCode*/
 
-var apiKey = ""; // You must provide your own BlinkUp API Key
-var developerPlanId = ""; // You must provide your own developer Plan ID.
+/******************************************************************
+ * IMPORTANT NOTE: Changing the following 3 values in either:     *
+ * Cordova-BlinkUpSample/platforms/ios/www/js/index.js OR         *
+ * Cordova-BlinkUpSample/platforms/android/assets/www/js/index.js *
+ * won't change anything. The values are overwritten at build     *
+ * time by those in Cordova-BlinkUpSample/www/js/index.js.        *
+ ******************************************************************/
+ var apiKey = "";       // this MUST be set or the app won't work
+ var planId = "";       // if blank, SDK will generate a planId
+ var timeoutMs = 60000; // default is 60s
+//=================================================================
 
-var timeoutMs = 60000;
 var interval;
 
 var app = {
@@ -80,7 +85,7 @@ var app = {
                     this.endProgress();
                 }
             };
-            blinkup.invokeBlinkUp(apiKey, developerPlanId, timeoutMs, true, success, failure);
+            blinkup.invokeBlinkUp(apiKey, planId, timeoutMs, true, success, failure);
         });
     },
     // Update DOM on a Received Event
@@ -165,13 +170,13 @@ function errorMessageForCode(errorCode) {
     var integerCode = parseInt(errorCode);
     switch (integerCode) {
     case 100:
-        return "Error. Invalid arguments in call to invokeBlinkUp(apiKey: String, developerPlanId: String, timeoutMs: Integer, useCachedPlanId: Bool, success: Callback, failure: Callback).";
+        return "Error. Invalid arguments in call to invokeBlinkUp(apiKey: String, planId: String, timeoutMs: Integer, useCachedPlanId: Bool, success: Callback, failure: Callback).";
     case 101:
         return "Error. Could not gather device info. Process timed out.";
     case 102:
         return "Process cancelled by user.";
     case 103:
-        return "Error. Invalid API key. You must set your BlinkUp API key using the SetApiKey.sh script. See README.md for more details.";
+        return "Error. Invalid API key. You must set your BlinkUp API key in Cordova-BlinkUpSample/www/js/index.js.";
     case 104:
         return "Error. Could not verify API key with Electric Imp servers.";
     default:
