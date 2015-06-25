@@ -68,42 +68,60 @@ NSString * const DEVICE_INFO_KEY = @"deviceInfo";
  * to the callback, or if we only have a
  * status string, sends that (not in JSON)
  ********************************************/
-- (NSString *) getResults {
+- (NSString *) getResultsAsJsonString {
 
     NSMutableDictionary *resultsDict = [[NSMutableDictionary alloc] init];
 
     // set our state (never null)
-    if (self.state == Started) {
-        [resultsDict setObject:@"started" forKey:STATE_KEY];
-    }
-    else if (self.state == Completed) {
-        [resultsDict setObject:@"completed" forKey:STATE_KEY];
-    }
-    else {
-        [resultsDict setObject:@"error" forKey:STATE_KEY];
+    [resultsDict setObject:[self stateToJsonKey] forKey:STATE_KEY];
+    
+    // add error if necessary
+    if (self.state == Error) {
+        [resultsDict setObject:[self generateErrorDict] forKey:ERROR_KEY];
     }
     
-    if (self.state == Error) {
-        NSMutableDictionary *errorDict = [[NSMutableDictionary alloc] init];
-        if (self.errorType == BlinkUpSDKError) {
-            [errorDict setObject:@"blinkup" forKey:ERROR_TYPE_KEY];
-            [errorDict setObject:self.errorMsg forKey:ERROR_MSG_KEY];
-        }
-        else {
-            [errorDict setObject:@"plugin" forKey:ERROR_TYPE_KEY];
-        }
-        [errorDict setObject:[@(self.errorCode) stringValue] forKey:ERROR_CODE_KEY];
-        [resultsDict setObject:errorDict forKey:ERROR_KEY];
-    }
+    // completed without error
     else {
         [resultsDict setObject:[@(self.statusCode) stringValue] forKey:STATUS_CODE_KEY];
-        
         if (self.deviceInfo != nil) {
             [resultsDict setObject:[self.deviceInfo toDictionary] forKey:DEVICE_INFO_KEY];
         }
     }
     
     return [self toJsonString:resultsDict];
+}
+
+/********************************************
+ * returns dictionary containing error
+ ********************************************/
+- (NSMutableDictionary *) generateErrorDict {
+    NSMutableDictionary *errorDict = [[NSMutableDictionary alloc] init];
+    
+    if (self.errorType == BlinkUpSDKError) {
+        [errorDict setObject:@"blinkup" forKey:ERROR_TYPE_KEY];
+        [errorDict setObject:self.errorMsg forKey:ERROR_MSG_KEY];
+    }
+    else {
+        [errorDict setObject:@"plugin" forKey:ERROR_TYPE_KEY];
+    }
+    [errorDict setObject:[@(self.errorCode) stringValue] forKey:ERROR_CODE_KEY];
+
+    return  errorDict;
+}
+
+/**********************************************
+ * returns JSON key corresponding to this.state
+ *********************************************/
+- (NSString *) stateToJsonKey {
+    if (self.state == Started) {
+        return @"started";
+    }
+    else if (self.state == Completed) {
+        return @"completed";
+    }
+    else {
+        return @"error";
+    }
 }
 
 /********************************************
@@ -115,7 +133,7 @@ NSString * const DEVICE_INFO_KEY = @"deviceInfo";
     NSData *jsonData = [NSJSONSerialization dataWithJSONObject:resultsDict options:NSJSONWritingPrettyPrinted error:&jsonError];
     
     if (jsonError != nil) {
-        NSLog(@"Error converting to JSON. %@", jsonError.localizedDescription);
+        NSLog(@"%@", jsonError.localizedDescription);
         return @"";
     }
     

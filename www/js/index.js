@@ -15,7 +15,7 @@
  * Modified by Stuart Douglas (sdouglas@macadamian.com) on June 11, 2015
  */
 
-/*global blinkup, errorMessageForCode, statusMessageForCode*/
+/*global blinkup*/
 
 /******************************************************************
  * IMPORTANT NOTE: Changing the following 3 values in either:     *
@@ -29,7 +29,7 @@
  var timeoutMs = 60000; // default is 60s
 //=================================================================
 
-var interval;
+var progressBarInterval;
 
 var app = {
     // Application Constructor
@@ -85,7 +85,7 @@ var app = {
                     this.endProgress();
                 }
             };
-            blinkup.invokeBlinkUp(apiKey, planId, timeoutMs, true, success, failure);
+            blinkup.invokeBlinkUp(apiKey, planId, timeoutMs, false, success, failure);
         });
     },
     // Update DOM on a Received Event
@@ -107,13 +107,13 @@ function startProgress() {
     var progressBar = document.getElementById('progress-bar');
     progressBar.style.width = "0px";
 
-    clearInterval(interval);
+    clearInterval(progressBarInterval);
     var percentDone = 0;
-    interval = setInterval(function () {
+    progressBarInterval = setInterval(function () {
         percentDone++;
         progressBar.style.width = percentDone + "%";
         if (percentDone > 99) {
-            clearInterval(interval);
+            clearInterval(progressBarInterval);
         }
     }, (timeoutMs / 100));
 }
@@ -132,16 +132,16 @@ function updateInfo(pluginResult) {
     document.getElementById('agentURL').innerHTML = "";
     document.getElementById('verificationDate').innerHTML = "";
 
-    var status = "";
+    var statusMsg = "";
 
     if (pluginResult.state == "error") {
         if (pluginResult.error.errorType == "blinkup") {
-            status = pluginResult.error.errorMsg;
+            statusMsg = pluginResult.error.errorMsg;
         } else {
-            status = errorMessageForCode(pluginResult.error.errorCode);
+            statusMsg = ErrorMessages[pluginResult.error.errorCode];
         }
     } else if (pluginResult.state == "completed" || pluginResult.state == "started") {
-        status = statusMessageForCode(pluginResult.statusCode);
+        statusMsg = StatusMessages[pluginResult.statusCode];
         if (pluginResult.statusCode == "0") {
             document.getElementById('planId').innerHTML = pluginResult.deviceInfo.planId;
             document.getElementById('deviceId').innerHTML = pluginResult.deviceInfo.deviceId;
@@ -149,39 +149,21 @@ function updateInfo(pluginResult) {
             document.getElementById('verificationDate').innerHTML = pluginResult.deviceInfo.verificationDate;
         }
     }
-    document.getElementById('status').innerHTML = status;
+    document.getElementById('status').innerHTML = statusMsg;
 }
 
-function statusMessageForCode(statusCode) {
-    var integerCode = parseInt(statusCode);
-    switch (integerCode) {
-    case 0:
-        return "Device Connected.";
-    case 200:
-        return "Gathering device info...";
-    case 201:
-        return "Wireless configuration cleared.";
-    default:
-        return statusCode;
-    }
-}
+var StatusMessages = {
+    0   : "Device Connected.",
+    200 : "Gathering device info...",
+    201 : "Wireless configuration cleared."
+};
 
-function errorMessageForCode(errorCode) {
-    var integerCode = parseInt(errorCode);
-    switch (integerCode) {
-    case 100:
-        return "Error. Invalid arguments in call to invokeBlinkUp(apiKey: String, planId: String, timeoutMs: Integer, useCachedPlanId: Bool, success: Callback, failure: Callback).";
-    case 101:
-        return "Error. Could not gather device info. Process timed out.";
-    case 102:
-        return "Process cancelled by user.";
-    case 103:
-        return "Error. Invalid API key. You must set your BlinkUp API key in Cordova-BlinkUpSample/www/js/index.js.";
-    case 104:
-        return "Error. Could not verify API key with Electric Imp servers.";
-    default:
-        return errorCode;
-    }
-}
+var ErrorMessages = {   
+    100 : "Error. Invalid arguments in call to invokeBlinkUp.",
+    101 : "Error. Could not gather device info. Process timed out.", 
+    102 : "Process cancelled by user.", 
+    103 : "Error. Invalid API key. You must set your BlinkUp API key in Cordova-BlinkUpSample/www/js/index.js.",
+    104 : "Error. Could not verify API key with Electric Imp servers."
+};
 
 app.initialize();

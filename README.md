@@ -3,7 +3,7 @@ Sample application that demonstrates how to use Electric Imp's BlinkUp SDK in Co
 
 Electric Imp is an Internet of Things platform used from prototyping to production. For more information about Electric Imp, visit: https://electricimp.com/. 
 
-# Pre-requisistes
+# Prerequisites
 An Electric Imp Board development kit. For more information on how to obtain a development kit, please visit: https://electricimp.com/docs/gettingstarted/devkits/ 
 
 An Electric Imp developer account. To register for an account, please visit: https://ide.electricimp.com/
@@ -11,6 +11,9 @@ An Electric Imp developer account. To register for an account, please visit: htt
 A BlinkUp SDK and API Key. For more information on how to obtain a license, please visit: https://electricimp.com/docs/manufacturing/blinkup_faqs/
 
 # Installation
+**IMPORTANT NOTE**<br>
+Building the project with `cordova build <platform>` or `cordova run <platform>` will break the project. You must run from Xcode or Android Studio.
+
 Open `CordovaBlinkUpSample/www/js/index.js` and set your API key from Electric Imp. You can optionally set your plan ID as well, this will let you see Imps you've blinked up with in your IDE. Please see https://electricimp.com/docs/manufacturing/planids/ for more information about plan ID's.
 
 When building in Xcode or Android Studio, this `index.js` file overwrites the native platform's `index.js` file, propagating your changes down to both platforms.

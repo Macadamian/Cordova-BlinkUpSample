@@ -33,10 +33,10 @@ public class ClearCompleteActivity extends Activity {
         super.onCreate(savedInstanceState);
 
         // send callback that we've cleared device
-        BlinkUpPluginResult pluginResult = new BlinkUpPluginResult();
-        pluginResult.setState(BlinkUpPluginResult.BlinkUpPluginState.Completed);
-        pluginResult.setStatusCode(BlinkUpPlugin.StatusCodes.CLEAR_COMPLETE.getCode());
-        pluginResult.sendResultsToCallback();
+        BlinkUpPluginResult clearResult = new BlinkUpPluginResult();
+        clearResult.setState(BlinkUpPluginResult.BlinkUpPluginState.Completed);
+        clearResult.setStatusCode(BlinkUpPlugin.StatusCodes.CLEAR_COMPLETE.getCode());
+        clearResult.sendResultsToCallback();
 
         this.finish();
     }

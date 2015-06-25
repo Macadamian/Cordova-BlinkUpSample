@@ -19,9 +19,6 @@
 
 @class BUBasicController;
 
-extern NSString * const STATUS_KEY;
-extern NSString * const PLAN_ID_KEY;
-
 @interface BlinkUpPlugin : CDVPlugin
 
 //------------------------------------------------------
@@ -31,10 +28,11 @@ extern NSString * const PLAN_ID_KEY;
 - (void)invokeBlinkUp:(CDVInvokedUrlCommand*)command;
 
 // instance variables
-@property BUBasicController  *blinkUpController;
+@property BUBasicController *blinkUpController;
 @property NSString *apiKey;
 @property NSString *callbackId;
 @property NSString *developerPlanId;
-@property NSNumber *timeoutInMs;
-@property NSNumber *useCachedPlanId;
+@property NSInteger timeoutMs;
+@property BOOL generatePlanId;
+
 @end

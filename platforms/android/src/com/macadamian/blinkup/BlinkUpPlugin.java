@@ -17,9 +17,10 @@
 
 package com.macadamian.blinkup;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.widget.Toast;
+import android.util.Log;
 import org.json.JSONArray;
 import org.json.JSONException;
 
@@ -37,11 +38,13 @@ public class BlinkUpPlugin extends CordovaPlugin {
     // only needed in this class
     private String apiKey;
     private String developerPlanId;
-    private Boolean useCachedPlanId = false;
+    private Boolean generatePlanId = false;
 
     // accessed from BlinkUpCompleteActivity and ClearCompleteActivity
     public static int timeoutMs = 60000;
     public static CallbackContext callbackContext;
+    public static String PLAN_ID_CACHE_KEY = "planId";
+    public static String PLAN_ID_CACHE_NAME = "DefaultPreferences";
 
     public enum StatusCodes {
         DEVICE_CONNECTED(0),
@@ -66,9 +69,9 @@ public class BlinkUpPlugin extends CordovaPlugin {
 
     // argument indexes from Cordova javascript
     final int BlinkUpArgumentApiKey = 0;
-    final int BlinkUpArgumentDeveloperPlanId = 1;
+    final int BlinkUpArgumentPlanId = 1;
     final int BlinkUpArgumentTimeOut = 2;
-    final int BlinkUpUsedCachedPlanId = 3;
+    final int BlinkUpArgumentGeneratePlanId = 3;
 
     /**********************************************************
      * method called by Cordova javascript
@@ -77,16 +80,25 @@ public class BlinkUpPlugin extends CordovaPlugin {
     public boolean execute(String action, JSONArray data, CallbackContext callbackContext) throws JSONException {
         if (action.equalsIgnoreCase("invokeBlinkUp")) {
 
-            this.callbackContext = callbackContext;
+            BlinkUpPlugin.callbackContext = callbackContext;
             try {
                 this.apiKey = data.getString(BlinkUpArgumentApiKey);
-                this.developerPlanId = data.getString(BlinkUpArgumentDeveloperPlanId);
+                this.developerPlanId = data.getString(BlinkUpArgumentPlanId);
                 timeoutMs = data.getInt(BlinkUpArgumentTimeOut);
-                this.useCachedPlanId = data.getBoolean(BlinkUpUsedCachedPlanId);
+                this.generatePlanId = data.getBoolean(BlinkUpArgumentGeneratePlanId);
             } catch (JSONException exc) {
+                BlinkUpPluginResult argErrorResult = new BlinkUpPluginResult();
+                argErrorResult.setState(BlinkUpPluginResult.BlinkUpPluginState.Error);
+                argErrorResult.setPluginError(ErrorCodes.INVALID_ARGUMENTS.getCode());
+                argErrorResult.sendResultsToCallback();
+                return false;
+            }
+
+            // if api key not valid, send error message and quit
+            if (!apiKeyFormatValid()) {
                 BlinkUpPluginResult pluginResult = new BlinkUpPluginResult();
                 pluginResult.setState(BlinkUpPluginResult.BlinkUpPluginState.Error);
-                pluginResult.setPluginError(ErrorCodes.INVALID_ARGUMENTS.getCode());
+                pluginResult.setPluginError(ErrorCodes.INVALID_API_KEY.getCode());
                 pluginResult.sendResultsToCallback();
                 return false;
             }
@@ -114,17 +126,7 @@ public class BlinkUpPlugin extends CordovaPlugin {
 
             @Override
             public void onError(String s) {
-                // show more descriptive message if api key not valid, i.e. 401 authentication failure
-                if (s.contains("401")) {
-                    Toast.makeText(cordova.getActivity(), "Error. Invalid BlinkUp API key.", Toast.LENGTH_LONG).show();
-                    BlinkUpPluginResult pluginResult = new BlinkUpPluginResult();
-                    pluginResult.setState(BlinkUpPluginResult.BlinkUpPluginState.Error);
-                    pluginResult.setPluginError(ErrorCodes.INVALID_API_KEY.getCode());
-                    pluginResult.sendResultsToCallback();
-                }
-                else {
-                    Toast.makeText(cordova.getActivity(), ("Error. " + s), Toast.LENGTH_SHORT).show();
-                }
+                Log.e("BlinkUpPlugin", s);
             }
         };
 
@@ -132,22 +134,22 @@ public class BlinkUpPlugin extends CordovaPlugin {
         BlinkupController.ServerErrorHandler serverErrorHandler= new BlinkupController.ServerErrorHandler() {
             @Override
             public void onError(String s) {
-                BlinkUpPluginResult pluginResult = new BlinkUpPluginResult();
-                pluginResult.setState(BlinkUpPluginResult.BlinkUpPluginState.Error);
-                pluginResult.setStatusCode(ErrorCodes.VERIFY_API_KEY_FAIL.getCode());
-                pluginResult.sendResultsToCallback();
+                BlinkUpPluginResult serverErrorResult = new BlinkUpPluginResult();
+                serverErrorResult.setState(BlinkUpPluginResult.BlinkUpPluginState.Error);
+                serverErrorResult.setStatusCode(ErrorCodes.VERIFY_API_KEY_FAIL.getCode());
+                serverErrorResult.sendResultsToCallback();
             }
         };
 
         // load cached planId if available. Otherwise, SDK generates new one automatically
-        if (this.useCachedPlanId) {
-            SharedPreferences preferences = this.cordova.getActivity().getSharedPreferences("DefaultPreferences", this.cordova.getActivity().MODE_PRIVATE);
-            String planId = preferences.getString("planId", null);
+        if (!this.generatePlanId) {
+            SharedPreferences preferences = this.cordova.getActivity().getSharedPreferences(PLAN_ID_CACHE_NAME, Activity.MODE_PRIVATE);
+            String planId = preferences.getString(PLAN_ID_CACHE_KEY, null);
             BlinkupController.getInstance().setPlanID(planId);
         }
 
         // see electricimp.com/docs/manufacturing/planids/ for info about planIDs
-        if (org.apache.cordova.BuildConfig.DEBUG) {
+        if (org.apache.cordova.BuildConfig.DEBUG && !this.generatePlanId) {
             BlinkupController.getInstance().setPlanID(this.developerPlanId);
         }
 
@@ -159,5 +161,17 @@ public class BlinkUpPlugin extends CordovaPlugin {
         BlinkupController.getInstance().intentClearComplete = new Intent(this.cordova.getActivity(), ClearCompleteActivity.class);
 
         BlinkupController.getInstance().selectWifiAndSetupDevice(this.cordova.getActivity(), this.apiKey, serverErrorHandler);
+    }
+
+    /**********************************************************
+     * @return true if apiKey is 32 alpha-numeric characters
+     *********************************************************/
+    private boolean apiKeyFormatValid() {
+        if (this.apiKey == null || this.apiKey.length() != 32) {
+            return false;
+        }
+
+        String isAlphaNumericPattern = "^[a-zA-Z0-9]*$";
+        return this.apiKey.matches(isAlphaNumericPattern);
     }
 }

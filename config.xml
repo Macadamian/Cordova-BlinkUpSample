@@ -2,10 +2,12 @@
 <widget id="com.macadamian.cordovaBlinkUpSample" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>CordovaBlinkUpSample</name>
     <description>
-        A sample Apache Cordova application that responds to the deviceready event.
+        Sample application that demonstrates how to use Electric Imp's BlinkUp SDK in Cordova applications for iOS and Android.
+
+        Electric Imp is an Internet of Things platform used from prototyping to production. For more information about Electric Imp, visit: https://electricimp.com/. 
     </description>
-    <author email="dev@cordova.apache.org" href="http://cordova.io">
-        Apache Cordova Team
+    <author href="http://www.macadamian.com">
+        Macadamian Technologies
     </author>
     <content src="index.html" />
     <plugin name="cordova-plugin-whitelist" version="1" />
