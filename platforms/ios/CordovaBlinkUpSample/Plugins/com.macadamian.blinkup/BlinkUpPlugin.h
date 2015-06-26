@@ -27,7 +27,7 @@
 //------------------------------------------------------
 - (void)invokeBlinkUp:(CDVInvokedUrlCommand *)command;
 - (void)abortBlinkUp:(CDVInvokedUrlCommand *)command;
-- (void)clearWifiAndCache:(CDVInvokedUrlCommand *)command;
+- (void)clearBlinkUpData:(CDVInvokedUrlCommand *)command;
 
 // instance variables
 @property BUBasicController *blinkUpController;

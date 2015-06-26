@@ -134,10 +134,10 @@ public class BlinkUpPlugin extends CordovaPlugin {
         }
 
         // clears wifi and removes cached planId
-        else if (action.equalsIgnoreCase("clearWifiAndCache")) {
-            SharedPreferences preferences = cordova.getActivity().getSharedPreferences("DefaultPreferences", Activity.MODE_PRIVATE);
+        else if (action.equalsIgnoreCase("clearBlinkUpData")) {
+            SharedPreferences preferences = cordova.getActivity().getSharedPreferences(PLAN_ID_CACHE_NAME, Activity.MODE_PRIVATE);
             SharedPreferences.Editor editor = preferences.edit();
-            editor.putString("planId", null);
+            editor.putString(PLAN_ID_CACHE_KEY, null);
             editor.apply();
 
             BlinkUpPlugin.clearedCache = true;

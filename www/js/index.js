@@ -76,7 +76,7 @@ var app = {
         // Clear Wifi & Cached PlanId ----------------------------
         var clearBtn = document.getElementById('clear-button');
         clearBtn.addEventListener('click', function () {
-            blinkup.clearWifiAndCache(blinkUpCallback, blinkUpCallback);
+            blinkup.clearBlinkUpData(blinkUpCallback, blinkUpCallback);
         });
         
         // Abort BlinkUp -----------------------------------------
