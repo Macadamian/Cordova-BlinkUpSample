@@ -104,8 +104,8 @@ var app = {
  * unhides abort button and progress bar
  *****************************************/
 function startProgress() {
-    document.getElementById('abort-button').style.display = "inline-block";
     document.getElementById('progress-bar-wrapper').style.display = "inline-block";
+    document.getElementById('abort-button').style.display = "inline-block";
     document.getElementById('clear-button').style.display = "none";
     document.getElementById('blinkup-button').style.display = "none";
 
@@ -130,8 +130,8 @@ function endProgress() {
     document.getElementById('progress-bar').style.width = "0px";
     document.getElementById('progress-bar-wrapper').style.display = "none";
     document.getElementById('abort-button').style.display = "none";
-    document.getElementById('blinkup-button').style.display = "inline-block";
     document.getElementById('clear-button').style.display = "inline-block";
+    document.getElementById('blinkup-button').style.display = "inline-block";
 }
 
 /********************************************
@@ -141,6 +141,7 @@ function endProgress() {
 function updateInfo(pluginResult) {
 
     // clear current info
+    document.getElementById('status').style.color = "#000";
     document.getElementById('status').innerHTML = "";
     document.getElementById('planId').innerHTML = "";
     document.getElementById('deviceId').innerHTML = "";
@@ -150,6 +151,7 @@ function updateInfo(pluginResult) {
     var statusMsg = "";
 
     if (pluginResult.state == "error") {
+        document.getElementById('status').style.color = "#AC0C22";
         if (pluginResult.error.errorType == "blinkup") {
             statusMsg = pluginResult.error.errorMsg;
         } else {
@@ -157,6 +159,7 @@ function updateInfo(pluginResult) {
         }
     } else if (pluginResult.state == "completed" || pluginResult.state == "started") {
         statusMsg = StatusMessages[pluginResult.statusCode];
+        document.getElementById('status').style.color = "#1D7A47";
         if (pluginResult.statusCode == "0") {
             document.getElementById('planId').innerHTML = pluginResult.deviceInfo.planId;
             document.getElementById('deviceId').innerHTML = pluginResult.deviceInfo.deviceId;
