@@ -1,4 +1,5 @@
-/*
+
+]/*
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -14,12 +15,18 @@
  * Created by Stuart Douglas (sdouglas@macadamian.com) on June 11, 2015.
  * Copyright (c) 2015 Macadamian. All rights reserved.
  */
- 
+
 /*global cordova, module*/
 
 module.exports = {
-    //apiKey: string, developerPlanId: string (set "" to have SDK generate one), timeoutMs: int, useCachedPlanId: bool 
+    //apiKey: string, developerPlanId: string, timeoutMs: int, useCachedPlanId: bool 
     invokeBlinkUp: function (apiKey, developerPlanId, timeoutMs, useCachedPlanId, successCallback, errorCallback) {
         cordova.exec(successCallback, errorCallback, "BlinkUpPlugin", "invokeBlinkUp", [apiKey, developerPlanId, timeoutMs, useCachedPlanId]);
+    },
+    abortBlinkUp: function (successCallback, errorCallback) {
+        cordova.exec(successCallback, errorCallback, "BlinkUpPlugin", "abortBlinkUp", []);
+    },
+    clearBlinkUpData: function (successCallback, errorCallback) {
+        cordova.exec(successCallback, errorCallback, "BlinkUpPlugin", "clearBlinkUpData", []);
     }
 };

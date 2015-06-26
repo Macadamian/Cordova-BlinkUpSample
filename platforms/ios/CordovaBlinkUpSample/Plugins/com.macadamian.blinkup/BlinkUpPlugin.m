@@ -23,9 +23,10 @@ NSString * const PLAN_ID_CACHE_KEY = @"planId";
 
 // status codes
 typedef NS_ENUM(NSInteger, BlinkUpStatusCodes) {
-    DEVICE_CONNECTED    = 0,
-    GATHERING_INFO      = 200,
-    CLEAR_COMPLETE      = 201
+    DEVICE_CONNECTED              = 0,
+    GATHERING_INFO                = 200,
+    CLEAR_WIFI_COMPLETE           = 201,
+    CLEAR_WIFI_AND_CACHE_COMPLETE = 202
 };
 
 // error codes
@@ -47,8 +48,7 @@ typedef NS_ENUM(NSInteger, BlinkupArguments) {
 @implementation BlinkUpPlugin
 
 /*********************************************************
- * Called by Javascript in Cordova application.
- * `command.arguments` is array, first item is apiKey
+ * Parses arguments from javascript and displays BlinkUp
  ********************************************************/
 - (void)invokeBlinkUp:(CDVInvokedUrlCommand*)command {
     self.callbackId = command.callbackId;
@@ -58,8 +58,7 @@ typedef NS_ENUM(NSInteger, BlinkupArguments) {
         pluginResult.state = Error;
         [pluginResult setPluginError:INVALID_ARGUMENTS];
 
-        CDVPluginResult *cordovaResult = [CDVPluginResult resultWithStatus:[pluginResult getCordovaStatus] messageAsString: [pluginResult getResultsAsJsonString]];
-        [self.commandDelegate sendPluginResult:cordovaResult callbackId:command.callbackId];
+        [self sendResultToCallback:pluginResult];
         return;
     }
 
@@ -69,6 +68,39 @@ typedef NS_ENUM(NSInteger, BlinkupArguments) {
     self.generatePlanId = [[command.arguments objectAtIndex:BlinkUpArgumentGeneratePlanId] boolValue];
 
     [self navigateToBlinkUpView];
+}
+
+/*********************************************************
+ * Cancels device polling
+ ********************************************************/
+- (void)abortBlinkUp:(CDVInvokedUrlCommand *)command {
+    [self.blinkUpController.devicePoller stopPolling];
+    self.blinkUpController = nil;
+
+    BlinkUpPluginResult *abortResult = [[BlinkUpPluginResult alloc] init];
+    abortResult.state = Error;
+    [abortResult setPluginError:CANCELLED_BY_USER];
+    
+    [self sendResultToCallback:abortResult];
+}
+
+/********************************************************
+ * Clears wifi configuration of Imp and cached planId
+ ********************************************************/
+- (void) clearBlinkUpData:(CDVInvokedUrlCommand *)command {
+
+    // clear cached planId
+    [[NSUserDefaults standardUserDefaults] setObject:nil forKey:PLAN_ID_CACHE_KEY];
+
+    // create a controller to clear network info
+    BUNetworkConfig *clearConfig = [BUNetworkConfig clearNetworkConfig];
+    BUFlashController *flashController = [[BUFlashController alloc] init];
+
+    // present the clear device flashing screen
+    [flashController presentFlashWithNetworkConfig:clearConfig configId:nil animated:YES resignActive:
+    ^(BOOL willRespond, BUDevicePoller *devicePoller, NSError *error) {
+        [self blinkUpDidComplete:false userDidCancel:false error:nil clearedCache:true];
+    }];
 }
 
 
@@ -95,7 +127,7 @@ typedef NS_ENUM(NSInteger, BlinkupArguments) {
 
     [self.blinkUpController presentInterfaceAnimated:YES
         resignActive: ^(BOOL willRespond, BOOL userDidCancel, NSError *error) {
-            [self blinkUpDidComplete:willRespond userDidCancel:userDidCancel error:error];
+            [self blinkUpDidComplete:willRespond userDidCancel:userDidCancel error:error clearedCache:false];
         }
         devicePollingDidComplete: ^(BUDeviceInfo *deviceInfo, BOOL timedOut, NSError *error) {
             [self deviceRequestDidCompleteWithDeviceInfo:deviceInfo timedOut:timedOut error:error];
@@ -109,7 +141,7 @@ typedef NS_ENUM(NSInteger, BlinkupArguments) {
  * cancelling, flashing process complete, or on error.
  * Sends status back to Cordova app.
  ********************************************************/
-- (void) blinkUpDidComplete:(BOOL)willRespond userDidCancel:(BOOL)userDidCancel error:(NSError*)error {
+- (void) blinkUpDidComplete:(BOOL)willRespond userDidCancel:(BOOL)userDidCancel error:(NSError*)error clearedCache:(BOOL)clearedCache {
     
     BlinkUpPluginResult *pluginResult = [[BlinkUpPluginResult alloc] init];
 
@@ -135,13 +167,15 @@ typedef NS_ENUM(NSInteger, BlinkupArguments) {
     }
     else {
         pluginResult.state = Completed;
-        pluginResult.statusCode = CLEAR_COMPLETE;
+        if (clearedCache) {
+        	pluginResult.statusCode = CLEAR_WIFI_AND_CACHE_COMPLETE;
+        } 
+        else {
+        	pluginResult.statusCode = CLEAR_WIFI_COMPLETE;
+    	}
     }
     
-    //send results
-    CDVPluginResult *cordovaResult = [CDVPluginResult resultWithStatus:[pluginResult getCordovaStatus] messageAsString:[pluginResult getResultsAsJsonString]];
-    [cordovaResult setKeepCallbackAsBool: [pluginResult getKeepCallback]];
-    [self.commandDelegate sendPluginResult:cordovaResult callbackId:self.callbackId];
+    [self sendResultToCallback:pluginResult];
 }
 
 
@@ -170,8 +204,15 @@ typedef NS_ENUM(NSInteger, BlinkupArguments) {
         pluginResult.statusCode = DEVICE_CONNECTED;
         pluginResult.deviceInfo = deviceInfo;
     }
-    
-    //send results
+
+    [self sendResultToCallback:pluginResult];
+}
+
+/*********************************************************
+ * Creates a cordova plugin result from pluginResult with
+ * correct settings and sends to callback
+ ********************************************************/
+- (void) sendResultToCallback(BlinkUpPluginResult *)pluginResult {
     CDVPluginResult *cordovaResult = [CDVPluginResult resultWithStatus:[pluginResult getCordovaStatus] messageAsString:[pluginResult getResultsAsJsonString]];
     [cordovaResult setKeepCallbackAsBool: [pluginResult getKeepCallback]];
     [self.commandDelegate sendPluginResult:cordovaResult callbackId:self.callbackId];
