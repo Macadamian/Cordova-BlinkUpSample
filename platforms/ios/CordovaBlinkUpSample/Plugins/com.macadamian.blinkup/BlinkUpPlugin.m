@@ -212,7 +212,7 @@ typedef NS_ENUM(NSInteger, BlinkupArguments) {
  * Creates a cordova plugin result from pluginResult with
  * correct settings and sends to callback
  ********************************************************/
-- (void) sendResultToCallback(BlinkUpPluginResult *)pluginResult {
+- (void) sendResultToCallback:(BlinkUpPluginResult *)pluginResult {
     CDVPluginResult *cordovaResult = [CDVPluginResult resultWithStatus:[pluginResult getCordovaStatus] messageAsString:[pluginResult getResultsAsJsonString]];
     [cordovaResult setKeepCallbackAsBool: [pluginResult getKeepCallback]];
     [self.commandDelegate sendPluginResult:cordovaResult callbackId:self.callbackId];
