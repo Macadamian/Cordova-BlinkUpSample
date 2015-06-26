@@ -1,0 +1,9 @@
+/* -------------------------------------------------------------------------------- */
+/* MIXINS - BORDER-RADIUS-ALL
+/* -------------------------------------------------------------------------------- */
+@mixin border-radius-all($radius) {
+	@include border-top-radius($radius);
+	@include border-right-radius($radius);
+	@include border-bottom-radius($radius);
+	@include border-left-radius($radius);
+}
