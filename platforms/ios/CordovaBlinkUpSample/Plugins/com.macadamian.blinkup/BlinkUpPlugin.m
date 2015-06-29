@@ -119,7 +119,7 @@ typedef NS_ENUM(NSInteger, BlinkupArguments) {
         planId = (self.developerPlanId != "") ? self.developerPlanId : nil;
     #endif
     
-    if (self.generatePlanId || planId != nil) {
+    if (self.generatePlanId || planId == nil) {
         self.blinkUpController = [[BUBasicController alloc] initWithApiKey:self.apiKey];
     }
     else {

@@ -75,7 +75,7 @@ var app = {
         // Perform Blinkup ---------------------------------------
         var blinkupBtn = document.getElementById('blinkup-button');
         blinkupBtn.addEventListener('click', function () {
-            blinkup.invokeBlinkUp(apiKey, planId, timeoutMs, true, blinkUpCallback, blinkUpCallback);
+            blinkup.invokeBlinkUp(apiKey, planId, timeoutMs, false, blinkUpCallback, blinkUpCallback);
         });
 
         // Clear Wifi & Cached PlanId ----------------------------
