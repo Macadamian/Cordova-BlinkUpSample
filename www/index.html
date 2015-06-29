@@ -41,19 +41,25 @@
     <body>
         <div class="l-body v-main">
             <div class="l-header">BlinkUp Plugin</div>
-            <div id="deviceready" class="device-state">
-                <p class="event listening">Connecting to Device</p>
-                <p class="event received">Device is Ready</p>
+
+            <div class="m-message-center">                
+                <div id="status-success" class="status-success"></div>
+                <div id="status-error" class="status-error"></div>
+                <div id="status-gathering" class="status-gathering">
+                    <img src="img/loading.gif" />
+                    <span>Gathering device information</span>
+                </div>
+
+                <div id="deviceready" class="device-ready">
+                    <p class="event listening">Connecting to Device</p>
+                    <p class="event received">Device is Ready</p>
+                </div>
             </div>
 
             <div class="device-info-header">
                 Device Info:
             </div>
             <ul class="device-info">
-                <li>
-                    <div>Status:</div>
-                    <div id="status"></div>
-                </li>
                 <li>
                     <div>Plan ID:</div>
                     <div id="planId"></div>
@@ -77,9 +83,9 @@
             </div>
 
             <div class="actions">
-                <div id="abort-button" class="button" style="display: none;">Cancel BlinkUp</div>
-                <div id="clear-button" class="button">Clear Wifi &amp; Cache</div>
-                <div id="blinkup-button" class="button">Perform BlinkUp</div>
+                <div id="abort-button" class="m-button" style="display: none;">Cancel BlinkUp</div>
+                <div id="clear-button" class="m-button">Clear Wifi &amp; Cache</div>
+                <div id="blinkup-button" class="m-button">Perform BlinkUp</div>
             </div>
         </div>
 
