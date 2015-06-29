@@ -34,8 +34,6 @@ typedef NS_ENUM(NSInteger, BlinkUpErrorCodes) {
     INVALID_ARGUMENTS   = 100,
     PROCESS_TIMED_OUT   = 101,
     CANCELLED_BY_USER   = 102,
-    INVALID_API_KEY     = 103, // android only
-    VERIFY_API_KEY_FAIL = 104, // android only
 };
 
 typedef NS_ENUM(NSInteger, BlinkupArguments) {
