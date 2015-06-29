@@ -40,11 +40,13 @@ NSString * const DEVICE_INFO_KEY = @"deviceInfo";
  * related properties as well
  ********************************************/
 - (void) setBlinkUpError:(NSError *)error {
+    self.state = Error;
     self.errorType = BlinkUpSDKError;
     self.errorCode = error.code;
     self.errorMsg = error.localizedDescription;
 }
 - (void) setPluginError:(NSInteger)errorCode {
+    self.state = Error;
     self.errorType = PluginError;
     self.errorCode = errorCode;
 }
@@ -87,7 +89,7 @@ NSString * const DEVICE_INFO_KEY = @"deviceInfo";
             [resultsDict setObject:[self.deviceInfo toDictionary] forKey:DEVICE_INFO_KEY];
         }
     }
-    
+
     return [self toJsonString:resultsDict];
 }
 
@@ -133,10 +135,9 @@ NSString * const DEVICE_INFO_KEY = @"deviceInfo";
     NSData *jsonData = [NSJSONSerialization dataWithJSONObject:resultsDict options:NSJSONWritingPrettyPrinted error:&jsonError];
     
     if (jsonError != nil) {
-        NSLog(@"%@", jsonError.localizedDescription);
+        NSLog(@"Error converting to JSON. %@", jsonError.localizedDescription);
         return @"";
     }
-    
     return [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
 }
 

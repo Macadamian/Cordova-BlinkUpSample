@@ -96,10 +96,12 @@ public class BlinkUpPluginResult {
         this.statusCode = statusCode;
     }
     public void setPluginError(int errorCode) {
+        this.state = BlinkUpPluginState.Error;
         this.errorType = BlinkUpErrorType.PluginError;
         this.errorCode = errorCode;
     }
     public void setBlinkUpError(String errorMsg) {
+        this.state = BlinkUpPluginState.Error;
         this.errorType = BlinkUpErrorType.BlinkUpSDKError;
         this.errorCode = 1; // set generic error code
         this.errorMsg = errorMsg;
@@ -112,8 +114,9 @@ public class BlinkUpPluginResult {
             this.verificationDate = deviceInfo.getString("claimed_at");
             this.hasDeviceInfo = true;
         } catch (JSONException e) {
-            Log.e("BlinkUpPlugin", e.getMessage());
-            e.printStackTrace();
+            this.state = BlinkUpPluginState.Error;
+            setPluginError(BlinkUpPlugin.ErrorCodes.JSON_ERROR.getCode());
+            sendResultsToCallback();
         }
     }
 
@@ -146,8 +149,8 @@ public class BlinkUpPluginResult {
                 }
             }
         } catch (JSONException e) {
+            // don't want endless loop calling ourselves so just log error (don't send to callback)
             Log.e("BlinkUpPlugin", e.getMessage());
-            e.printStackTrace();
         }
 
         PluginResult pluginResult = new PluginResult(cordovaResultStatus, resultJSON.toString());
@@ -169,7 +172,9 @@ public class BlinkUpPluginResult {
                 errorJson.put(ResultKeys.ERROR_MSG.getKey(), this.errorMsg);
             }
         } catch (JSONException e) {
-            e.printStackTrace();
+            this.state = BlinkUpPluginState.Error;
+            setPluginError(BlinkUpPlugin.ErrorCodes.JSON_ERROR.getCode());
+            sendResultsToCallback();
         }
 
         return errorJson;
@@ -187,7 +192,9 @@ public class BlinkUpPluginResult {
             deviceInfoJson.put(ResultKeys.AGENT_URL.getKey(), this.agentURL);
             deviceInfoJson.put(ResultKeys.VERIFICATION_DATE.getKey(), this.verificationDate);
         } catch (JSONException e) {
-            e.printStackTrace();
+            this.state = BlinkUpPluginState.Error;
+            setPluginError(BlinkUpPlugin.ErrorCodes.JSON_ERROR.getCode());
+            sendResultsToCallback();
         }
 
         return deviceInfoJson;

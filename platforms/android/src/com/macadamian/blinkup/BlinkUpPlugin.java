@@ -64,7 +64,8 @@ public class BlinkUpPlugin extends CordovaPlugin {
         PROCESS_TIMED_OUT(101),
         CANCELLED_BY_USER(102),
         INVALID_API_KEY(103),
-        VERIFY_API_KEY_FAIL(104);
+        VERIFY_API_KEY_FAIL(104),
+        JSON_ERROR(105);
 
         private final int code;
         ErrorCodes(int code) { this.code = code; }

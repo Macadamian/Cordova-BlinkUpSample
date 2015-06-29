@@ -71,7 +71,10 @@ public class BlinkUpCompleteActivity extends Activity {
                     editor.apply();
                 }
                 catch (JSONException e) {
-                    Log.e("BlinkUpPlugin", e.getMessage());
+                    BlinkUpPluginResult jsonErrorResult = new BlinkUpPluginResult();
+                    jsonErrorResult.setState(BlinkUpPluginResult.BlinkUpPluginState.Error);
+                    jsonErrorResult.setPluginError(BlinkUpPlugin.ErrorCodes.JSON_ERROR.getCode());
+                    jsonErrorResult.sendResultsToCallback();
                 }
             }
 

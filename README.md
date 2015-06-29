@@ -82,5 +82,6 @@ IMPORTANT NOTE: the following codes apply ONLY if `errorType` is "plugin". Error
 102 - "Process cancelled by user."
 103 - "Invalid API key. You must set your BlinkUp API key in www/index.js." 
 104 - "Could not verify API key with Electric Imp servers."
+105 - "Error generating JSON string."
 ```
 
