@@ -111,7 +111,7 @@ public class BlinkUpPluginResult {
             this.deviceId = (deviceInfo.getString("impee_id") != null) ? deviceInfo.getString("impee_id").trim() : null;
             this.planId = deviceInfo.getString("plan_id");
             this.agentURL = deviceInfo.getString("agent_url");
-            this.verificationDate = deviceInfo.getString("claimed_at");
+            this.verificationDate = deviceInfo.getString("claimed_at").replace("Z", "+0:00"); // match date format to iOS
             this.hasDeviceInfo = true;
         } catch (JSONException e) {
             this.state = BlinkUpPluginState.Error;
