@@ -26,7 +26,7 @@
  ******************************************************************/
  var apiKey = "";       // this MUST be set or the app won't work
  var planId = "";       // if blank, SDK will generate a planId
- var timeoutMs = 60000; // default is 60s
+ var timeoutMs = 30000; // default is 30s
 //=================================================================
 
 var progressBarInterval;

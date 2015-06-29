@@ -42,7 +42,7 @@ public class BlinkUpPlugin extends CordovaPlugin {
     private Boolean generatePlanId = false;
 
     // accessed from BlinkUpCompleteActivity and ClearCompleteActivity
-    public static int timeoutMs = 60000;
+    public static int timeoutMs = 30000;
     public static CallbackContext callbackContext;
 
     public static String PLAN_ID_CACHE_KEY = "planId";

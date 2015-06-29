@@ -129,6 +129,12 @@ typedef NS_ENUM(NSInteger, BlinkupArguments) {
     [self.blinkUpController presentInterfaceAnimated:YES
         resignActive: ^(BOOL willRespond, BOOL userDidCancel, NSError *error) {
             [self blinkUpDidComplete:willRespond userDidCancel:userDidCancel error:error clearedCache:false];
+
+            // device poller is nil until this block completes, so set its timeout 0.5 seconds from now
+            // this is a HACK, need to solve before release
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+                self.blinkUpController.devicePoller.pollTimeout = (self.timeoutMs / 1000.0);
+            });
         }
         devicePollingDidComplete: ^(BUDeviceInfo *deviceInfo, BOOL timedOut, NSError *error) {
             [self deviceRequestDidCompleteWithDeviceInfo:deviceInfo timedOut:timedOut error:error];
@@ -147,14 +153,6 @@ typedef NS_ENUM(NSInteger, BlinkupArguments) {
     BlinkUpPluginResult *pluginResult = [[BlinkUpPluginResult alloc] init];
 
     if (willRespond) {
-        // can't set timeout manually, so just tell devicePoller to stop polling (if timeout not default)
-        if (self.timeoutMs != 60000) {
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, self.timeoutMs * NSEC_PER_MSEC),
-                dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-                    [self.blinkUpController.devicePoller stopPolling];
-                    [self deviceRequestDidCompleteWithDeviceInfo:nil timedOut:true error:nil];
-            });
-        }
         pluginResult.state = Started;
         pluginResult.statusCode = GATHERING_INFO;
     }
