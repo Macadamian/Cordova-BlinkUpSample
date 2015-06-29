@@ -50,6 +50,8 @@ var app = {
     onDeviceReady: function () {
         app.receivedEvent('deviceready');
 
+        loadDeviceInfoIfAvailable();
+
         // parses returned json, sets UI accordingly
         var blinkUpCallback = function (message) {
             var jsonData;
@@ -60,6 +62,9 @@ var app = {
                     this.startProgress();
                 } else {
                     this.endProgress();
+                    if (jsonData.state === "completed") {
+                        this.saveDeviceInfo(jsonData);
+                    }
                 }
             } catch (exception) {
                 console.log("Error parsing JSON in blinkUpCallback:" + exception);
@@ -135,14 +140,50 @@ function endProgress() {
 }
 
 /********************************************
+ * Saves device info persistently 
+ * @param JSON object of BlinkUpPlugin results
+ ********************************************/
+function saveDeviceInfo(pluginResult) {
+    var statusCodeAsInt = parseInt(pluginResult.statusCode);
+    
+    // clear cache when wifi cleared
+    if (statusCodeAsInt === 201 || statusCodeAsInt === 202) {
+        window.localStorage.clear();
+        console.log("cleared our storage");
+    }
+    
+    // save device info to persistent storage
+    else if (statusCodeAsInt === 0) {
+        window.localStorage.setItem("deviceId", pluginResult.deviceInfo.deviceId);
+        window.localStorage.setItem("planId", pluginResult.deviceInfo.planId);
+        window.localStorage.setItem("agentURL", pluginResult.deviceInfo.agentURL);
+        window.localStorage.setItem("verificationDate", pluginResult.deviceInfo.verificationDate);
+    }
+}
+
+/********************************************
+ * loads cached deviceInfo and updates UI
+ ********************************************/
+function loadDeviceInfoIfAvailable() {
+    // if one item not null, all not null (they are all set at same time)
+    if (window.localStorage.getItem("deviceId") !== null) {
+        document.getElementById('status').innerHTML = "Loaded cached device information.";
+        document.getElementById('deviceId').innerHTML = window.localStorage.getItem("deviceId");
+        document.getElementById('planId').innerHTML = window.localStorage.getItem("planId");
+        document.getElementById('agentURL').innerHTML = window.localStorage.getItem("agentURL");
+        document.getElementById('verificationDate').innerHTML = window.localStorage.getItem("verificationDate");
+    }
+}
+
+/********************************************
  * updates UI according to result of BlinkUp
  * @param JSON object of BlinkUpPlugin result
  ********************************************/
 function updateInfo(pluginResult) {
     // clear current info
     document.getElementById('status').innerHTML = "";
-    document.getElementById('planId').innerHTML = "";
     document.getElementById('deviceId').innerHTML = "";
+    document.getElementById('planId').innerHTML = "";
     document.getElementById('agentURL').innerHTML = "";
     document.getElementById('verificationDate').innerHTML = "";
 
