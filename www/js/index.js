@@ -109,34 +109,18 @@ var app = {
  * unhides abort button and progress bar
  *****************************************/
 function startProgress() {
-    document.getElementById('abort-button').style.display = "inline-block";
-    document.getElementById('progress-bar-wrapper').style.display = "inline-block";
+    document.getElementById('abort-button').style.display = "block";
     document.getElementById('clear-button').style.display = "none";
     document.getElementById('blinkup-button').style.display = "none";
-
-    var progressBar = document.getElementById('progress-bar');
-    progressBar.style.width = "0px";
-
-    clearInterval(progressBarInterval);
-    var percentDone = 0;
-    progressBarInterval = setInterval(function () {
-        percentDone++;
-        progressBar.style.width = percentDone + "%";
-        if (percentDone > 99) {
-            clearInterval(progressBarInterval);
-        }
-    }, (timeoutMs / 100));
 }
 
 /******************************************
  * hides abort button and progress bar
  *****************************************/
 function endProgress() {
-    document.getElementById('progress-bar').style.width = "0px";
-    document.getElementById('progress-bar-wrapper').style.display = "none";
     document.getElementById('abort-button').style.display = "none";
-    document.getElementById('blinkup-button').style.display = "inline-block";
-    document.getElementById('clear-button').style.display = "inline-block";
+    document.getElementById('blinkup-button').style.display = "block";
+    document.getElementById('clear-button').style.display = "block";
 }
 
 /********************************************
@@ -181,7 +165,13 @@ function loadDeviceInfoIfAvailable() {
  ********************************************/
 function updateInfo(pluginResult) {
     // clear current info
-    document.getElementById('status').innerHTML = "";
+    document.getElementById('status-error').innerHTML = "";
+    document.getElementById('status-success').innerHTML = "";
+    document.getElementById('status-error').style.display = "none";
+    document.getElementById('status-success').style.display = "none";
+    document.getElementById('status-gathering').style.display = "none";
+
+    document.getElementById('planId').innerHTML = "";
     document.getElementById('deviceId').innerHTML = "";
     document.getElementById('planId').innerHTML = "";
     document.getElementById('agentURL').innerHTML = "";
@@ -192,19 +182,32 @@ function updateInfo(pluginResult) {
     if (pluginResult.state == "error") {
         if (pluginResult.error.errorType == "blinkup") {
             statusMsg = pluginResult.error.errorMsg;
+            document.getElementById('status-error').innerHTML = statusMsg;
+            document.getElementById('status-error').style.display = "block";              
         } else {
             statusMsg = ErrorMessages[pluginResult.error.errorCode];
+            document.getElementById('status-error').innerHTML = statusMsg;
+            document.getElementById('status-error').style.display = "block";
         }
+
     } else if (pluginResult.state == "completed" || pluginResult.state == "started") {
         statusMsg = StatusMessages[pluginResult.statusCode];
-        if (pluginResult.statusCode == "0") {
+
+        if(pluginResult.statusCode === "200" ){
+            document.getElementById('status-gathering').style.display = "block";
+        } else if (pluginResult.statusCode == "0") {
             document.getElementById('planId').innerHTML = pluginResult.deviceInfo.planId;
             document.getElementById('deviceId').innerHTML = pluginResult.deviceInfo.deviceId;
             document.getElementById('agentURL').innerHTML = pluginResult.deviceInfo.agentURL;
             document.getElementById('verificationDate').innerHTML = pluginResult.deviceInfo.verificationDate;
+
+            document.getElementById('status-success').innerHTML = statusMsg;
+            document.getElementById('status-success').style.display = "block";            
+        } else {
+            document.getElementById('status-success').innerHTML = statusMsg;
+            document.getElementById('status-success').style.display = "block";                        
         }
     }
-    document.getElementById('status').innerHTML = statusMsg;
 }
 
 var StatusMessages = {
@@ -215,12 +218,12 @@ var StatusMessages = {
 };
 
 var ErrorMessages = {   
-    100 : "Error. Invalid arguments in call to invokeBlinkUp.",
-    101 : "Error. Could not gather device info. Process timed out.", 
-    102 : "Process cancelled by user.", 
-    300 : "Error. Invalid API key. You must set your BlinkUp API key in Cordova-BlinkUpSample/www/js/index.js.",
-    301 : "Error. Could not verify API key with Electric Imp servers.",
-    302 : "Error generating JSON string."
+    100 : "Error: Invalid arguments in call to invokeBlinkUp",
+    101 : "Error: Could not gather device info. Process timed out", 
+    102 : "Process cancelled by user", 
+    300 : "Error: Invalid API key, you must set your BlinkUp API key in Cordova-BlinkUpSample/www/js/index.js",
+    301 : "Error: Could not verify API key with Electric Imp servers",
+    302 : "Error: Generating JSON string"
 };
 
 app.initialize();
