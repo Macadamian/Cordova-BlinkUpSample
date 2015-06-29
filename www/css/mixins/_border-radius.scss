@@ -1,0 +1,20 @@
+/* -------------------------------------------------------------------------------- */
+/* MIXINS - BORDER-RADIUS
+/* -------------------------------------------------------------------------------- */
+@mixin border-radius($radius, $corner) {
+	@if $corner == top-left {
+		border-top-left-radius:$radius;
+  	}
+
+	@if $corner == top-right {
+		border-top-right-radius:$radius;
+  	}
+
+	@if $corner == bottom-right {
+		border-bottom-right-radius:$radius;
+  	}
+
+	@if $corner == bottom-left {
+		border-bottom-left-radius:$radius;
+  	}
+}
