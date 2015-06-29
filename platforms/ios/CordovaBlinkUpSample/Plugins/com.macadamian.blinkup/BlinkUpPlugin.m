@@ -52,7 +52,7 @@ typedef NS_ENUM(NSInteger, BlinkupArguments) {
  ********************************************************/
 - (void)invokeBlinkUp:(CDVInvokedUrlCommand*)command {
     self.callbackId = command.callbackId;
-    
+
     if (command.arguments.count <= BlinkUpArgumentGeneratePlanId) {
         BlinkUpPluginResult *pluginResult = [[BlinkUpPluginResult alloc] init];
         pluginResult.state = Error;
@@ -74,6 +74,8 @@ typedef NS_ENUM(NSInteger, BlinkupArguments) {
  * Cancels device polling
  ********************************************************/
 - (void)abortBlinkUp:(CDVInvokedUrlCommand *)command {
+    self.callbackId = command.callbackId;
+
     [self.blinkUpController.devicePoller stopPolling];
     self.blinkUpController = nil;
 
@@ -88,6 +90,7 @@ typedef NS_ENUM(NSInteger, BlinkupArguments) {
  * Clears wifi configuration of Imp and cached planId
  ********************************************************/
 - (void) clearBlinkUpData:(CDVInvokedUrlCommand *)command {
+    self.callbackId = command.callbackId;
 
     // clear cached planId
     [[NSUserDefaults standardUserDefaults] setObject:nil forKey:PLAN_ID_CACHE_KEY];

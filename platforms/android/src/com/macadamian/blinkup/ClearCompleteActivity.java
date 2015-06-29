@@ -35,7 +35,6 @@ public class ClearCompleteActivity extends Activity {
         // send callback that we've cleared device
         BlinkUpPluginResult clearResult = new BlinkUpPluginResult();
         clearResult.setState(BlinkUpPluginResult.BlinkUpPluginState.Completed);
-        clearResult.sendResultsToCallback();
 
         // set the status code depending if we just cleared the cache
         if (BlinkUpPlugin.clearedCache) {
