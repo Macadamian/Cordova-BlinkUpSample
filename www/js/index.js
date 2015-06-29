@@ -29,8 +29,6 @@
  var timeoutMs = 60000; // default is 60s
 //=================================================================
 
-var progressBarInterval;
-
 var app = {
     // Application Constructor
     initialize: function () {
@@ -71,7 +69,7 @@ var app = {
                 this.endProgress();
             }
         };
-    
+
         // Perform Blinkup ---------------------------------------
         var blinkupBtn = document.getElementById('blinkup-button');
         blinkupBtn.addEventListener('click', function () {
@@ -105,8 +103,7 @@ var app = {
 };
 
 /******************************************
- * resets progress interval and bar,
- * unhides abort button and progress bar
+ * shows abort button, hides others
  *****************************************/
 function startProgress() {
     document.getElementById('abort-button').style.display = "block";
@@ -115,7 +112,7 @@ function startProgress() {
 }
 
 /******************************************
- * hides abort button and progress bar
+ * shows blinkup & clear btns, hides abort
  *****************************************/
 function endProgress() {
     document.getElementById('abort-button').style.display = "none";
@@ -133,7 +130,6 @@ function saveDeviceInfo(pluginResult) {
     // clear cache when wifi cleared
     if (statusCodeAsInt === 201 || statusCodeAsInt === 202) {
         window.localStorage.clear();
-        console.log("cleared our storage");
     }
     
     // save device info to persistent storage
@@ -151,7 +147,8 @@ function saveDeviceInfo(pluginResult) {
 function loadDeviceInfoIfAvailable() {
     // if one item not null, all not null (they are all set at same time)
     if (window.localStorage.getItem("deviceId") !== null) {
-        document.getElementById('status').innerHTML = "Loaded cached device information.";
+        document.getElementById('status-success').innerHTML = "Loaded cached device information.";
+        document.getElementById('status-success').style.display = "block";
         document.getElementById('deviceId').innerHTML = window.localStorage.getItem("deviceId");
         document.getElementById('planId').innerHTML = window.localStorage.getItem("planId");
         document.getElementById('agentURL').innerHTML = window.localStorage.getItem("agentURL");
