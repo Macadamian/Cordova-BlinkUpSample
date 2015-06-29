@@ -178,9 +178,9 @@ var ErrorMessages = {
     100 : "Error. Invalid arguments in call to invokeBlinkUp.",
     101 : "Error. Could not gather device info. Process timed out.", 
     102 : "Process cancelled by user.", 
-    103 : "Error. Invalid API key. You must set your BlinkUp API key in Cordova-BlinkUpSample/www/js/index.js.",
-    104 : "Error. Could not verify API key with Electric Imp servers.",
-    105 : "Error generating JSON string."
+    300 : "Error. Invalid API key. You must set your BlinkUp API key in Cordova-BlinkUpSample/www/js/index.js.",
+    301 : "Error. Could not verify API key with Electric Imp servers.",
+    302 : "Error generating JSON string."
 };
 
 app.initialize();

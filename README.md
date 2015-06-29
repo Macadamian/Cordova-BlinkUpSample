@@ -75,13 +75,13 @@ These codes can be used to debug your application, or to present the users an ap
 
 Error Codes
 ----------
-IMPORTANT NOTE: the following codes apply ONLY if `errorType` is "plugin". Errors from the BlinkUp SDK will have their own error codes (which may overlap with those below). If `errorType` is "blinkup", you must use the `errorMsg` field instead.
+IMPORTANT NOTE: the following codes apply ONLY if `errorType` is "plugin". Errors from the BlinkUp SDK will have their own error codes (which may overlap with those below). If `errorType` is "blinkup", you must use the `errorMsg` field instead. The errors in the 300's range are android only.
 ```
 100 - "Invalid arguments in call to invokeBlinkUp."
 101 - "Could not gather device info. Process timed out."
 102 - "Process cancelled by user."
-103 - "Invalid API key. You must set your BlinkUp API key in www/index.js." 
-104 - "Could not verify API key with Electric Imp servers."
-105 - "Error generating JSON string."
+300 - "Invalid API key. You must set your BlinkUp API key in www/index.js." 
+301 - "Could not verify API key with Electric Imp servers."
+302 - "Error generating JSON string."
 ```
 
