@@ -139,7 +139,6 @@ function endProgress() {
  * @param JSON object of BlinkUpPlugin result
  ********************************************/
 function updateInfo(pluginResult) {
-
     // clear current info
     document.getElementById('status').innerHTML = "";
     document.getElementById('planId').innerHTML = "";
