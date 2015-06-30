@@ -4,10 +4,11 @@
 
 .v-main 									{ 
 	.device-info-header 					{ padding:12px 20px 8px 20px; background:$color-blue-default; }
-	.device-info 							{ 
-		li 									{ @include cf(); padding-top:10px; padding-bottom:10px; border-bottom:1px solid $color-gray-lighter-2;
+	.device-info 							{ margin-bottom:80px;
+		li 									{ @include cf(); padding-top:10px; padding-bottom:10px; background:$color-white-default; border-bottom:1px solid $color-gray-lighter-2;
 			> div:first-child 				{ @include col(5/12); padding-left:20px; }
-			> div:last-child 				{ @include col(6/12); padding-right:20px; }
+			> div:last-child 				{ @include col(6/12); padding-right:20px; word-wrap:break-word; }
 		}
 	}
+	.m-button:last-child 					{ border-bottom:1px solid $color-gray-lighter-1; }
 }
