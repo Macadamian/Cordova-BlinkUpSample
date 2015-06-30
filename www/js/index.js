@@ -87,6 +87,13 @@ var app = {
         abortBtn.addEventListener('click', function () {
             blinkup.abortBlinkUp(blinkUpCallback, blinkUpCallback);
         });
+
+        // Continue from firstluanh -----------------------------------------
+        var continueBtn = document.getElementById('continue-button');
+        continueBtn.addEventListener('click', function () {
+            document.getElementById('view-firstlaunch').style.display = "none";
+            document.getElementById('view-main').style.display = "block";
+        });        
     },
 
     // Update DOM on a Received Event

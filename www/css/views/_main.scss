@@ -2,12 +2,12 @@
 // VIEW - MAIN 
 // --------------------------------------------------------------------------------
 
-.v-main 									{ 
+.v-main 									{ display:none;
 	.device-info-header 					{ padding:12px 20px 8px 20px; background:$color-blue-default; }
-	.device-info 							{ margin-bottom:80px;
+	.device-info 							{ margin-bottom:50px;
 		li 									{ @include cf(); padding-top:10px; padding-bottom:10px; background:$color-white-default; border-bottom:1px solid $color-gray-lighter-2;
 			> div:first-child 				{ @include col(5/12); padding-left:20px; }
-			> div:last-child 				{ @include col(6/12); padding-right:20px; word-wrap:break-word; }
+			> div:last-child 				{ @include col(6/12); padding-right:10px; word-wrap:break-word; }
 		}
 	}
 	.m-button:last-child 					{ border-bottom:1px solid $color-gray-lighter-1; }
