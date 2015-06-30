@@ -116,6 +116,10 @@ ext {
     cdvPluginPostBuildExtras = []
 }
 
+// PLUGIN GRADLE EXTENSIONS START
+apply from: "com.macadamian.blinkup/CordovaBlinkUpSample-build-extras.gradle"
+// PLUGIN GRADLE EXTENSIONS END
+
 def hasBuildExtras = file('build-extras.gradle').exists()
 if (hasBuildExtras) {
     apply from: 'build-extras.gradle'
@@ -264,7 +268,6 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: '*.jar')
     // SUB-PROJECT DEPENDENCIES START
-    compile project("blinkup_sdk")
     debugCompile project(path: ":CordovaLib", configuration: "debug")
     releaseCompile project(path: ":CordovaLib", configuration: "release")
     // SUB-PROJECT DEPENDENCIES END

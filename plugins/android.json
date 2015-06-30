@@ -1,0 +1,77 @@
+{
+    "prepare_queue": {
+        "installed": [],
+        "uninstalled": []
+    },
+    "config_munge": {
+        "files": {
+            "res/xml/config.xml": {
+                "parents": {
+                    "/*": [
+                        {
+                            "xml": "<feature name=\"BlinkUpPlugin\"><param name=\"android-package\" value=\"com.macadamian.blinkup.BlinkUpPlugin\" /></feature>",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"Whitelist\"><param name=\"android-package\" value=\"org.apache.cordova.whitelist.WhitelistPlugin\" /><param name=\"onload\" value=\"true\" /></feature>",
+                            "count": 1
+                        }
+                    ]
+                }
+            },
+            "AndroidManifest.xml": {
+                "parents": {
+                    "/manifest": [
+                        {
+                            "xml": "<uses-permission android:name=\"android.permission.WAKE_LOCK\" />",
+                            "count": 1
+                        }
+                    ],
+                    "/manifest/application": [
+                        {
+                            "xml": "<activity android:name=\"com.macadamian.blinkup.ClearCompleteActivity\" />",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<activity android:name=\"com.macadamian.blinkup.BlinkUpCompleteActivity\" />",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<activity android:label=\"BlinkUp\" android:name=\"com.electricimp.blinkup.WifiSelectActivity\" />",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<activity android:label=\"BlinkUp\" android:name=\"com.electricimp.blinkup.BlinkupGLActivity\" />",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<activity android:label=\"BlinkUp\" android:name=\"com.electricimp.blinkup.WifiActivity\" />",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<activity android:label=\"BlinkUp\" android:name=\"com.electricimp.blinkup.WPSActivity\" />",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<activity android:label=\"BlinkUp\" android:name=\"com.electricimp.blinkup.ClearWifiActivity\" />",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<activity android:label=\"BlinkUp\" android:name=\"com.electricimp.blinkup.InterstitialActivity\" />",
+                            "count": 1
+                        }
+                    ]
+                }
+            }
+        }
+    },
+    "installed_plugins": {
+        "com.macadamian.blinkup": {
+            "PACKAGE_NAME": "com.macadamian.CordovaBlinkUpSample"
+        },
+        "cordova-plugin-whitelist": {
+            "PACKAGE_NAME": "com.macadamian.CordovaBlinkUpSample"
+        }
+    },
+    "dependent_plugins": {}
+}
