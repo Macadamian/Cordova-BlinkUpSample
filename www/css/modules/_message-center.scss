@@ -1,0 +1,17 @@
+// --------------------------------------------------------------------------------
+// MODULES - MESSAGE CENTER
+// --------------------------------------------------------------------------------
+.m-message-center 							{
+	.status-error 							{ padding:10px 20px; display:none; background:$color-red-default; color:$color-white-default; }
+	.status-success 						{ padding:10px 20px; display:none; background:$color-green-default; color:$color-white-default; }
+	.status-gathering 						{ padding:10px 20px; display:none; background:$color-blue-darker-1; color:$color-white-default; 
+		img 								{ width:16px; height:16px; }
+	}
+
+	.device-ready 							{ display:none; @include animation(fade 6000ms infinite); text-align:center; border-bottom:1px solid $color-green-darker-1;
+		p 									{ margin:0; padding:0; }
+		.event 								{ padding:10px 20px; color:$color-white-default; }
+		.event.listening 					{ display:block; background-color:$color-gray-darker-1; }
+		.event.received 					{ display:none; background-color:$color-green-default; }	
+	}
+}

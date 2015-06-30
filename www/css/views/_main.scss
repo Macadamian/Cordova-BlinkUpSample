@@ -3,24 +3,12 @@
 // --------------------------------------------------------------------------------
 
 .v-main 									{ 
-	
-	.device-state 							{ @include animation(fade 6000ms infinite); text-align:center; border-bottom:1px solid $color-green-darker-1;
-		p 									{ margin:0; padding:0; }
-		.event 								{ padding:10px 20px; color:$color-white-default; }
-		.event.listening 					{ display:block; background-color:$color-gray-darker-1; }
-		.event.received 					{ display:none; background-color:$color-green-default; }	
-	}
-
-	.device-info-header 					{ padding:10px 20px 5px 20px; background:$color-blue-default; }
-	.device-info 							{ 
-		li 									{ @include cf(); padding-top:10px; padding-bottom:10px; border-bottom:1px solid $color-gray-lighter-1;
+	.device-info-header 					{ padding:12px 20px 8px 20px; background:$color-blue-default; }
+	.device-info 							{ margin-bottom:80px;
+		li 									{ @include cf(); padding-top:10px; padding-bottom:10px; background:$color-white-default; border-bottom:1px solid $color-gray-lighter-2;
 			> div:first-child 				{ @include col(5/12); padding-left:20px; }
-			> div:last-child 				{ @include col(6/12); padding-right:20px; }
+			> div:last-child 				{ @include col(6/12); padding-right:20px; word-wrap:break-word; }
 		}
 	}
-	
-	#progress-bar-wrapper 					{ height:20px; margin:0 auto; display:none; background:$color-gray-lighter-1; }
-	#progress-bar 							{ width:0px; height:100%; float:left; background:$color-gray-darker-2; }
-
-	.button 								{ padding:10px 20px; display:block; background:$color-gray-lighter-1; text-align:center; cursor:pointer; }
+	.m-button:last-child 					{ border-bottom:1px solid $color-gray-lighter-1; }
 }

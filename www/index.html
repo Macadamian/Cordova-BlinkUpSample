@@ -35,25 +35,31 @@
         <meta name="msapplication-tap-highlight" content="no">
         <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
         <link rel="stylesheet" type="text/css" href="css/index.css">
-        <title>BlinkUp Plugin Example</title>
+        <title>BlinkUp Plugin Sample</title>
     </head>
 
     <body>
         <div class="l-body v-main">
-            <div class="l-header">BlinkUp Plugin</div>
-            <div id="deviceready" class="device-state">
-                <p class="event listening">Connecting to Device</p>
-                <p class="event received">Device is Ready</p>
+            <div class="l-header">BlinkUp Plugin Sample</div>
+
+            <div class="m-message-center">                
+                <div id="status-success" class="status-success"></div>
+                <div id="status-error" class="status-error"></div>
+                <div id="status-gathering" class="status-gathering">
+                    <img src="img/loading.gif" />
+                    <span>Gathering device information</span>
+                </div>
+
+                <div id="deviceready" class="device-ready">
+                    <p class="event listening">Connecting to Device</p>
+                    <p class="event received">Device is Ready</p>
+                </div>
             </div>
 
             <div class="device-info-header">
                 Device Info:
             </div>
             <ul class="device-info">
-                <li>
-                    <div>Status:</div>
-                    <div id="status"></div>
-                </li>
                 <li>
                     <div>Plan ID:</div>
                     <div id="planId"></div>
@@ -72,14 +78,10 @@
                 </li>
             </ul>
 
-            <div id="progress-bar-wrapper">
-                <div id="progress-bar"></div>
-            </div>
-
             <div class="actions">
-                <div id="abort-button" class="button" style="display: none;">Cancel BlinkUp</div>
-                <div id="clear-button" class="button">Clear Wifi &amp; Cache</div>
-                <div id="blinkup-button" class="button">Perform BlinkUp</div>
+                <div id="abort-button" class="m-button" style="display: none;">Cancel BlinkUp</div>
+                <div id="clear-button" class="m-button">Clear Wifi &amp; Cache</div>
+                <div id="blinkup-button" class="m-button">Perform BlinkUp</div>
             </div>
         </div>
 
