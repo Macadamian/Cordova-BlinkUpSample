@@ -39,6 +39,10 @@
                         {
                             "xml": "<feature name=\"BlinkUpPlugin\"><param name=\"ios-package\" value=\"BlinkUpPlugin\" /></feature>",
                             "count": 1
+                        },
+                        {
+                            "xml": "<preference name=\"DisallowOverscroll\" value=\"true\" />",
+                            "count": 1
                         }
                     ]
                 }

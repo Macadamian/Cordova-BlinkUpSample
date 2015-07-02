@@ -19,14 +19,20 @@ This Cordova / Phonegap plugin allows you to easily integrate the native BlinkUp
 
 Installation
 ==============
-**STEP 1**<br>
 Navigate to your project directory and install the plugin with `cordova plugin add https://github.com/Macadamian/Cordova-BlinkUpPlugin.git`. Add both platforms if you haven't already with `cordova platform add ios` and `cordova platform add android`.
 
 iOS
 --------------
+**STEP 1**<br>
 Open `/path/to/project/platforms/ios/<ProjectName>.xcodeproj` in Xcode, select the "Frameworks" group and choose File > Add Files to \<ProjectName\>. Select the `BlinkUp.embeddedframework` file given to you by Electric Imp, and ensure that both "*Copy items if needed*" and "*Add to targets: \<ProjectName\>*" are selected. 
 
 Expand the `BlinkUp.embeddedframework` you just added to Frameworks, and drag the `BlinkUp.framework` file  to `Link Binary with Libraries`, and `BlinkUp.bundle` (in BlinkUp.embeddedframework/Resources) to the `Copy Bundle Resources` in the project's `Build Phases`.
+
+**STEP 2**<br>
+Go to the project's Build Setting in Xcode, and in the `Apple LLVM - Preprocessing` section expand the "Preprocessor Macros" setting. Add the following to "Debug" (and only Debug!):
+```
+DEBUG=1
+```
 
 Android
 --------------
@@ -39,7 +45,7 @@ Open `path/to/project/platforms/android/cordova/lib/build.js` and add the follow
 'include ":blinkup_sdk"\n' +
 ```
 It should now look like this:
-```
+```javascript
 fs.writeFileSync(path.join(projectPath, 'settings.gradle'),
     '// GENERATED FILE - DO NOT EDIT\n' +
     'include ":"\n' +
@@ -49,12 +55,15 @@ fs.writeFileSync(path.join(projectPath, 'settings.gradle'),
 
 **STEP 3**<br>
 Open `MainActivity.java`. If your project is *com.company.project* then it's located in `platforms/android/src/com/company/project`. Add the following imports:
-```
+
+```java
 import android.content.Intent;
 import com.electricimp.blinkup.BlinkupController;
 ```
+
 And the following method:
-```
+
+```java
 @Override
 protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
     super.onActivityResult(requestCode, resultCode, intent);
@@ -72,7 +81,9 @@ When you are adding calls to the plugin in your javascript note that you must up
 
 API Calls
 ----------
-There are three calls from the plugin exposed to the javascript. All take success and failure callbacks as arguments. See the "Callbacks" section below for more information.
+There are three calls from the plugin exposed to the javascript through the `blinkup` interface. For example, to show a BlinkUp you would call `blinkup.invokeBlinkUp(...);`. 
+
+All calls take success and failure callbacks as arguments. See the "Callbacks" section below for more information.
 
 **invokeBlinkUp(apiKey, planId, timeoutMs, generatePlanId, success, failure)**<br>
 Presents the native BlinkUp interface, where user can input wifi info and connect to the Imp.<br>
@@ -92,7 +103,7 @@ Callbacks
 It is recommended to use the same function as the success callback and failure callback, as the JSON parsing will be common to both. See the "JSON format" section for information regarding the JSON sent back to the javascript.
 
 An example callback function is below, where `errorForCode` and `statusForCode` are functions you must define that map error codes and status codes to their respective messages.
-```
+```javascript
 var callback = function (message) {
     try {
         var jsonData = JSON.parse("(" + message + ")"); 
@@ -207,3 +218,6 @@ Troubleshooting
 - The USB power cable is not connected to the Imp, or to a power source
 - Sometimes you need to unplug and replug in the power cable to "wake" the Imp up. This should get it to start flashing, and ready to recognize a BlinkUp
 
+**Javascript gives "blinkup not defined"**
+- There is a typo in the function being called, or it is not one of the exposed functions outlined in [api calls](#api-calls)
+- The function being called is not called on a `blinkup` object, as discussed in [api calls](#api-calls)
