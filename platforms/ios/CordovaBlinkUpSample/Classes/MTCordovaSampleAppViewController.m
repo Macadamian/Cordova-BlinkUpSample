@@ -31,6 +31,23 @@
 
 #pragma mark UIWebDelegate implementation
 
+// External links (http) will open in Safari instead of the project's UIWebView
+// http://stackoverflow.com/questions/9746260/how-can-i-open-an-external-link-in-safari-not-the-apps-uiwebview
+- (BOOL)webView:(UIWebView *)theWebView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
+{
+    NSURL *url = [request URL];
+    
+    // forward http[s] requests to Safari
+    if ([[url scheme] isEqualToString:@"http"] || [[url scheme] isEqualToString:@"https"]) {
+        [[UIApplication sharedApplication] openURL:url];
+        return NO;
+    }
+    // if not http, send to Cordova webview
+    else {
+        return [super webView:theWebView shouldStartLoadWithRequest:request navigationType:navigationType];
+    }
+}
+
 - (void)webViewDidFinishLoad:(UIWebView*)theWebView
 {
     // Black base color for background matches the native apps
