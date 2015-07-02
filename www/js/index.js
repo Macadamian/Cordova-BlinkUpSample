@@ -48,6 +48,14 @@ var app = {
     onDeviceReady: function () {
         app.receivedEvent('deviceready');
 
+        // Continue From Launch Page --------------------------
+        var continueBtn = document.getElementById('continue-button');
+        continueBtn.addEventListener('click', function () {
+            document.getElementById('view-firstlaunch').style.display = "none";
+            document.getElementById('view-main').style.display = "block";
+        });        
+
+        // if cached device info, it will skip launch page
         loadDeviceInfoIfAvailable();
 
         // parses returned json, sets UI accordingly
@@ -147,6 +155,12 @@ function saveDeviceInfo(pluginResult) {
 function loadDeviceInfoIfAvailable() {
     // if one item not null, all not null (they are all set at same time)
     if (window.localStorage.getItem("deviceId") !== null) {
+
+        // skip first launch page
+        document.getElementById('view-firstlaunch').style.display = "none";
+        document.getElementById('view-main').style.display = "block";
+
+        // update ui with cached data
         document.getElementById('status-success').innerHTML = "Loaded cached device information.";
         document.getElementById('status-success').style.display = "block";
         document.getElementById('deviceId').innerHTML = window.localStorage.getItem("deviceId");
@@ -190,7 +204,7 @@ function updateInfo(pluginResult) {
     } else if (pluginResult.state == "completed" || pluginResult.state == "started") {
         statusMsg = StatusMessages[pluginResult.statusCode];
 
-        if(pluginResult.statusCode === "200" ){
+        if (pluginResult.statusCode === "200" ){
             document.getElementById('status-gathering').style.display = "block";
         } else if (pluginResult.statusCode == "0") {
             document.getElementById('planId').innerHTML = pluginResult.deviceInfo.planId;
