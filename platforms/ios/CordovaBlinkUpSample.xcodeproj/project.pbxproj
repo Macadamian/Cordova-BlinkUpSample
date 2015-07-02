@@ -231,10 +231,10 @@
 			isa = PBXGroup;
 			children = (
 				A6ADB6371B43020300EDB117 /* Categories */,
-				811DAE0CE5044B53BB98FEBF /* BlinkUpPlugin.m */,
+				770935509EF54A7DA7A3CF13 /* BlinkUpPluginResult.h */,
 				3AF1BF558079461E8BC0A43D /* BlinkUpPluginResult.m */,
 				405FE7EC9E1C4EDA89481AF7 /* BlinkUpPlugin.h */,
-				770935509EF54A7DA7A3CF13 /* BlinkUpPluginResult.h */,
+				811DAE0CE5044B53BB98FEBF /* BlinkUpPlugin.m */,
 			);
 			name = Plugins;
 			path = CordovaBlinkUpSample/Plugins;
@@ -282,8 +282,8 @@
 		A6ADB6371B43020300EDB117 /* Categories */ = {
 			isa = PBXGroup;
 			children = (
-				5DA0DE9341784F0EBF5920A2 /* BUDeviceInfo+JSON.m */,
 				066C63F6EFF64575B026781C /* BUDeviceInfo+JSON.h */,
+				5DA0DE9341784F0EBF5920A2 /* BUDeviceInfo+JSON.m */,
 			);
 			name = Categories;
 			sourceTree = "<group>";
@@ -473,6 +473,7 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "CordovaBlinkUpSample/CordovaBlinkUpSample-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = "DEBUG=1";
 				GCC_THUMB_SUPPORT = NO;
 				GCC_VERSION = "";
 				INFOPLIST_FILE = "CordovaBlinkUpSample/CordovaBlinkUpSample-Info.plist";
