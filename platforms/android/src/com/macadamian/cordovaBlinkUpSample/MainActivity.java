@@ -15,16 +15,14 @@
        KIND, either express or implied.  See the License for the
        specific language governing permissions and limitations
        under the License.
-
-       Modified by Stuart Douglas (sdouglas@macadamian.com) on June 11, 2015
  */
 
-package com.macadamian.cordovaBlinkUpSample;
+package com.macadamian.CordovaBlinkUpSample;
 
 import android.os.Bundle;
 import org.apache.cordova.*;
-import android.content.Intent;
 
+import android.content.Intent;
 import com.electricimp.blinkup.BlinkupController;
 
 public class MainActivity extends CordovaActivity {
@@ -36,9 +34,8 @@ public class MainActivity extends CordovaActivity {
     }
 
     @Override
-    // need to handle results when blinkup completes -- added by Stuart Douglas June 11, 2015
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
-        super.onActivityResult(requestCode, resultCode, intent);
-        BlinkupController.getInstance().handleActivityResult(this, requestCode, resultCode, intent);
+      super.onActivityResult(requestCode, resultCode, intent);
+      BlinkupController.getInstance().handleActivityResult(this, requestCode, resultCode, intent);
     }
 }

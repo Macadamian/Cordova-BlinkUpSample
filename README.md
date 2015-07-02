@@ -1,6 +1,8 @@
 Cordova-BlinkUpSample
 ===========
-Sample application that demonstrates how to use Electric Imp's BlinkUp SDK in Cordova applications for iOS and Android.
+Sample application that demonstrates how to use the [BlinkUp Cordova plugin](https://github.com/Macadamian/Cordova-BlinkUpPlugin) to integrate Electric Imp's BlinkUp SDK with Cordova applications for iOS and Android. Refer to the [plugin repository](https://github.com/Macadamian/Cordova-BlinkUpPlugin) for more information about the plugin and how to install it in your own project.
+
+**Note**: this repository simply shows an example of how you can integrate the plugin and interface with it from a Cordova project. If you wish to modify the plugin code, please use the repo for the plugin itself at https://github.com/Macadamian/Cordova-BlinkUpPlugin.
 
 Electric Imp is an Internet of Things platform used from prototyping to production. For more information about Electric Imp, visit: https://electricimp.com/. 
 
