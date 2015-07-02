@@ -41,67 +41,65 @@
     <body>
         <div id="view-firstlaunch" class="l-body v-firstlaunch">
             <div class="l-header">BlinkUp Plugin Sample</div>
-            <div class="message">
-                <p>BlinkUp Plugin Sample demonstrates the electric imp BlinkUp process.</p>
-                <p>Running on a device is recommended.</p>
-            </div>
-            <div class="warning">
-                <p>CAUTION</p>
-                <p>
-                    BlinkUp uses flashing light patterns.  Some individuals may experience epileptic seizures
-                    when exposed to flashing lights.  If you have an epileptic condition, please have someone else
-                    BlinkUp your device.
-                </p>
-            </div>
-
-            <div class="actions">
-                <div id="continue-button" class="m-button">Continue</div>
+            <div class="l-content">
+                <div class="message">
+                    <p>BlinkUp Plugin Sample demonstrates the electric imp BlinkUp process.</p>
+                    <p>Running on a device is recommended.</p>
+                </div>
+                <div class="warning">
+                    <p>CAUTION</p>
+                    <p>
+                        BlinkUp uses flashing light patterns. Please note that a very small percentage of individuals may experience epileptic seizures when exposed to such light patterns or flashing lights. If you have an epileptic condition, consult your physician prior to using this app to BlinkUp a device.
+                    </p>
+                </div>
+                <div class="actions">
+                    <div id="continue-button" class="m-button">Continue</div>
+                </div>
             </div>
         </div>
 
         <div id="view-main" class="l-body v-main">
             <div class="l-header">BlinkUp Plugin Sample</div>
+            <div class="l-content">
+                <div class="m-message-center">                
+                    <div id="status-success" class="status-success"></div>
+                    <div id="status-error" class="status-error"></div>
+                    <div id="status-gathering" class="status-gathering">
+                        <img src="img/loading.gif" />
+                        <span>Gathering device information</span>
+                    </div>
 
-            <div class="m-message-center">                
-                <div id="status-success" class="status-success"></div>
-                <div id="status-error" class="status-error"></div>
-                <div id="status-gathering" class="status-gathering">
-                    <img src="img/loading.gif" />
-                    <span>Gathering device information</span>
+                    <div id="deviceready" class="device-ready">
+                        <p class="event listening">Connecting to Device</p>
+                        <p class="event received">Device is Ready</p>
+                    </div>
                 </div>
-
-                <div id="deviceready" class="device-ready">
-                    <p class="event listening">Connecting to Device</p>
-                    <p class="event received">Device is Ready</p>
+                <div class="device-info-header">
+                    Device Info:
                 </div>
-            </div>
-
-            <div class="device-info-header">
-                Device Info:
-            </div>
-            <ul class="device-info">
-                <li>
-                    <div>Plan ID:</div>
-                    <div id="planId"></div>
-                </li>
-                <li>
-                    <div>Device ID:</div>
-                    <div id="deviceId"></div>
-                </li>
-                <li>        
-                    <div>Agent URL:</div>
-                    <div id="agentURL"></div>
-                </li>
-                <li>        
-                    <div>Verification Date:</div>
-                    <div id="verificationDate"></div>
-                </li>
-            </ul>
-
-            <div class="actions">
-                <div id="abort-button" class="m-button" style="display: none;">Cancel BlinkUp</div>
-                <div id="clear-button" class="m-button">Clear Wifi &amp; Cache</div>
-                <div id="blinkup-button" class="m-button">Perform BlinkUp</div>
+                <ul class="device-info">
+                    <li>
+                        <div>Plan ID:</div>
+                        <div id="planId"></div>
+                    </li>
+                    <li>
+                        <div>Device ID:</div>
+                        <div id="deviceId"></div>
+                    </li>
+                    <li>        
+                        <div>Agent URL:</div>
+                        <div id="agentURL"></div>
+                    </li>
+                    <li>        
+                        <div>Verification Date:</div>
+                        <div id="verificationDate"></div>
+                    </li>
+                </ul>
+                <div class="actions">
+                    <div id="abort-button" class="m-button" style="display: none;">Cancel BlinkUp</div>
+                    <div id="clear-button" class="m-button">Clear Wifi &amp; Cache</div>
+                    <div id="blinkup-button" class="m-button">Perform BlinkUp</div>
+                </div>
             </div>
         </div>
 
