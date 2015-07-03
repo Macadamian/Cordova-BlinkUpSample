@@ -165,9 +165,24 @@ function loadDeviceInfoIfAvailable() {
         document.getElementById('status-success').style.display = "block";
         document.getElementById('deviceId').innerHTML = window.localStorage.getItem("deviceId");
         document.getElementById('planId').innerHTML = window.localStorage.getItem("planId");
-        document.getElementById('agentURL').innerHTML = window.localStorage.getItem("agentURL");
+        this.setAgentURL(window.localStorage.getItem("agentURL"));
         document.getElementById('verificationDate').innerHTML = window.localStorage.getItem("verificationDate");
     }
+}
+
+/********************************************
+ * sets agentURL field and link
+ ********************************************/
+function setAgentURL(agentUrlString) {
+    var agentUrlDiv = document.getElementById('agentURL');
+    agentUrlDiv.innerHTML = '';
+
+    // create and add new link to div
+    var agentUrlLink = document.createElement("a");
+    agentUrlLink.href = agentUrlString;
+    agentUrlLink.innerHTML = agentUrlString;
+    agentUrlLink.target = "_blank";
+    agentUrlDiv.appendChild(agentUrlLink);
 }
 
 /********************************************
@@ -185,7 +200,7 @@ function updateInfo(pluginResult) {
     document.getElementById('planId').innerHTML = "";
     document.getElementById('deviceId').innerHTML = "";
     document.getElementById('planId').innerHTML = "";
-    document.getElementById('agentURL').innerHTML = "";
+    setAgentURL("");
     document.getElementById('verificationDate').innerHTML = "";
 
     var statusMsg = "";
@@ -209,7 +224,7 @@ function updateInfo(pluginResult) {
         } else if (pluginResult.statusCode == "0") {
             document.getElementById('planId').innerHTML = pluginResult.deviceInfo.planId;
             document.getElementById('deviceId').innerHTML = pluginResult.deviceInfo.deviceId;
-            document.getElementById('agentURL').innerHTML = pluginResult.deviceInfo.agentURL;
+            this.setAgentURL(pluginResult.deviceInfo.agentURL);
             document.getElementById('verificationDate').innerHTML = pluginResult.deviceInfo.verificationDate;
 
             document.getElementById('status-success').innerHTML = statusMsg;
