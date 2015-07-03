@@ -2,7 +2,7 @@ Cordova-BlinkUpSample
 ===========
 Sample application that demonstrates how to use the [BlinkUp Cordova plugin](https://github.com/Macadamian/Cordova-BlinkUpPlugin) to integrate Electric Imp's BlinkUp SDK with Cordova applications for iOS and Android. Refer to the [plugin repository](https://github.com/Macadamian/Cordova-BlinkUpPlugin) for more information about the plugin and how to install it in your own project.
 
-**Note**: this repository simply shows an example of how you can integrate the plugin and interface with it from a Cordova project. If you wish to modify the plugin code, please use the repo for the plugin itself at https://github.com/Macadamian/Cordova-BlinkUpPlugin.
+**Note**: this repository simply shows an example of how you can integrate the plugin and interface with it from a Cordova project. Any modifications to the native plugin code should be done on the plugin repo at https://github.com/Macadamian/Cordova-BlinkUpPlugin.
 
 Electric Imp is an Internet of Things platform used from prototyping to production. For more information about Electric Imp, visit: https://electricimp.com/. 
 
@@ -29,6 +29,10 @@ Copy the `BlinkUp.embeddedframework` folder to `path/to/Cordova-BlinkUpSample/pl
 
 **Android Instructions**<br>
 Copy the `blinkup_sdk` folder from the BlinkUp SDK to `path/to/Cordova-BlinkUpSample/platforms/android`. 
+
+Updating the Plugin
+===========
+To update the native plugin files to the latest from the [plugin repo](https://github.com/Macadamian/Cordova-BlinkUpPlugin), simply run the update script, `UpdatePlugin.sh`. This will overwrite all the native plugin files in `platforms/ios/CordovaBlinkUpSample/Plugins/com.macadamian.blinkup` and `platforms/android/src/com/macadmian/blinkup`. If you have made changes to any of those files, do not update. It is instead recommended that you clone the [plugin repo](https://github.com/Macadamian/Cordova-BlinkUpPlugin) and make changes off of that.
 
 Project Structure
 ===========

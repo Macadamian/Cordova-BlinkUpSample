@@ -5,12 +5,9 @@
 	};
 	objectVersion = 46;
 	objects = {
-
 /* Begin PBXBuildFile section */
-		18153C146F1C4B7E94160EAD /* BlinkUpPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 811DAE0CE5044B53BB98FEBF /* BlinkUpPlugin.m */; };
 		1D3623260D0F684500981E51 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D3623250D0F684500981E51 /* AppDelegate.m */; };
 		1D60589B0D05DD56006BFB54 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; };
-		26F595A1098C4EC4A4234D6C /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 76FDAF4E610B4424BEB3F6E1 /* Security.framework */; };
 		288765FD0DF74451002DB57D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288765FC0DF74451002DB57D /* CoreGraphics.framework */; };
 		301BF552109A68D80062928A /* libCordova.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 301BF535109A57CC0062928A /* libCordova.a */; };
 		305D5FD1115AB8F900A74A75 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 305D5FD0115AB8F900A74A75 /* MobileCoreServices.framework */; };
@@ -39,17 +36,15 @@
 		7E7966E51810823500FA85AD /* icon-76@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E7966DB1810823500FA85AD /* icon-76@2x.png */; };
 		7E7966E61810823500FA85AD /* icon-small.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E7966DC1810823500FA85AD /* icon-small.png */; };
 		7E7966E71810823500FA85AD /* icon-small@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E7966DD1810823500FA85AD /* icon-small@2x.png */; };
-		887BF1082DCA4610A7F37B2B /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 959A15F145F44F96AF25543C /* SystemConfiguration.framework */; };
-		8AB976D27CC647B2883B69D8 /* BUDeviceInfo+JSON.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DA0DE9341784F0EBF5920A2 /* BUDeviceInfo+JSON.m */; };
 		A6ADB6391B43028B00EDB117 /* BlinkUp.embeddedframework in Resources */ = {isa = PBXBuildFile; fileRef = A6ADB6381B43028B00EDB117 /* BlinkUp.embeddedframework */; };
 		A6ADB63B1B43029600EDB117 /* BlinkUp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A6ADB63A1B43029600EDB117 /* BlinkUp.framework */; };
 		A6ADB63D1B43029F00EDB117 /* BlinkUp.bundle in Resources */ = {isa = PBXBuildFile; fileRef = A6ADB63C1B43029F00EDB117 /* BlinkUp.bundle */; };
 		A6ADB6461B43099700EDB117 /* MTCordovaSampleAppViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A6ADB6441B43099700EDB117 /* MTCordovaSampleAppViewController.m */; };
 		A6ADB6471B43099700EDB117 /* MTCordovaSampleAppViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A6ADB6451B43099700EDB117 /* MTCordovaSampleAppViewController.xib */; };
-		CFE1753C9AFD4EC6B4EB7271 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B30B8DC7E89648F6BDC52341 /* OpenGLES.framework */; };
 		D4A0D8761607E02300AEF8BB /* Default-568h@2x~iphone.png in Resources */ = {isa = PBXBuildFile; fileRef = D4A0D8751607E02300AEF8BB /* Default-568h@2x~iphone.png */; };
-		E40ECB78C6BD46ACA2645150 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B6C0EC5C23454FA8A44F4F7F /* QuartzCore.framework */; };
-		F01D2F56C71B46959DA97B57 /* BlinkUpPluginResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AF1BF558079461E8BC0A43D /* BlinkUpPluginResult.m */; };
+		36DD7FBDE8704C43BD72AF48 /* BlinkUpPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 61BB16947B544BBCB9EF43CC /* BlinkUpPlugin.m */; };
+		5440D801600A45F58D4A5996 /* BlinkUpPluginResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 808AEE834C1A4FE6942EB1D6 /* BlinkUpPluginResult.m */; };
+		63A2CB926F474AB39068426E /* BUDeviceInfo+JSON.m in Sources */ = {isa = PBXBuildFile; fileRef = C2CAAAA5D36E40E8A34B6E58 /* BUDeviceInfo+JSON.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -70,7 +65,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		066C63F6EFF64575B026781C /* BUDeviceInfo+JSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "BUDeviceInfo+JSON.h"; path = "com.macadamian.blinkup/BUDeviceInfo+JSON.h"; sourceTree = "<group>"; };
 		1D3623240D0F684500981E51 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		1D3623250D0F684500981E51 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		1D6058910D05DD3D006BFB54 /* CordovaBlinkUpSample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CordovaBlinkUpSample.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -94,12 +88,8 @@
 		30C1856519D5FC0A00212699 /* icon-60@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-60@3x.png"; sourceTree = "<group>"; };
 		30FC414816E50CA1004E6F35 /* icon-72@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-72@2x.png"; sourceTree = "<group>"; };
 		32CA4F630368D1EE00C91783 /* CordovaBlinkUpSample-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CordovaBlinkUpSample-Prefix.pch"; sourceTree = "<group>"; };
-		3AF1BF558079461E8BC0A43D /* BlinkUpPluginResult.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BlinkUpPluginResult.m; path = com.macadamian.blinkup/BlinkUpPluginResult.m; sourceTree = "<group>"; };
-		405FE7EC9E1C4EDA89481AF7 /* BlinkUpPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BlinkUpPlugin.h; path = com.macadamian.blinkup/BlinkUpPlugin.h; sourceTree = "<group>"; };
 		5B1594DC16A7569C00FEF299 /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
-		5DA0DE9341784F0EBF5920A2 /* BUDeviceInfo+JSON.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "BUDeviceInfo+JSON.m"; path = "com.macadamian.blinkup/BUDeviceInfo+JSON.m"; sourceTree = "<group>"; };
 		76FDAF4E610B4424BEB3F6E1 /* Security.framework */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
-		770935509EF54A7DA7A3CF13 /* BlinkUpPluginResult.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BlinkUpPluginResult.h; path = com.macadamian.blinkup/BlinkUpPluginResult.h; sourceTree = "<group>"; };
 		7E7966D41810823500FA85AD /* icon-40.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-40.png"; sourceTree = "<group>"; };
 		7E7966D51810823500FA85AD /* icon-40@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-40@2x.png"; sourceTree = "<group>"; };
 		7E7966D61810823500FA85AD /* icon-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-50.png"; sourceTree = "<group>"; };
@@ -110,7 +100,6 @@
 		7E7966DB1810823500FA85AD /* icon-76@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-76@2x.png"; sourceTree = "<group>"; };
 		7E7966DC1810823500FA85AD /* icon-small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-small.png"; sourceTree = "<group>"; };
 		7E7966DD1810823500FA85AD /* icon-small@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-small@2x.png"; sourceTree = "<group>"; };
-		811DAE0CE5044B53BB98FEBF /* BlinkUpPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BlinkUpPlugin.m; path = com.macadamian.blinkup/BlinkUpPlugin.m; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* CordovaBlinkUpSample-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "CordovaBlinkUpSample-Info.plist"; path = "../CordovaBlinkUpSample-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
 		959A15F145F44F96AF25543C /* SystemConfiguration.framework */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		A6ADB6381B43028B00EDB117 /* BlinkUp.embeddedframework */ = {isa = PBXFileReference; lastKnownFileType = folder; name = BlinkUp.embeddedframework; path = CordovaBlinkUpSample/Frameworks/BlinkUp.embeddedframework; sourceTree = "<group>"; };
@@ -123,6 +112,12 @@
 		B6C0EC5C23454FA8A44F4F7F /* QuartzCore.framework */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		D4A0D8751607E02300AEF8BB /* Default-568h@2x~iphone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x~iphone.png"; sourceTree = "<group>"; };
 		F840E1F0165FE0F500CFE078 /* config.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = config.xml; path = CordovaBlinkUpSample/config.xml; sourceTree = "<group>"; };
+		61BB16947B544BBCB9EF43CC /* BlinkUpPlugin.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = "BlinkUpPlugin.m"; path = "com.macadamian.blinkup/BlinkUpPlugin.m"; sourceTree = "<group>"; fileEncoding = 4; };
+		808AEE834C1A4FE6942EB1D6 /* BlinkUpPluginResult.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = "BlinkUpPluginResult.m"; path = "com.macadamian.blinkup/BlinkUpPluginResult.m"; sourceTree = "<group>"; fileEncoding = 4; };
+		C2CAAAA5D36E40E8A34B6E58 /* BUDeviceInfo+JSON.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = "BUDeviceInfo+JSON.m"; path = "com.macadamian.blinkup/BUDeviceInfo+JSON.m"; sourceTree = "<group>"; fileEncoding = 4; };
+		F45EE18CBEDA4C1DB764FDD5 /* BlinkUpPlugin.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "BlinkUpPlugin.h"; path = "com.macadamian.blinkup/BlinkUpPlugin.h"; sourceTree = "<group>"; fileEncoding = 4; };
+		DEE72CA7AAA14C368ECE5E1D /* BlinkUpPluginResult.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "BlinkUpPluginResult.h"; path = "com.macadamian.blinkup/BlinkUpPluginResult.h"; sourceTree = "<group>"; fileEncoding = 4; };
+		0B31A12012504706BF400D08 /* BUDeviceInfo+JSON.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "BUDeviceInfo+JSON.h"; path = "com.macadamian.blinkup/BUDeviceInfo+JSON.h"; sourceTree = "<group>"; fileEncoding = 4; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -134,10 +129,6 @@
 				301BF552109A68D80062928A /* libCordova.a in Frameworks */,
 				288765FD0DF74451002DB57D /* CoreGraphics.framework in Frameworks */,
 				305D5FD1115AB8F900A74A75 /* MobileCoreServices.framework in Frameworks */,
-				26F595A1098C4EC4A4234D6C /* Security.framework in Frameworks */,
-				CFE1753C9AFD4EC6B4EB7271 /* OpenGLES.framework in Frameworks */,
-				E40ECB78C6BD46ACA2645150 /* QuartzCore.framework in Frameworks */,
-				887BF1082DCA4610A7F37B2B /* SystemConfiguration.framework in Frameworks */,
 				A6ADB63B1B43029600EDB117 /* BlinkUp.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -230,11 +221,12 @@
 		307C750510C5A3420062BCA9 /* Plugins */ = {
 			isa = PBXGroup;
 			children = (
-				A6ADB6371B43020300EDB117 /* Categories */,
-				811DAE0CE5044B53BB98FEBF /* BlinkUpPlugin.m */,
-				3AF1BF558079461E8BC0A43D /* BlinkUpPluginResult.m */,
-				405FE7EC9E1C4EDA89481AF7 /* BlinkUpPlugin.h */,
-				770935509EF54A7DA7A3CF13 /* BlinkUpPluginResult.h */,
+				61BB16947B544BBCB9EF43CC /* BlinkUpPlugin.m */,
+				808AEE834C1A4FE6942EB1D6 /* BlinkUpPluginResult.m */,
+				C2CAAAA5D36E40E8A34B6E58 /* BUDeviceInfo+JSON.m */,
+				F45EE18CBEDA4C1DB764FDD5 /* BlinkUpPlugin.h */,
+				DEE72CA7AAA14C368ECE5E1D /* BlinkUpPluginResult.h */,
+				0B31A12012504706BF400D08 /* BUDeviceInfo+JSON.h */,
 			);
 			name = Plugins;
 			path = CordovaBlinkUpSample/Plugins;
@@ -277,15 +269,6 @@
 				3088BBBC154F3926009F9C59 /* Default~iphone.png */,
 			);
 			path = splash;
-			sourceTree = "<group>";
-		};
-		A6ADB6371B43020300EDB117 /* Categories */ = {
-			isa = PBXGroup;
-			children = (
-				5DA0DE9341784F0EBF5920A2 /* BUDeviceInfo+JSON.m */,
-				066C63F6EFF64575B026781C /* BUDeviceInfo+JSON.h */,
-			);
-			name = Categories;
 			sourceTree = "<group>";
 		};
 		EB87FDF11871DA420020F90C /* Staging */ = {
@@ -445,9 +428,9 @@
 				A6ADB6461B43099700EDB117 /* MTCordovaSampleAppViewController.m in Sources */,
 				1D60589B0D05DD56006BFB54 /* main.m in Sources */,
 				1D3623260D0F684500981E51 /* AppDelegate.m in Sources */,
-				18153C146F1C4B7E94160EAD /* BlinkUpPlugin.m in Sources */,
-				F01D2F56C71B46959DA97B57 /* BlinkUpPluginResult.m in Sources */,
-				8AB976D27CC647B2883B69D8 /* BUDeviceInfo+JSON.m in Sources */,
+				36DD7FBDE8704C43BD72AF48 /* BlinkUpPlugin.m in Sources */,
+				5440D801600A45F58D4A5996 /* BlinkUpPluginResult.m in Sources */,
+				63A2CB926F474AB39068426E /* BUDeviceInfo+JSON.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
