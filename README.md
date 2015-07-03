@@ -16,11 +16,7 @@ A BlinkUp SDK and API Key. For more information on how to obtain a license, plea
 
 Installation
 ===========
-**IMPORTANT NOTE**<br>
-Building the project with `cordova build <platform>` or `cordova run <platform>` will break the project. You must run from Xcode or Android Studio.
-****
-
-Open `CordovaBlinkUpSample/www/js/index.js` and set your API key from Electric Imp. You can optionally set your plan ID as well, this will let you see Imps you've blinked up with in your IDE. Please see https://electricimp.com/docs/manufacturing/planids/ for more information about plan ID's.
+Open `CordovaBlinkUpSample/www/js/index.js` and set your API key from Electric Imp. You can optionally set your development plan ID as well, this will let you see Imps you've blinked up with in your IDE. Please read [testing the plugin](#testing-the-plugin) before setting a development plan ID, as it can prevent users from connecting to wifi if it makes it into production code.
 
 When building in Xcode or Android Studio, this `index.js` file overwrites the native platform's `index.js` file, propagating your changes down to both platforms.
 
@@ -33,6 +29,15 @@ Copy the `blinkup_sdk` folder from the BlinkUp SDK to `path/to/Cordova-BlinkUpSa
 Updating the Plugin
 ===========
 To update the native plugin files to the latest from the [plugin repo](https://github.com/Macadamian/Cordova-BlinkUpPlugin), simply run the update script, `UpdatePlugin.sh`. This will overwrite all the native plugin files in `platforms/ios/CordovaBlinkUpSample/Plugins/com.macadamian.blinkup` and `platforms/android/src/com/macadmian/blinkup`. If you have made changes to any of those files, do not update. It is instead recommended that you clone the [plugin repo](https://github.com/Macadamian/Cordova-BlinkUpPlugin) and make changes off of that.
+
+Testing the Plugin
+===========
+If you are testing devices for development, you can input your own development planID to see the Imps in the Electric Imp IDE. Just set it at the top of the `index.js` files and ensure you pass *false* for `generateNewPlanId`. The development plan ID you set will override a cached plan ID (if there is one) if `generateNewPlanId` is false. If `generateNewPlanId` is true however, a new plan ID will be generated every BlinkUp and the development plan ID will be ignored.
+
+When you pass in a development plan ID, the plugin will not cache it. Caching is only done on production plan ID's, and is used to save user settings across BlinkUp's (e.g. when they change their wifi password).
+
+IMPORTANT NOTE: if a development plan ID makes it into production, the consumer's device will not configure, and will be unable to connect to wifi. There is a check in the native code on each platform which will ignore a development plan ID if the build configuration is set to release, but it is best to remove all references to the plan ID and pass an empty string from the Javascript when you're done debugging. Please read http://electricimp.com/docs/manufacturing/planids/ for more info.
+
 
 Project Structure
 ===========
