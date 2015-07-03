@@ -136,7 +136,7 @@ typedef NS_ENUM(NSInteger, BlinkupArguments) {
     // IMPORTANT NOTE: if a developer planId makes it into production, the device will NOT connect.
     // See electricimp.com/docs/manufacturing/planids/ for more info about planIDs
     #ifdef DEBUG
-        planId = ([[self.developerPlanId length] > 0) ? self.developerPlanId : nil;
+        planId = ([self.developerPlanId length] > 0) ? self.developerPlanId : nil;
     #endif
     
     if (self.generatePlanId || planId == nil) {
