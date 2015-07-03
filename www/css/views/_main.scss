@@ -2,7 +2,7 @@
 // VIEW - MAIN 
 // --------------------------------------------------------------------------------
 
-.v-main 									{ display:none;
+.v-main 									{ display:none; position:relative;
 	.device-info-header 					{ padding:12px 20px 8px 20px; background:$color-blue-default; }
 	.device-info 							{ margin-bottom:50px;
 		li 									{ @include cf(); padding-top:10px; padding-bottom:10px; background:$color-white-default; border-bottom:1px solid $color-gray-lighter-2;

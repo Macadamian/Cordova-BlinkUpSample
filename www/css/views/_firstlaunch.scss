@@ -1,7 +1,7 @@
 // --------------------------------------------------------------------------------
 // VIEW - FIRST LAUNCH
 // --------------------------------------------------------------------------------
-.v-firstlaunch 								{
+.v-firstlaunch 								{ position:relative;
 	p 										{ margin:0; padding:0; margin-bottom:10px; }
 	.message, .warning 						{ padding:10px 20px; background:$color-white-default; border-top:1px solid $color-gray-lighter-2; border-bottom:1px solid $color-gray-lighter-2; }
 	.message 								{ margin-top:20px; margin-bottom:20px;
