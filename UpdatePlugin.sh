@@ -37,4 +37,10 @@ fi
 # reinstall plugin from repo
 #---------------------------
 cordova plugin rm com.macadamian.blinkup
+cordova plugin rm com.macadamian.blinkup-tests
 cordova plugin add https://github.com/Macadamian/Cordova-BlinkUpPlugin.git
+
+echo "************
+Need to update test repo address once tests PR merged in plugin repo
+*************"
+cordova plugin add ../Cordova-BlinkUpPlugin/tests
