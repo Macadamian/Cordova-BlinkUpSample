@@ -17,17 +17,18 @@
 
 /*global blinkup*/
 
-/******************************************************************
- * IMPORTANT NOTE: Changing the following 3 values in either:     *
- * Cordova-BlinkUpSample/platforms/ios/www/js/index.js OR         *
- * Cordova-BlinkUpSample/platforms/android/assets/www/js/index.js *
- * won't change anything. The values are overwritten at build     *
- * time by those in Cordova-BlinkUpSample/www/js/index.js.        *
- ******************************************************************/
- var apiKey = "";       // this MUST be set or the app won't work
- var planId = "";       // if blank, SDK will generate a planId
- var timeoutMs = 30000; // default is 30s
-//=================================================================
+/*******************************************************************
+ * IMPORTANT NOTE: Changing the following 3 values in either:      *
+ * Cordova-BlinkUpSample/platforms/ios/www/js/index.js OR          *
+ * Cordova-BlinkUpSample/platforms/android/assets/www/js/index.js  *
+ * won't change anything. The values are overwritten at build      *
+ * time by those in Cordova-BlinkUpSample/www/js/index.js.         *
+ *******************************************************************/
+ var apiKey = "";          // this MUST be set or the app won't work
+ var developerPlanId = ""; // please see ReadMe > Testing the Plugin
+                           // before setting this. Default is "".
+ var timeoutMs = 30000;    // default is 30s
+//==================================================================
 
 var app = {
     // Application Constructor
