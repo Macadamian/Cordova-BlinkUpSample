@@ -1,4 +1,4 @@
-/*
+cordova.define("com.macadamian.blinkup.blinkup", function(require, exports, module) { /*
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -14,19 +14,20 @@
  * Created by Stuart Douglas (sdouglas@macadamian.com) on June 11, 2015.
  * Copyright (c) 2015 Macadamian. All rights reserved.
  */
+
 /*global cordova, module*/
 
-cordova.define("com.macadamian.blinkup.blinkup", function(require, exports, module) { 
-    module.exports = {
-        //apiKey: string, developerPlanId: string, timeoutMs: int, generatePlanId: bool 
-        invokeBlinkUp: function (apiKey, developerPlanId, timeoutMs, generatePlanId, successCallback, errorCallback) {
-            cordova.exec(successCallback, errorCallback, "BlinkUpPlugin", "invokeBlinkUp", [apiKey, developerPlanId, timeoutMs, generatePlanId]);
-        },
-        abortBlinkUp: function (successCallback, errorCallback) {
-            cordova.exec(successCallback, errorCallback, "BlinkUpPlugin", "abortBlinkUp", []);
-        },
-        clearBlinkUpData: function (successCallback, errorCallback) {
-            cordova.exec(successCallback, errorCallback, "BlinkUpPlugin", "clearBlinkUpData", []);
-        }
-    };
+module.exports = {
+    //apiKey: string, developerPlanId: string, timeoutMs: int, generatePlanId: bool 
+    invokeBlinkUp: function (apiKey, developerPlanId, timeoutMs, generatePlanId, successCallback, errorCallback) {
+        cordova.exec(successCallback, errorCallback, "BlinkUpPlugin", "invokeBlinkUp", [apiKey, developerPlanId, timeoutMs, generatePlanId]);
+    },
+    abortBlinkUp: function (successCallback, errorCallback) {
+        cordova.exec(successCallback, errorCallback, "BlinkUpPlugin", "abortBlinkUp", []);
+    },
+    clearBlinkUpData: function (successCallback, errorCallback) {
+        cordova.exec(successCallback, errorCallback, "BlinkUpPlugin", "clearBlinkUpData", []);
+    }
+};
+
 });

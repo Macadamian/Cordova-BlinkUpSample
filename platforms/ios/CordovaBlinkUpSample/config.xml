@@ -25,7 +25,7 @@
     <author href="http://www.macadamian.com">
         Macadamian Technologies
     </author>
-    <content src="index.html" />
+    <content src="cdvtests/index.html" />
     <access origin="*" />
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />

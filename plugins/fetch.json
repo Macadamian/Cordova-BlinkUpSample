@@ -7,11 +7,28 @@
         "is_top_level": true,
         "variables": {}
     },
+    "cordova-plugin-test-framework": {
+        "source": {
+            "type": "git",
+            "url": "http://git-wip-us.apache.org/repos/asf/cordova-plugin-test-framework.git",
+            "subdir": "."
+        },
+        "is_top_level": true,
+        "variables": {}
+    },
     "com.macadamian.blinkup": {
         "source": {
             "type": "git",
             "url": "https://github.com/Macadamian/Cordova-BlinkUpPlugin.git",
             "subdir": "."
+        },
+        "is_top_level": true,
+        "variables": {}
+    },
+    "com.macadamian.blinkup-tests": {
+        "source": {
+            "type": "local",
+            "path": "../Cordova-BlinkUpPlugin/tests"
         },
         "is_top_level": true,
         "variables": {}
