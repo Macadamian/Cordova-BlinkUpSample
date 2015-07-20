@@ -248,6 +248,11 @@ var ErrorMessages = {
     100 : "Error: Invalid arguments in call to invokeBlinkUp",
     101 : "Error: Could not gather device info. Process timed out", 
     102 : "Process cancelled by user", 
+
+    // API key check was originally android-only (code 300). Recently added iOS check, so switched to 103
+    103 : "Error: Invalid API key, you must set your BlinkUp API key in Cordova-BlinkUpSample/www/js/index.js",
+    
+    // android only codes
     300 : "Error: Invalid API key, you must set your BlinkUp API key in Cordova-BlinkUpSample/www/js/index.js",
     301 : "Error: Could not verify API key with Electric Imp servers",
     302 : "Error: Generating JSON string"
