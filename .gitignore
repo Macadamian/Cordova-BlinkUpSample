@@ -73,3 +73,5 @@ proguard/
 # Log Files
 *.log
 
+
+*.swp
