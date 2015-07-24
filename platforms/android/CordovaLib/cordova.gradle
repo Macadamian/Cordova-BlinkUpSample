@@ -20,6 +20,10 @@
 import java.util.regex.Pattern
 import groovy.swing.SwingBuilder
 
+if(file("../../www/js/blinkupconfig.js").exists() == false ) {
+    preBuild.dependsOn copyBlinkupConfigTask
+}
+
 // forces copy of root web files to local www directory every build (task defined in android.gradle)
 preBuild.dependsOn copyRootWWW
 

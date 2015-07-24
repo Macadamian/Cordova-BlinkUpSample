@@ -1,6 +1,7 @@
 # -- MISCELLANEOUS -------------------------
 *.DS_Store
 **/.sass-cache
+**/blinkupconfig.js
 
 # Intentionally excluding the BlinkUp SDK from this repository
 *BlinkUp.framework
