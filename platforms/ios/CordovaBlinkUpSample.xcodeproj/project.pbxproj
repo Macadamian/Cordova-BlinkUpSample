@@ -417,7 +417,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "cp -r ../../www/. www/";
+			shellScript = "# if the blinkupconfig.js files doesn't exist,\n# we copy from the example file\nif [ ! -f \"../../www/js/blinkupconfig.js\" ]; then\n  cp \"../../www/js/blinkupconfig.example\" \"../../www/js/blinkupconfig.js\"\nfi\n\ncp -r ../../www/. www/";
 		};
 /* End PBXShellScriptBuildPhase section */
 

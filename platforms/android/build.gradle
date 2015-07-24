@@ -40,6 +40,14 @@ task copyRootWWW(type: Copy) {
     }
 }
 
+task copyBlinkupConfigTask(type: Copy) {
+    from "../../www/js/blinkupconfig.example"
+    into "../../www/js/"
+    rename { String filename ->
+        filename.replace("example", "js")
+    }
+}
+
 apply plugin: 'android'
 
 buildscript {
