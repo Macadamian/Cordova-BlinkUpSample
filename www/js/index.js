@@ -41,26 +41,21 @@ var app = {
             document.getElementById('view-main').style.display = "block";
         });        
 
-        // if cached device info, it will skip launch page
-        loadDeviceInfoIfAvailable();
+        skipFirstLaunchIfDeviceInfoAvailable();
+        displayDeviceInfoIfAvailable();
 
         // parses returned json, sets UI accordingly
         var blinkUpCallback = function (message) {
-            var jsonData;
             try {
-                jsonData = JSON.parse(message);
-                this.updateInfo(jsonData);
-                if (jsonData.state === "started") {
-                    this.startProgress();
-                } else {
-                    this.endProgress();
-                    if (jsonData.state === "completed") {
-                        this.saveDeviceInfo(jsonData);
-                    }
+                var pluginResult = JSON.parse(message);
+                updateProgress(pluginResult);
+                updateFieldsWithPluginResult(pluginResult);
+
+                if (pluginResult.state === "completed") {
+                    updateLocalStorage(pluginResult)
                 }
             } catch (exception) {
-                console.log("Error parsing JSON in blinkUpCallback:" + exception);
-                this.endProgress();
+                endProgress();
             }
         };
 
@@ -91,74 +86,75 @@ var app = {
 
         listeningElement.setAttribute('style', 'display:none;');
         receivedElement.setAttribute('style', 'display:block;');
-
-        console.log('Received Event: ' + id);
     }
 };
 
-/******************************************
- * shows abort button, hides others
- *****************************************/
+function updateProgress(pluginResult) {
+    if (pluginResult.state === "started") {
+        startProgress();
+    } else {
+        endProgress();
+    }
+}
+
 function startProgress() {
     document.getElementById('abort-button').style.display = "block";
     document.getElementById('clear-button').style.display = "none";
     document.getElementById('blinkup-button').style.display = "none";
 }
 
-/******************************************
- * shows blinkup & clear btns, hides abort
- *****************************************/
 function endProgress() {
     document.getElementById('abort-button').style.display = "none";
     document.getElementById('blinkup-button').style.display = "block";
     document.getElementById('clear-button').style.display = "block";
 }
-
-/********************************************
- * Saves device info persistently 
- * @param JSON object of BlinkUpPlugin results
- ********************************************/
-function saveDeviceInfo(pluginResult) {
+function updateLocalStorage(pluginResult) {
     var statusCodeAsInt = parseInt(pluginResult.statusCode);
-    
-    // clear cache when wifi cleared
-    if (statusCodeAsInt === 201 || statusCodeAsInt === 202) {
-        window.localStorage.clear();
-    }
-    
-    // save device info to persistent storage
-    else if (statusCodeAsInt === 0) {
-        window.localStorage.setItem("deviceId", pluginResult.deviceInfo.deviceId);
-        window.localStorage.setItem("planId", pluginResult.deviceInfo.planId);
-        window.localStorage.setItem("agentURL", pluginResult.deviceInfo.agentURL);
-        window.localStorage.setItem("verificationDate", pluginResult.deviceInfo.verificationDate);
+
+    if (statusCodeAsInt === 0) {  // blinkup completed
+        saveDeviceInfo(pluginResult);
+    } else if (statusCodeAsInt == 201 || statusCodeAsInt == 202) { // blinkup config cleared
+        clearDeviceInfo();
     }
 }
 
-/********************************************
- * loads cached deviceInfo and updates UI
- ********************************************/
-function loadDeviceInfoIfAvailable() {
-    // if one item not null, all not null (they are all set at same time)
-    if (window.localStorage.getItem("deviceId") !== null) {
+function clearDeviceInfo() {
+    window.localStorage.clear();
+}
 
-        // skip first launch page
-        document.getElementById('view-firstlaunch').style.display = "none";
-        document.getElementById('view-main').style.display = "block";
+function isDeviceInfoAvailable() {
+    return window.localStorage.getItem("deviceId") !== null;
+}
 
-        // update ui with cached data
+function saveDeviceInfo(pluginResult) {
+    if (pluginResult == null || pluginResult.deviceInfo == null) {
+        return;
+    }
+    
+    window.localStorage.setItem("deviceId", pluginResult.deviceInfo.deviceId);
+    window.localStorage.setItem("planId", pluginResult.deviceInfo.planId);
+    window.localStorage.setItem("agentURL", pluginResult.deviceInfo.agentURL);
+    window.localStorage.setItem("verificationDate", pluginResult.deviceInfo.verificationDate);
+}
+
+function displayDeviceInfoIfAvailable() {
+    if (isDeviceInfoAvailable()) {
         document.getElementById('status-success').innerHTML = "Loaded cached device information.";
         document.getElementById('status-success').style.display = "block";
         document.getElementById('deviceId').innerHTML = window.localStorage.getItem("deviceId");
         document.getElementById('planId').innerHTML = window.localStorage.getItem("planId");
-        this.setAgentURL(window.localStorage.getItem("agentURL"));
+        setAgentURL(window.localStorage.getItem("agentURL"));
         document.getElementById('verificationDate').innerHTML = window.localStorage.getItem("verificationDate");
     }
 }
 
-/********************************************
- * sets agentURL field and link
- ********************************************/
+function skipFirstLaunchIfDeviceInfoAvailable() {
+    if (isDeviceInfoAvailable()) {
+        document.getElementById('view-firstlaunch').style.display = "none";
+        document.getElementById('view-main').style.display = "block";
+    }
+}
+
 function setAgentURL(agentUrlString) {
     var agentUrlDiv = document.getElementById('agentURL');
     agentUrlDiv.innerHTML = '';
@@ -171,12 +167,7 @@ function setAgentURL(agentUrlString) {
     agentUrlDiv.appendChild(agentUrlLink);
 }
 
-/********************************************
- * updates UI according to result of BlinkUp
- * @param JSON object of BlinkUpPlugin result
- ********************************************/
-function updateInfo(pluginResult) {
-    // clear current info
+function resetFields(pluginResult) {
     document.getElementById('status-error').innerHTML = "";
     document.getElementById('status-success').innerHTML = "";
     document.getElementById('status-error').style.display = "none";
@@ -188,29 +179,33 @@ function updateInfo(pluginResult) {
     document.getElementById('planId').innerHTML = "";
     setAgentURL("");
     document.getElementById('verificationDate').innerHTML = "";
+}
+
+function updateFieldsWithPluginResult(pluginResult) {
+    resetFields();
 
     var statusMsg = "";
-
     if (pluginResult.state == "error") {
         if (pluginResult.error.errorType == "blinkup") {
             statusMsg = pluginResult.error.errorMsg;
             document.getElementById('status-error').innerHTML = statusMsg;
             document.getElementById('status-error').style.display = "block";              
-        } else {
+        } else if (pluginResult.error.errorCode == "102" && isDeviceInfoAvailable()) {  // user cancelled...
+            displayDeviceInfoIfAvailable();
+        }  else {
             statusMsg = ErrorMessages[pluginResult.error.errorCode];
             document.getElementById('status-error').innerHTML = statusMsg;
             document.getElementById('status-error').style.display = "block";
         }
-
     } else if (pluginResult.state == "completed" || pluginResult.state == "started") {
         statusMsg = StatusMessages[pluginResult.statusCode];
 
-        if (pluginResult.statusCode === "200" ){
+        if (pluginResult.statusCode == "200" ){
             document.getElementById('status-gathering').style.display = "block";
         } else if (pluginResult.statusCode == "0") {
             document.getElementById('planId').innerHTML = pluginResult.deviceInfo.planId;
             document.getElementById('deviceId').innerHTML = pluginResult.deviceInfo.deviceId;
-            this.setAgentURL(pluginResult.deviceInfo.agentURL);
+            setAgentURL(pluginResult.deviceInfo.agentURL);
             document.getElementById('verificationDate').innerHTML = pluginResult.deviceInfo.verificationDate;
 
             document.getElementById('status-success').innerHTML = statusMsg;
