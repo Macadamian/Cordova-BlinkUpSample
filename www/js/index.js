@@ -120,6 +120,11 @@ function updateLocalStorage(pluginResult) {
 
 function clearDeviceInfo() {
     window.localStorage.clear();
+
+    alert("TODO: No paired devices");
+    document.getElementById('device-info-header-id').style.display = "none";
+    document.getElementById('device-info-id').style.display = "none";
+    document.getElementById('no-device-info-header-id').style.display = "block";      
 }
 
 function isDeviceInfoAvailable() {

@@ -10,5 +10,6 @@
 			> div:last-child 				{ @include col(6/12); padding-right:10px; word-wrap:break-word; }
 		}
 	}
+	.no-device-info-header					{ display:none; padding:12px 20px 8px 20px; background:$color-blue-default; text-align:center; }
 	.m-button:last-child 					{ border-bottom:1px solid $color-gray-lighter-1; }
 }
