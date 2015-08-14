@@ -124,6 +124,7 @@ function clearDeviceInfo() {
     document.getElementById('device-info-header').style.display = "none";
     document.getElementById('device-info').style.display = "none";
     document.getElementById('no-device-info').style.display = "block";
+    
 }
 
 function isDeviceInfoAvailable() {
