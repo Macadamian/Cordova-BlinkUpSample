@@ -34,7 +34,7 @@ var app = {
     onDeviceReady: function () {
         app.receivedEvent('deviceready');
 
-        // Continue From Launch Page --------------------------
+        // Continue From Launch Page -------------------------------
         var continueBtn = document.getElementById('continue-button');
         continueBtn.addEventListener('click', function () {
             document.getElementById('view-firstlaunch').style.display = "none";
@@ -52,7 +52,7 @@ var app = {
                 updateFieldsWithPluginResult(pluginResult);
 
                 if (pluginResult.state === "completed") {
-                    updateLocalStorage(pluginResult)
+                    updateLocalStorage(pluginResult);
                 }
             } catch (exception) {
                 endProgress();
@@ -108,29 +108,27 @@ function endProgress() {
     document.getElementById('blinkup-button').style.display = "block";
     document.getElementById('clear-button').style.display = "block";
 }
-function updateLocalStorage(pluginResult) {
-    var statusCodeAsInt = parseInt(pluginResult.statusCode);
 
-    if (statusCodeAsInt === 0) {  // blinkup completed
+function updateLocalStorage(pluginResult) {
+    if (pluginResult.statusCode === "0") {  // blinkup completed
         saveDeviceInfo(pluginResult);
-    } else if (statusCodeAsInt == 201 || statusCodeAsInt == 202) { // blinkup config cleared
+    } else if (pluginResult.statusCode === "201" || pluginResult.statusCode === "202") { // cleared
         clearDeviceInfo();
     }
-}
-
-function clearDeviceInfo() {
-    window.localStorage.clear();
 }
 
 function isDeviceInfoAvailable() {
     return window.localStorage.getItem("deviceId") !== null;
 }
 
+function clearDeviceInfo() {
+    window.localStorage.clear();
+}
+
 function saveDeviceInfo(pluginResult) {
-    if (pluginResult == null || pluginResult.deviceInfo == null) {
+    if (pluginResult === null || pluginResult.deviceInfo === null) {
         return;
     }
-    
     window.localStorage.setItem("deviceId", pluginResult.deviceInfo.deviceId);
     window.localStorage.setItem("planId", pluginResult.deviceInfo.planId);
     window.localStorage.setItem("agentURL", pluginResult.deviceInfo.agentURL);
@@ -143,9 +141,9 @@ function displayDeviceInfoIfAvailable() {
         document.getElementById('status-success').style.display = "block";
         document.getElementById('deviceId').innerHTML = window.localStorage.getItem("deviceId");
         document.getElementById('planId').innerHTML = window.localStorage.getItem("planId");
-        setAgentURL(window.localStorage.getItem("agentURL"));
         document.getElementById('verificationDate').innerHTML = window.localStorage.getItem("verificationDate");
-        document.getElementById('no-device-info').style.display = "none"
+        document.getElementById('no-device-info').style.display = "none";
+        setAgentURL(window.localStorage.getItem("agentURL"));
     } else {
         document.getElementById('device-info-header').style.display = "none";
         document.getElementById('device-info').style.display = "none";
@@ -164,7 +162,6 @@ function setAgentURL(agentUrlString) {
     var agentUrlDiv = document.getElementById('agentURL');
     agentUrlDiv.innerHTML = '';
 
-    // create and add new link to div
     var agentUrlLink = document.createElement("a");
     agentUrlLink.href = agentUrlString;
     agentUrlLink.innerHTML = agentUrlString;
@@ -182,48 +179,48 @@ function resetFields(pluginResult) {
     document.getElementById('planId').innerHTML = "";
     document.getElementById('deviceId').innerHTML = "";
     document.getElementById('planId').innerHTML = "";
-    setAgentURL("");
     document.getElementById('verificationDate').innerHTML = "";
+    setAgentURL("");
 }
 
 function updateFieldsWithPluginResult(pluginResult) {
     resetFields();
 
     var statusMsg = "";
-    if (pluginResult.state == "error") {
-        if (pluginResult.error.errorType == "blinkup") {
+    if (pluginResult.state === "error") {
+        if (pluginResult.error.errorType === "blinkup") {
             statusMsg = pluginResult.error.errorMsg;
             document.getElementById('status-error').innerHTML = statusMsg;
             document.getElementById('status-error').style.display = "block";              
-        } else if (pluginResult.error.errorCode == "102" && isDeviceInfoAvailable()) {  // user cancelled...
+        } else if (pluginResult.error.errorCode === "102" && isDeviceInfoAvailable()) {  // user cancelled
             displayDeviceInfoIfAvailable();
         } else {
             statusMsg = ErrorMessages[pluginResult.error.errorCode];
             document.getElementById('status-error').innerHTML = statusMsg;
-            document.getElementById('status-error').style.display = "block"
+            document.getElementById('status-error').style.display = "block";
         }
-    } else if (pluginResult.state == "completed" || pluginResult.state == "started") {
+    } else if (pluginResult.state === "completed" || pluginResult.state === "started") {
         statusMsg = StatusMessages[pluginResult.statusCode];
 
-        if (pluginResult.statusCode == "200" ){
-            document.getElementById('status-gathering').style.display = "block"
-        } else if (pluginResult.statusCode == "0") {
+        if (pluginResult.statusCode === "200") {
+            document.getElementById('status-gathering').style.display = "block";
+        } else if (pluginResult.statusCode === "0") {
             document.getElementById('planId').innerHTML = pluginResult.deviceInfo.planId;
             document.getElementById('deviceId').innerHTML = pluginResult.deviceInfo.deviceId;
-            setAgentURL(pluginResult.deviceInfo.agentURL);
             document.getElementById('verificationDate').innerHTML = pluginResult.deviceInfo.verificationDate;
+            setAgentURL(pluginResult.deviceInfo.agentURL);
 
             document.getElementById('status-success').innerHTML = statusMsg;
-            document.getElementById('status-success').style.display = "block"        
-            document.getElementById('no-device-info').style.display = "none"
-            document.getElementById('device-info').style.display = "block"
-            document.getElementById('device-info-header').style.display = "block"
+            document.getElementById('status-success').style.display = "block";
+            document.getElementById('no-device-info').style.display = "none";
+            document.getElementById('device-info').style.display = "block";
+            document.getElementById('device-info-header').style.display = "block";
         } else {
             document.getElementById('status-success').innerHTML = statusMsg;
-            document.getElementById('status-success').style.display = "block"
-            document.getElementById('no-device-info').style.display = "block"
-            document.getElementById('device-info').style.display = "none"
-            document.getElementById('device-info-header').style.display = "none"
+            document.getElementById('status-success').style.display = "block";
+            document.getElementById('no-device-info').style.display = "block";
+            document.getElementById('device-info').style.display = "none";
+            document.getElementById('device-info-header').style.display = "none";
         }
     }
 }
