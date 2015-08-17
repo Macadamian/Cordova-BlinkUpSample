@@ -10,7 +10,7 @@
 			> div:last-child 				{ @include col(6/12); padding-right:10px; word-wrap:break-word; }
 		}
 	}
-	.no-device-info 						{ margin-top:90px; margin-bottom:90px; padding:12px 20px 8px 20px; display:none; color:$color-red-default; text-align:center; }
+	.no-device-info 						{ margin-top:90px; margin-bottom:90px; padding:12px 20px 8px 20px; display:none; color:$color-red-default; font-weight:bold; text-align:center; }
 	.m-button:last-child 					{ border-bottom:1px solid $color-gray-lighter-1; }
 
 }
