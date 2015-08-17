@@ -192,8 +192,9 @@ function updateFieldsWithPluginResult(pluginResult) {
             statusMsg = pluginResult.error.errorMsg;
             document.getElementById('status-error').innerHTML = statusMsg;
             document.getElementById('status-error').style.display = "block";              
-        } else if (pluginResult.error.errorCode === "102" && isDeviceInfoAvailable()) {  // user cancelled
-            displayDeviceInfoIfAvailable();
+        } else if (pluginResult.error.errorCode == "102") {  // user cancelled...
+            displayDeviceInfoIfAvailable(); 
+            document.getElementById('status-error').style.display = "none";
         } else {
             statusMsg = ErrorMessages[pluginResult.error.errorCode];
             document.getElementById('status-error').innerHTML = statusMsg;
