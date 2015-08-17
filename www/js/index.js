@@ -120,11 +120,6 @@ function updateLocalStorage(pluginResult) {
 
 function clearDeviceInfo() {
     window.localStorage.clear();
-
-    document.getElementById('device-info-header').style.display = "none";
-    document.getElementById('device-info').style.display = "none";
-    document.getElementById('no-device-info').style.display = "block";
-    
 }
 
 function isDeviceInfoAvailable() {
@@ -150,6 +145,11 @@ function displayDeviceInfoIfAvailable() {
         document.getElementById('planId').innerHTML = window.localStorage.getItem("planId");
         setAgentURL(window.localStorage.getItem("agentURL"));
         document.getElementById('verificationDate').innerHTML = window.localStorage.getItem("verificationDate");
+        document.getElementById('no-device-info').style.display = "none"
+    } else {
+        document.getElementById('device-info-header').style.display = "none";
+        document.getElementById('device-info').style.display = "none";
+        document.getElementById('no-device-info').style.display = "block";
     }
 }
 
@@ -197,16 +197,16 @@ function updateFieldsWithPluginResult(pluginResult) {
             document.getElementById('status-error').style.display = "block";              
         } else if (pluginResult.error.errorCode == "102" && isDeviceInfoAvailable()) {  // user cancelled...
             displayDeviceInfoIfAvailable();
-        }  else {
+        } else {
             statusMsg = ErrorMessages[pluginResult.error.errorCode];
             document.getElementById('status-error').innerHTML = statusMsg;
-            document.getElementById('status-error').style.display = "block";
+            document.getElementById('status-error').style.display = "block"
         }
     } else if (pluginResult.state == "completed" || pluginResult.state == "started") {
         statusMsg = StatusMessages[pluginResult.statusCode];
 
         if (pluginResult.statusCode == "200" ){
-            document.getElementById('status-gathering').style.display = "block";
+            document.getElementById('status-gathering').style.display = "block"
         } else if (pluginResult.statusCode == "0") {
             document.getElementById('planId').innerHTML = pluginResult.deviceInfo.planId;
             document.getElementById('deviceId').innerHTML = pluginResult.deviceInfo.deviceId;
@@ -214,10 +214,16 @@ function updateFieldsWithPluginResult(pluginResult) {
             document.getElementById('verificationDate').innerHTML = pluginResult.deviceInfo.verificationDate;
 
             document.getElementById('status-success').innerHTML = statusMsg;
-            document.getElementById('status-success').style.display = "block";            
+            document.getElementById('status-success').style.display = "block"        
+            document.getElementById('no-device-info').style.display = "none"
+            document.getElementById('device-info').style.display = "block"
+            document.getElementById('device-info-header').style.display = "block"
         } else {
             document.getElementById('status-success').innerHTML = statusMsg;
-            document.getElementById('status-success').style.display = "block";                        
+            document.getElementById('status-success').style.display = "block"
+            document.getElementById('no-device-info').style.display = "block"
+            document.getElementById('device-info').style.display = "none"
+            document.getElementById('device-info-header').style.display = "none"
         }
     }
 }
