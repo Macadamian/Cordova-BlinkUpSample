@@ -50,9 +50,6 @@
         }
     },
     "installed_plugins": {
-        "cordova-plugin-whitelist": {
-            "PACKAGE_NAME": "com.macadamian.CordovaBlinkUpSample"
-        },
         "com.macadamian.blinkup": {
             "PACKAGE_NAME": "com.macadamian.CordovaBlinkUpSample"
         }
