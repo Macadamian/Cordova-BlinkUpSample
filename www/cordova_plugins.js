@@ -6,18 +6,12 @@ module.exports = [
         "clobbers": [
             "blinkup"
         ]
-    },
-    {
-        "file": "plugins/cordova-plugin-whitelist/whitelist.js",
-        "id": "cordova-plugin-whitelist.whitelist",
-        "runs": true
     }
 ];
 module.exports.metadata = 
 // TOP OF METADATA
 {
-    "com.macadamian.blinkup": "0.1",
-    "cordova-plugin-whitelist": "1.0.0"
+    "com.macadamian.blinkup": "0.5",
 }
 // BOTTOM OF METADATA
 });
