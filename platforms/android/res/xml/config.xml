@@ -5,6 +5,9 @@
         <param name="android-package" value="org.apache.cordova.whitelist.WhitelistPlugin" />
         <param name="onload" value="true" />
     </feature>
+    <feature name="BlinkUpPlugin">
+        <param name="android-package" value="com.macadamian.blinkup.BlinkUpPlugin" />
+    </feature>
     <allow-intent href="market:*" />
     <name>CordovaBlinkUpSample</name>
     <description>
@@ -23,7 +26,5 @@
     <allow-intent href="sms:*" />
     <allow-intent href="mailto:*" />
     <allow-intent href="geo:*" />
-    <feature name="BlinkUpPlugin">
-        <param name="android-package" value="com.macadamian.blinkup.BlinkUpPlugin" />
-    </feature>
+    <preference name="Orientation" value="portrait" />
 </widget>

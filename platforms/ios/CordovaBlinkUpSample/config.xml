@@ -14,6 +14,10 @@
     <feature name="LocalStorage">
         <param name="ios-package" value="CDVLocalStorage" />
     </feature>
+    <feature name="BlinkUpPlugin">
+        <param name="ios-package" value="BlinkUpPlugin" />
+    </feature>
+    <preference name="DisallowOverscroll" value="true" />
     <allow-intent href="itms:*" />
     <allow-intent href="itms-apps:*" />
     <name>CordovaBlinkUpSample</name>
@@ -33,8 +37,5 @@
     <allow-intent href="sms:*" />
     <allow-intent href="mailto:*" />
     <allow-intent href="geo:*" />
-    <feature name="BlinkUpPlugin">
-        <param name="ios-package" value="BlinkUpPlugin" />
-    </feature>
-    <preference name="DisallowOverscroll" value="true" />
+    <preference name="Orientation" value="portrait" />
 </widget>
