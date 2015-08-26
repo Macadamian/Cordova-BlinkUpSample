@@ -37,7 +37,7 @@
                 "parents": {
                     "/*": [
                         {
-                            "xml": "<feature name=\"BlinkUpPlugin\"><param name=\"ios-package\" value=\"BlinkUpPlugin\" /></feature>",
+                            "xml": "<feature name=\"cordova-blinkup-plugin\"><param name=\"ios-package\" value=\"BlinkUpPlugin\" /></feature>",
                             "count": 1
                         },
                         {

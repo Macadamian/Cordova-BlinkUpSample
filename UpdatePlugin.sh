@@ -37,4 +37,4 @@ fi
 # reinstall plugin from repo
 #---------------------------
 cordova plugin rm com.macadamian.blinkup
-cordova plugin add https://github.com/Macadamian/Cordova-BlinkUpPlugin.git
+cordova plugin add cordova-blinkup-plugin
