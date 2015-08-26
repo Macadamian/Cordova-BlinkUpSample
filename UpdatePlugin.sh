@@ -38,3 +38,15 @@ fi
 #---------------------------
 cordova plugin rm com.macadamian.blinkup
 cordova plugin add cordova-blinkup-plugin
+
+#---------------------------
+# alert user to annoying bug
+# in Xcode with fix
+#---------------------------
+echo
+echo "*****************************************"
+echo "NOTE: Sometimes running this script can remove the plugin files from\
+ Xcode's 'Compile Sources' Build Phase. If the app is no longer working on iOS,\
+ you may have to re-add BlinkUpPlugin.m and BlinkUpPluginResult.m to that section."
+echo "****************************************"
+echo
