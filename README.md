@@ -33,9 +33,7 @@ Copy the `blinkup_sdk` folder from the BlinkUp SDK to `path/to/Cordova-BlinkUpSa
 
 Running Sample Application
 ===========
-It is recommended to build the project from the command line to start for iOS `cordova build ios` and Android `cordova build android`.
-
-You can run the application from within `Xcode` or `Android Studio`, or from the command line using `cordova run ios` or `cordova run android`.
+You can run the application from within `Xcode` or `Android Studio`, or from the command line using `cordova run ios` or `cordova run android`. Note: if you choose to go the IDE route, make sure to run `cordova prepare <platform>`.
 
 Project Structure
 ===========
