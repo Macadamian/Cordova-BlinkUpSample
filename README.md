@@ -35,7 +35,7 @@ When building, the root `index.js` file overwrites the native platform's `index.
 
 Running Sample Application
 ===========
-Once you have updated your plugin with the library, and provide your `API` key, you can run the application from within `Xcode` or `Android Studio`, or from the command line using `cordova run ios` or `cordova run android`. Note: if you choose to go the IDE route, make sure to run `cordova prepare <platform>`.
+Once you have updated your plugin with the library, and provide your `API` key, you can run the application from within `Xcode` or `Android Studio`, or from the command line using `cordova run ios` or `cordova run android`. Make sure to run `cordova prepare <platform>` at least once before using `Xcode` or `Android Studio`.
 
 Project Structure
 ===========
@@ -54,4 +54,3 @@ IMPORTANT NOTE: if a development plan ID makes it into production, the consumer'
 Updating the Plugin in the Sample application
 ===========
 To update the native plugin files to the latest from [NPM](https://www.npmjs.com/package/cordova-blinkup-plugin), simply run the update script, `UpdatePlugin.sh`. This will overwrite all the native plugin files in `platforms/ios/CordovaBlinkUpSample/Plugins/com.macadamian.blinkup` and `platforms/android/src/com/macadmian/blinkup`. If you have made changes to any of those files, do not update. It is instead recommended that you clone the [plugin repo](https://github.com/Macadamian/Cordova-BlinkUpPlugin) and make changes off of that.
-
