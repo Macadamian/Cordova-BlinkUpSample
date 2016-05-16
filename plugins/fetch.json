@@ -9,9 +9,8 @@
     },
     "com.macadamian.blinkup": {
         "source": {
-            "type": "git",
-            "url": "https://github.com/Macadamian/Cordova-BlinkUpPlugin.git",
-            "subdir": "."
+            "type": "registry",
+            "id": "cordova-blinkup-plugin"
         },
         "is_top_level": true,
         "variables": {}
