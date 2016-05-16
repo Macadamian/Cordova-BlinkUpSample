@@ -1,0 +1,47 @@
+{
+    "prepare_queue": {
+        "installed": [],
+        "uninstalled": []
+    },
+    "config_munge": {
+        "files": {
+            "config.xml": {
+                "parents": {
+                    "/*": [
+                        {
+                            "xml": "<feature name=\"cordova-blinkup-plugin\"><param name=\"ios-package\" value=\"BlinkUpPlugin\" /></feature>",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<preference name=\"DisallowOverscroll\" value=\"true\" />",
+                            "count": 1
+                        }
+                    ]
+                }
+            }
+        }
+    },
+    "installed_plugins": {
+        "cordova-plugin-whitelist": {
+            "PACKAGE_NAME": "com.macadamian.CordovaBlinkUpSample"
+        },
+        "com.macadamian.blinkup": {
+            "PACKAGE_NAME": "com.macadamian.CordovaBlinkUpSample"
+        }
+    },
+    "dependent_plugins": {},
+    "modules": [
+        {
+            "file": "plugins/com.macadamian.blinkup/www/blinkup.js",
+            "id": "com.macadamian.blinkup.blinkup",
+            "pluginId": "com.macadamian.blinkup",
+            "clobbers": [
+                "blinkup"
+            ]
+        }
+    ],
+    "plugin_metadata": {
+        "cordova-plugin-whitelist": "1.0.0",
+        "com.macadamian.blinkup": "1.0.0"
+    }
+}

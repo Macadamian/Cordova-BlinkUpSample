@@ -18,7 +18,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <plugin xmlns="http://www.phonegap.com/ns/plugins/1.0"
         id="com.macadamian.blinkup"
-        version="0.5.1">
+        version="1.0.0">
     
     <name>cordova-blinkup-plugin</name>
     <description>
@@ -62,6 +62,14 @@
 
     <!--========== Android ==========-->
     <platform name="android">
+        <!-- Application specific permission injections -->
+        <hook type="after_platform_add" src="scripts/android/manifest_permission_inject.js" />
+        <hook type="after_plugin_add" src="scripts/android/manifest_permission_inject.js" />
+        
+        <!-- Injections for blinkup -->
+        <hook type="after_platform_add" src="scripts/android/blinkup/main_activity_inject.js" />
+        <hook type="after_plugin_add" src="scripts/android/blinkup/main_activity_inject.js" />
+
         <config-file target="res/xml/config.xml" parent="/*">
             <feature name="cordova-blinkup-plugin">
                 <param name="android-package" value="com.macadamian.blinkup.BlinkUpPlugin" />
@@ -73,14 +81,14 @@
         </config-file>
 
         <config-file target="AndroidManifest.xml" parent="/manifest/application">
-            <activity android:name="com.macadamian.blinkup.ClearCompleteActivity" />
-            <activity android:name="com.macadamian.blinkup.BlinkUpCompleteActivity" />
-            <activity android:name="com.electricimp.blinkup.WifiSelectActivity" android:label="BlinkUp" />
-            <activity android:name="com.electricimp.blinkup.BlinkupGLActivity" android:label="BlinkUp" />
-            <activity android:name="com.electricimp.blinkup.WifiActivity" android:label="BlinkUp" />
-            <activity android:name="com.electricimp.blinkup.WPSActivity" android:label="BlinkUp" />
-            <activity android:name="com.electricimp.blinkup.ClearWifiActivity" android:label="BlinkUp" />
-            <activity android:name="com.electricimp.blinkup.InterstitialActivity" android:label="BlinkUp" />
+            <activity android:name="com.macadamian.blinkup.ClearCompleteActivity" android:configChanges="orientation" android:screenOrientation="portrait" />
+            <activity android:name="com.macadamian.blinkup.BlinkUpCompleteActivity" android:configChanges="orientation" android:screenOrientation="portrait" />
+            <activity android:name="com.electricimp.blinkup.WifiSelectActivity" android:label="BlinkUp" android:configChanges="orientation" android:screenOrientation="portrait" />
+            <activity android:name="com.electricimp.blinkup.BlinkupGLActivity" android:label="BlinkUp" android:configChanges="orientation" android:screenOrientation="portrait" />
+            <activity android:name="com.electricimp.blinkup.WifiActivity" android:label="BlinkUp" android:configChanges="orientation" android:screenOrientation="portrait" />
+            <activity android:name="com.electricimp.blinkup.WPSActivity" android:label="BlinkUp" android:configChanges="orientation" android:screenOrientation="portrait" />
+            <activity android:name="com.electricimp.blinkup.ClearWifiActivity" android:label="BlinkUp" android:configChanges="orientation" android:screenOrientation="portrait" />
+            <activity android:name="com.electricimp.blinkup.InterstitialActivity" android:label="BlinkUp" android:configChanges="orientation" android:screenOrientation="portrait" />
         </config-file>
 
         <framework src="src/android/build-extras.gradle" custom="true" type="gradleReference" />
