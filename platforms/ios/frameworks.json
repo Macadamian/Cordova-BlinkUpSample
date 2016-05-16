@@ -1,0 +1,6 @@
+{
+    "Security.framework": 2,
+    "OpenGLES.framework": 2,
+    "QuartzCore.framework": 2,
+    "SystemConfiguration.framework": 2
+}

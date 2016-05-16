@@ -41,43 +41,11 @@ DEBUG=1
 Android
 --------------
 **STEP 1**<br>
-Copy the `blinkup_sdk` folder from the SDK package given to you by Electric Imp to `/path/to/project/platforms/android/`.
+Copy the `blinkup.aar` file from the SDK package given to you by Electric Imp to `/path/to/project/platforms/android/libs`.
 
-**STEP 2**<br>
-Open `path/to/project/platforms/android/cordova/lib/build.js` and add the following line to the `fs.writeFileSync(path.join(projectPath, 'settings.gradle')` function (line 251):
-```
-'include ":blinkup_sdk"\n' +
-```
-It should now look like this:
-```javascript
-fs.writeFileSync(path.join(projectPath, 'settings.gradle'),
-    '// GENERATED FILE - DO NOT EDIT\n' +
-    'include ":"\n' +
-    'include ":blinkup_sdk"\n' +
-    'include "' + subProjectsAsGradlePaths.join('"\ninclude "') + '"\n');
-```
+NOTES:
 
-**STEP 3**<br>
-Open `MainActivity.java`. If your project is *com.company.project* then it's located in `platforms/android/src/com/company/project`. Add the following imports:
-
-```java
-import android.content.Intent;
-import com.electricimp.blinkup.BlinkupController;
-```
-
-And the following method:
-
-```java
-@Override
-protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
-    super.onActivityResult(requestCode, resultCode, intent);
-    BlinkupController.getInstance().handleActivityResult(this, requestCode, resultCode, intent);
-}
-```
-If you do not do this step, the BlinkUp controller will still function properly, but you will not receive the infomation passed to the callback (the status, device ID, agent URL etc).
-
-**STEP 4**<br>
-Navigate to your project root directory and run `cordova build android`. You only need to do this once, then you can run the project directly from Android Studio. To use Android Studio, select "Open Existing Project" and select the `path/to/project/platforms/android` folder. Press OK when prompted to generate a Gradle wrapper.
+MainActivity.java and AndroidManifest.xml will be injected with blinkup specific code when the android platform is added via a cordova hooks
 
 Using the Plugin
 ==========
@@ -207,6 +175,7 @@ Troubleshooting
 - `BlinkUp.embeddedframework` is not in `path/to/project/platforms/ios/`
 - `BlinkUp.framework` is not in the project's "Link binary with libraries" build phase
 - "Framework Search Paths" in the project's build settings does not include `$(PROJECT_DIR)/BlinkUp.embeddedframework`
+- If the three conditions above are correct and it still does not work, try removing the BlinkUp.framework from "Link binary with librairies" and re-adding it. This is a bug in Xcode.
 
 ###Android
 **Project with path "blinkup_sdk" could not be found**
@@ -216,7 +185,7 @@ Troubleshooting
 
 ###BlinkUp
 **BlinkUp process times out**
-- Lighting significantly affects the BlinkUp process. It doesn't need to be pitch black to connect, but try to find somewhere out of the way of any direct light sources
+- Lighting significantly affects the BlinkUp process. It doesn't need to be pitch black to connect, but try to find somewhere out of the way of any direct light sources, or try to cover the imp with your hands. Setting your phone's screen brightness to the max might help.
 - The network name and password are incorrect
 - The Imp was moved, or was not pressed right up against the phone for the duration of the BlinkUp
 

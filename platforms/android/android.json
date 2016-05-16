@@ -1,0 +1,95 @@
+{
+    "prepare_queue": {
+        "installed": [],
+        "uninstalled": []
+    },
+    "config_munge": {
+        "files": {
+            "res/xml/config.xml": {
+                "parents": {
+                    "/*": [
+                        {
+                            "xml": "<feature name=\"Whitelist\"><param name=\"android-package\" value=\"org.apache.cordova.whitelist.WhitelistPlugin\" /><param name=\"onload\" value=\"true\" /></feature>",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"cordova-blinkup-plugin\"><param name=\"android-package\" value=\"com.macadamian.blinkup.BlinkUpPlugin\" /></feature>",
+                            "count": 1
+                        }
+                    ]
+                }
+            },
+            "AndroidManifest.xml": {
+                "parents": {
+                    "/manifest": [
+                        {
+                            "xml": "<uses-permission android:name=\"android.permission.WAKE_LOCK\" />",
+                            "count": 1
+                        }
+                    ],
+                    "/manifest/application": [
+                        {
+                            "xml": "<activity android:configChanges=\"orientation\" android:name=\"com.macadamian.blinkup.ClearCompleteActivity\" android:screenOrientation=\"portrait\" />",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<activity android:configChanges=\"orientation\" android:name=\"com.macadamian.blinkup.BlinkUpCompleteActivity\" android:screenOrientation=\"portrait\" />",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<activity android:configChanges=\"orientation\" android:label=\"BlinkUp\" android:name=\"com.electricimp.blinkup.WifiSelectActivity\" android:screenOrientation=\"portrait\" />",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<activity android:configChanges=\"orientation\" android:label=\"BlinkUp\" android:name=\"com.electricimp.blinkup.BlinkupGLActivity\" android:screenOrientation=\"portrait\" />",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<activity android:configChanges=\"orientation\" android:label=\"BlinkUp\" android:name=\"com.electricimp.blinkup.WifiActivity\" android:screenOrientation=\"portrait\" />",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<activity android:configChanges=\"orientation\" android:label=\"BlinkUp\" android:name=\"com.electricimp.blinkup.WPSActivity\" android:screenOrientation=\"portrait\" />",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<activity android:configChanges=\"orientation\" android:label=\"BlinkUp\" android:name=\"com.electricimp.blinkup.ClearWifiActivity\" android:screenOrientation=\"portrait\" />",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<activity android:configChanges=\"orientation\" android:label=\"BlinkUp\" android:name=\"com.electricimp.blinkup.InterstitialActivity\" android:screenOrientation=\"portrait\" />",
+                            "count": 1
+                        }
+                    ]
+                }
+            }
+        }
+    },
+    "installed_plugins": {
+        "cordova-plugin-whitelist": {
+            "PACKAGE_NAME": "com.macadamian.CordovaBlinkUpSample"
+        },
+        "com.macadamian.blinkup": {
+            "PACKAGE_NAME": "com.macadamian.CordovaBlinkUpSample"
+        }
+    },
+    "dependent_plugins": {},
+    "modules": [
+        {
+            "file": "plugins/cordova-plugin-whitelist/whitelist.js",
+            "id": "cordova-plugin-whitelist.whitelist",
+            "runs": true
+        },
+        {
+            "file": "plugins/com.macadamian.blinkup/www/blinkup.js",
+            "id": "com.macadamian.blinkup.blinkup",
+            "clobbers": [
+                "blinkup"
+            ]
+        }
+    ],
+    "plugin_metadata": {
+        "cordova-plugin-whitelist": "1.0.0",
+        "com.macadamian.blinkup": "1.0.0"
+    }
+}
