@@ -5,7 +5,8 @@
  * won't change anything. The values are overwritten  *
  * at build time by those in www/js/blinkupconfig.js. *
  ******************************************************/
- var apiKey = "";          // this MUST be set or the app won't work
- var developerPlanId = ""; // please see ReadMe > Testing the Plugin
-                           // before setting this, default is ""
- var timeoutMs = 30000;    // default is 30s
+ var apiKey = "";                   // this MUST be set or the app won't work
+ var developerPlanId = "";          // please see ReadMe > Testing the Plugin
+                                    // before setting this, default is ""
+ var isInDevelopment = true;    // This should be set to true ONLY during development of devices. When devices are production, it should be set to FALSE.
+ var timeoutMs = 30000;             // default is 30s

@@ -39,7 +39,7 @@ var app = {
         continueBtn.addEventListener('click', function () {
             document.getElementById('view-firstlaunch').style.display = "none";
             document.getElementById('view-main').style.display = "block";
-        });        
+        });
 
         skipFirstLaunchIfDeviceInfoAvailable();
         displayDeviceInfoIfAvailable();
@@ -62,7 +62,7 @@ var app = {
         // Perform Blinkup ---------------------------------------
         var blinkupBtn = document.getElementById('blinkup-button');
         blinkupBtn.addEventListener('click', function () {
-            blinkup.invokeBlinkUp(apiKey, developerPlanId, timeoutMs, false, blinkUpCallback, blinkUpCallback);
+            blinkup.startBlinkUp(apiKey, developerPlanId, isInDevelopment, timeoutMs, blinkUpCallback, blinkUpCallback);
         });
 
         // Clear Wifi & Cached PlanId ----------------------------
@@ -70,7 +70,7 @@ var app = {
         clearBtn.addEventListener('click', function () {
             blinkup.clearBlinkUpData(blinkUpCallback, blinkUpCallback);
         });
-        
+
         // Abort BlinkUp -----------------------------------------
         var abortBtn = document.getElementById('abort-button');
         abortBtn.addEventListener('click', function () {
@@ -191,9 +191,9 @@ function updateFieldsWithPluginResult(pluginResult) {
         if (pluginResult.error.errorType === "blinkup") {
             statusMsg = pluginResult.error.errorMsg;
             document.getElementById('status-error').innerHTML = statusMsg;
-            document.getElementById('status-error').style.display = "block";              
+            document.getElementById('status-error').style.display = "block";
         } else if (pluginResult.error.errorCode == "102") {  // user cancelled...
-            displayDeviceInfoIfAvailable(); 
+            displayDeviceInfoIfAvailable();
             document.getElementById('status-error').style.display = "none";
         } else {
             statusMsg = ErrorMessages[pluginResult.error.errorCode];
@@ -233,12 +233,12 @@ var StatusMessages = {
     202 : "Wireless configuration and cached Plan ID cleared."
 };
 
-var ErrorMessages = {   
-    100 : "Error: Invalid arguments in call to invokeBlinkUp",
-    101 : "Error: Could not gather device info. Process timed out", 
-    102 : "Process cancelled by user", 
+var ErrorMessages = {
+    100 : "Error: Invalid arguments used to start BlinkUp",
+    101 : "Error: Could not gather device info. Process timed out",
+    102 : "Process cancelled by user",
     103 : "Error: Invalid API key, you must set your BlinkUp API key in Cordova-BlinkUpSample/www/js/blinkupconfig.js",
-    
+
     // android only codes
     301 : "Error: Could not verify API key with Electric Imp servers",
     302 : "Error: Generating JSON string"
