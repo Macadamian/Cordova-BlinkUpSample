@@ -42,6 +42,6 @@
     ],
     "plugin_metadata": {
         "cordova-plugin-whitelist": "1.0.0",
-        "com.macadamian.blinkup": "1.0.0"
+        "com.macadamian.blinkup": "1.1.2"
     }
 }

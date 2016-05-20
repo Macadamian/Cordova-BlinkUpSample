@@ -19,7 +19,18 @@ cordova.define("com.macadamian.blinkup.blinkup", function(require, exports, modu
 /*global cordova, module*/
 
 module.exports = {
-    //apiKey: string, developerPlanId: string, timeoutMs: int, generateNewPlanId: bool 
+    /** startBlinkUp - starts the blinkup process
+    * @param {apiKey}: your blinkup api key
+    * @param {developerPlanId}: your development plan Id. Will be disregarded when {isInDevelopment} is set to false
+    * @param {isInDevelopment}: TRUE if you are connecting to development devices. when you are moving to production devices, this must be set to FALSE.
+    * @param {timeoutMS}: Amount of second before the application times out. Default & Maximum value is 60000.
+    */
+    startBlinkUp: function (apiKey, developerPlanId, isInDevelopment, timeoutMs, successCallback, errorCallback) {
+        cordova.exec(successCallback, errorCallback, "cordova-blinkup-plugin", "startBlinkUp", [apiKey, developerPlanId, isInDevelopment, timeoutMs]);
+    },
+    /**
+    * @deprecated Since version 1.1. Will be deleted in version 2.0. Use startBlinkUp instead.
+    */
     invokeBlinkUp: function (apiKey, developerPlanId, timeoutMs, generateNewPlanId, successCallback, errorCallback) {
         cordova.exec(successCallback, errorCallback, "cordova-blinkup-plugin", "invokeBlinkUp", [apiKey, developerPlanId, timeoutMs, generateNewPlanId]);
     },

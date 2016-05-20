@@ -5,7 +5,6 @@
 	};
 	objectVersion = 46;
 	objects = {
-
 /* Begin PBXBuildFile section */
 		0207DA581B56EA530066E2B4 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0207DA571B56EA530066E2B4 /* Images.xcassets */; };
 		1D3623260D0F684500981E51 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D3623250D0F684500981E51 /* AppDelegate.m */; };
@@ -18,12 +17,12 @@
 		3047A5121AB8059700498E2A /* build-debug.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 3047A50F1AB8059700498E2A /* build-debug.xcconfig */; };
 		3047A5131AB8059700498E2A /* build-release.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 3047A5101AB8059700498E2A /* build-release.xcconfig */; };
 		3047A5141AB8059700498E2A /* build.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 3047A5111AB8059700498E2A /* build.xcconfig */; };
-		3D976F4AAF8640498E219E3D /* BlinkUpPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 3661246A11504ED695715434 /* BlinkUpPlugin.m */; };
-		76A1E91DB7C64C92A1AAF80B /* BlinkUpPluginResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 95CF2280E74D4FB2A5F41F4E /* BlinkUpPluginResult.m */; };
 		BBE4A6969D6D42C3AC5EB23B /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B224484CBBC34B65A2E176A7 /* Security.framework */; };
 		E8E60E8E1CE9FEEA00E1E99A /* BlinkUp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E8E60E8D1CE9FEEA00E1E99A /* BlinkUp.framework */; };
-		F99EE8C65E854E13B417469A /* BUDeviceInfo+JSON.m in Sources */ = {isa = PBXBuildFile; fileRef = 9111885A1E814C49B7C308EA /* BUDeviceInfo+JSON.m */; };
 		FD4046839A39403E84D4668E /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8FD18BCCCCAB495A99794217 /* QuartzCore.framework */; };
+		15A6CAE9BAA841B6B6163619 /* BlinkUpPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = F0B7B8B7EC3F424DA3EB3B8E /* BlinkUpPlugin.m */; };
+		11BCDE8EE1E948669C19955B /* BlinkUpPluginResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 249858116CE14B269D5600A3 /* BlinkUpPluginResult.m */; };
+		E749E41EC92E476488B4D690 /* BUDeviceInfo+JSON.m in Sources */ = {isa = PBXBuildFile; fileRef = 723F0237BDD94D259DE564B8 /* BUDeviceInfo+JSON.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -45,7 +44,6 @@
 
 /* Begin PBXFileReference section */
 		0207DA571B56EA530066E2B4 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = CordovaBlinkUpSample/Images.xcassets; sourceTree = SOURCE_ROOT; };
-		0D89A25B58C34E01BB0B4EEC /* BUDeviceInfo+JSON.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = "BUDeviceInfo+JSON.h"; path = "com.macadamian.blinkup/BUDeviceInfo+JSON.h"; sourceTree = "<group>"; };
 		1D3623240D0F684500981E51 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		1D3623250D0F684500981E51 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		1D6058910D05DD3D006BFB54 /* CordovaBlinkUpSample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CordovaBlinkUpSample.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -59,21 +57,22 @@
 		3047A5101AB8059700498E2A /* build-release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "build-release.xcconfig"; path = "cordova/build-release.xcconfig"; sourceTree = SOURCE_ROOT; };
 		3047A5111AB8059700498E2A /* build.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = build.xcconfig; path = cordova/build.xcconfig; sourceTree = SOURCE_ROOT; };
 		32CA4F630368D1EE00C91783 /* CordovaBlinkUpSample-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CordovaBlinkUpSample-Prefix.pch"; sourceTree = "<group>"; };
-		3661246A11504ED695715434 /* BlinkUpPlugin.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = BlinkUpPlugin.m; path = com.macadamian.blinkup/BlinkUpPlugin.m; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* CordovaBlinkUpSample-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "CordovaBlinkUpSample-Info.plist"; path = "CordovaBlinkUpSample/CordovaBlinkUpSample-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = SOURCE_ROOT; };
 		8FD18BCCCCAB495A99794217 /* QuartzCore.framework */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
-		9111885A1E814C49B7C308EA /* BUDeviceInfo+JSON.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = "BUDeviceInfo+JSON.m"; path = "com.macadamian.blinkup/BUDeviceInfo+JSON.m"; sourceTree = "<group>"; };
-		95CB0692646C4094A20049DC /* BlinkUpPluginResult.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = BlinkUpPluginResult.h; path = com.macadamian.blinkup/BlinkUpPluginResult.h; sourceTree = "<group>"; };
-		95CF2280E74D4FB2A5F41F4E /* BlinkUpPluginResult.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = BlinkUpPluginResult.m; path = com.macadamian.blinkup/BlinkUpPluginResult.m; sourceTree = "<group>"; };
 		A8DF1FDCF7EE443D83FCD54D /* SystemConfiguration.framework */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		B224484CBBC34B65A2E176A7 /* Security.framework */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		CC4261ED418E42BAA086482D /* OpenGLES.framework */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
-		D7B74E0B8702430095EA755C /* BlinkUpPlugin.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = BlinkUpPlugin.h; path = com.macadamian.blinkup/BlinkUpPlugin.h; sourceTree = "<group>"; };
 		E8E60E8D1CE9FEEA00E1E99A /* BlinkUp.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = BlinkUp.framework; path = CordovaBlinkUpSample/Frameworks/BlinkUp.embeddedframework/BlinkUp.framework; sourceTree = "<group>"; };
 		EB87FDF31871DA8E0020F90C /* www */ = {isa = PBXFileReference; lastKnownFileType = folder; name = www; path = ../../www; sourceTree = "<group>"; };
 		EB87FDF41871DAF40020F90C /* config.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = config.xml; path = ../../config.xml; sourceTree = "<group>"; };
 		ED33DF2A687741AEAF9F8254 /* Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Bridging-Header.h"; sourceTree = "<group>"; };
 		F840E1F0165FE0F500CFE078 /* config.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = config.xml; path = CordovaBlinkUpSample/config.xml; sourceTree = "<group>"; };
+		F0B7B8B7EC3F424DA3EB3B8E /* BlinkUpPlugin.m */ = {isa = PBXFileReference; name = "BlinkUpPlugin.m"; path = "com.macadamian.blinkup/BlinkUpPlugin.m"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; explicitFileType = undefined; includeInIndex = 0; };
+		249858116CE14B269D5600A3 /* BlinkUpPluginResult.m */ = {isa = PBXFileReference; name = "BlinkUpPluginResult.m"; path = "com.macadamian.blinkup/BlinkUpPluginResult.m"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; explicitFileType = undefined; includeInIndex = 0; };
+		723F0237BDD94D259DE564B8 /* BUDeviceInfo+JSON.m */ = {isa = PBXFileReference; name = "BUDeviceInfo+JSON.m"; path = "com.macadamian.blinkup/BUDeviceInfo+JSON.m"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; explicitFileType = undefined; includeInIndex = 0; };
+		FD5A67002A434716A4074FD2 /* BlinkUpPlugin.h */ = {isa = PBXFileReference; name = "BlinkUpPlugin.h"; path = "com.macadamian.blinkup/BlinkUpPlugin.h"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; explicitFileType = undefined; includeInIndex = 0; };
+		FB16F02023374F13BB3FD70B /* BlinkUpPluginResult.h */ = {isa = PBXFileReference; name = "BlinkUpPluginResult.h"; path = "com.macadamian.blinkup/BlinkUpPluginResult.h"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; explicitFileType = undefined; includeInIndex = 0; };
+		9FBB1882483A4DC394212DEC /* BUDeviceInfo+JSON.h */ = {isa = PBXFileReference; name = "BUDeviceInfo+JSON.h"; path = "com.macadamian.blinkup/BUDeviceInfo+JSON.h"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -186,12 +185,12 @@
 		307C750510C5A3420062BCA9 /* Plugins */ = {
 			isa = PBXGroup;
 			children = (
-				3661246A11504ED695715434 /* BlinkUpPlugin.m */,
-				95CF2280E74D4FB2A5F41F4E /* BlinkUpPluginResult.m */,
-				9111885A1E814C49B7C308EA /* BUDeviceInfo+JSON.m */,
-				D7B74E0B8702430095EA755C /* BlinkUpPlugin.h */,
-				95CB0692646C4094A20049DC /* BlinkUpPluginResult.h */,
-				0D89A25B58C34E01BB0B4EEC /* BUDeviceInfo+JSON.h */,
+				F0B7B8B7EC3F424DA3EB3B8E /* BlinkUpPlugin.m */,
+				249858116CE14B269D5600A3 /* BlinkUpPluginResult.m */,
+				723F0237BDD94D259DE564B8 /* BUDeviceInfo+JSON.m */,
+				FD5A67002A434716A4074FD2 /* BlinkUpPlugin.h */,
+				FB16F02023374F13BB3FD70B /* BlinkUpPluginResult.h */,
+				9FBB1882483A4DC394212DEC /* BUDeviceInfo+JSON.h */,
 			);
 			name = Plugins;
 			path = CordovaBlinkUpSample/Plugins;
@@ -309,9 +308,9 @@
 				1D60589B0D05DD56006BFB54 /* main.m in Sources */,
 				1D3623260D0F684500981E51 /* AppDelegate.m in Sources */,
 				302D95F114D2391D003F00A1 /* MainViewController.m in Sources */,
-				3D976F4AAF8640498E219E3D /* BlinkUpPlugin.m in Sources */,
-				76A1E91DB7C64C92A1AAF80B /* BlinkUpPluginResult.m in Sources */,
-				F99EE8C65E854E13B417469A /* BUDeviceInfo+JSON.m in Sources */,
+				15A6CAE9BAA841B6B6163619 /* BlinkUpPlugin.m in Sources */,
+				11BCDE8EE1E948669C19955B /* BlinkUpPluginResult.m in Sources */,
+				E749E41EC92E476488B4D690 /* BUDeviceInfo+JSON.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
